@@ -1,0 +1,140 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|g:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\oplata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\oplata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|g:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|g:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\data\\db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\data\\db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|g:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\zakazi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\zakazi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|g:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\oplata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\oplata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\zakazi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\zakazi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "oplata.cs",
+              "DocumentMoniker": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\oplata.cs",
+              "RelativeDocumentMoniker": "1\\forms\\oplata.cs",
+              "ToolTip": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\oplata.cs",
+              "RelativeToolTip": "1\\forms\\oplata.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAowBIAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-11T12:17:06.865Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "oplata.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\oplata.cs",
+              "RelativeDocumentMoniker": "1\\forms\\oplata.cs",
+              "ToolTip": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\oplata.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "1\\forms\\oplata.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-11T12:13:40.058Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Zakazi.cs",
+              "DocumentMoniker": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\Zakazi.cs",
+              "RelativeDocumentMoniker": "1\\forms\\Zakazi.cs",
+              "ToolTip": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\Zakazi.cs",
+              "RelativeToolTip": "1\\forms\\Zakazi.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAIwEEAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T03:43:15.31Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Zakazi.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\Zakazi.cs",
+              "RelativeDocumentMoniker": "1\\forms\\Zakazi.cs",
+              "ToolTip": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\Zakazi.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "1\\forms\\Zakazi.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-10T03:38:06.957Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "db.cs",
+              "DocumentMoniker": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\data\\db.cs",
+              "RelativeDocumentMoniker": "1\\data\\db.cs",
+              "ToolTip": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\data\\db.cs",
+              "RelativeToolTip": "1\\data\\db.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAACBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T18:07:26.625Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Main.cs",
+              "DocumentMoniker": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\Main.cs",
+              "RelativeDocumentMoniker": "1\\forms\\Main.cs",
+              "ToolTip": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\Main.cs",
+              "RelativeToolTip": "1\\forms\\Main.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T17:45:14.718Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Main.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\Main.cs",
+              "RelativeDocumentMoniker": "1\\forms\\Main.cs",
+              "ToolTip": "G:\\\u043A\u0443\u0440\u0441\u0430\u0447\\sss rank\\1\\1\\forms\\Main.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "1\\forms\\Main.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-09T17:40:47.674Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
