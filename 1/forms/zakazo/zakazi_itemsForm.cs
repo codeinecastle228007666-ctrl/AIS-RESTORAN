@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using _1.data;
+using _1.forms.zakazo;
 
 namespace _1.forms.zakazo
 {
@@ -59,18 +60,32 @@ namespace _1.forms.zakazo
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        private void button1_Click(object sender, EventArgs e) //добавление блюда
+        private void button1_Click(object sender, EventArgs e)
         {
             if (_oplacheno) return;
-            string sql = $@"
-                INSERT INTO sostav_zakaza (zakaz_id, bludo_id, kolichestvo, cena)
-                SELECT {_zakaziId}, bludo_id, 1, cena
-                FROM bludo
-                LIMIT 1;
-            ";
-            Db.ekzekuttranzakcii(sql);
-            LoadItems();
+
+            dobavlenie_bludaForm form = new dobavlenie_bludaForm();
+
+            if (form.ShowDialog() == DialogResult.OK)
+            {
+                string sql = @"
+            INSERT INTO sostav_zakaza 
+            (zakaz_id, bludo_id, kolichestvo, cena)
+            VALUES
+            (@zakaz, @bludo, @kolvo, @cena);
+        ";
+
+                Db.ekzekuttranzakcii(sql,
+                    new Npgsql.NpgsqlParameter("@zakaz", _zakaziId),
+                    new Npgsql.NpgsqlParameter("@bludo", form.SelectedBludoId),
+                    new Npgsql.NpgsqlParameter("@kolvo", form.kolichestvo),
+                    new Npgsql.NpgsqlParameter("@cena", form.cena)
+                );
+
+                LoadItems();
+            }
         }
+
 
         private void button2_Click(object sender, EventArgs e) //удаление блюда
         {
@@ -84,5 +99,7 @@ namespace _1.forms.zakazo
             Db.ekzekuttranzakcii(sql);
             LoadItems();
         }
+
+       
     }
 }

@@ -67,23 +67,30 @@ namespace _1.forms
 
         }
 
-        private void button1_Click(object sender, EventArgs e) //кнопка проведения оплаты, которая вставляет запись в таблицу oplata и обновляет статус заказа
+        private void button1_Click(object sender, EventArgs e)
         {
             int sposobOplatiId = Convert.ToInt32(comboBox1.SelectedValue);
             decimal summa = Convert.ToDecimal(textBox1.Text);
 
-            string sql = $@"
-                INSERT INTO oplata (zakaz_id, data_oplati, sposob_oplati_id, summa)
-                VALUES ({_zakazId}, NOW(), {sposobOplatiId}, {summa});
-                UPDATE zakazi
-                SET status_zakaza_id = 2
-                WHERE zakaz_id = {_zakazId};
-            ";
-                
-            Db.ekzekuttranzakcii(sql);
+            string sql = @"
+        INSERT INTO oplata (zakaz_id, data_oplati, sposob_oplati_id, summa)
+        VALUES (@zakaz, NOW(), @sposob, @summa);
+
+        UPDATE zakazi
+        SET status_zakaza_id = 2
+        WHERE zakaz_id = @zakaz;
+    ";
+
+            Db.ekzekuttranzakcii(sql,
+                new Npgsql.NpgsqlParameter("@zakaz", _zakazId),
+                new Npgsql.NpgsqlParameter("@sposob", sposobOplatiId),
+                new Npgsql.NpgsqlParameter("@summa", summa)
+            );
+
             MessageBox.Show("Оплата успешно проведена!");
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
+
     }
 }

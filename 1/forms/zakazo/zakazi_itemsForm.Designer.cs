@@ -61,6 +61,7 @@
             button2.TabIndex = 2;
             button2.Text = "Удалить блюдо";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // zakazi_itemsForm
             // 
