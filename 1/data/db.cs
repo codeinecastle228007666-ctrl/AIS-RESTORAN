@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Npgsql;
 
 namespace _1.data
@@ -27,9 +23,8 @@ namespace _1.data
             return table;
         }
 
-
-
-        public static void ekzekuttranzakcii(string sql) //метод для выполнения транзакций, который принимает SQL запрос и выполняет его внутри транзакции, обеспечивая целостность данных
+        // старый вариант оставлен для обратной совместимости
+        public static void ekzekuttranzakcii(string sql)
         {
             using var conn = new NpgsqlConnection(connectionString);
             conn.Open();
@@ -38,6 +33,30 @@ namespace _1.data
             try
             {
                 using var cmd = new NpgsqlCommand(sql, conn, tranzakciya);
+                cmd.ExecuteNonQuery();
+                tranzakciya.Commit();
+            }
+            catch
+            {
+                tranzakciya.Rollback();
+                throw;
+            }
+        }
+
+        // новая перегрузка с поддержкой параметров
+        public static void ekzekuttranzakcii(string sql, params NpgsqlParameter[] parameters)
+        {
+            using var conn = new NpgsqlConnection(connectionString);
+            conn.Open();
+
+            using var tranzakciya = conn.BeginTransaction();
+            try
+            {
+                using var cmd = new NpgsqlCommand(sql, conn, tranzakciya);
+                if (parameters != null && parameters.Length > 0)
+                {
+                    cmd.Parameters.AddRange(parameters);
+                }
                 cmd.ExecuteNonQuery();
                 tranzakciya.Commit();
             }

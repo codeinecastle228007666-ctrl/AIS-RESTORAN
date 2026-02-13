@@ -74,3 +74,32 @@ G:\курсач\sss rank\1\1\obj\Debug\net8.0-windows\1.pdb
 G:\курсач\sss rank\1\1\obj\Debug\net8.0-windows\1.genruntimeconfig.cache
 G:\курсач\sss rank\1\1\obj\Debug\net8.0-windows\ref\1.dll
 G:\курсач\sss rank\1\1\obj\Debug\net8.0-windows\_1.forms.oplata.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\1.exe
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\1.deps.json
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\1.runtimeconfig.json
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\1.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\1.pdb
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\Npgsql.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\System.Diagnostics.DiagnosticSource.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\1.csproj.AssemblyReference.cache
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.Clienti.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.Main.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.oplata.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.Zakazi.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.Properties.Resources.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\1.csproj.GenerateResource.cache
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\1.GeneratedMSBuildEditorConfig.editorconfig
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\1.AssemblyInfoInputs.cache
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\1.AssemblyInfo.cs
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\1.csproj.CoreCompileInputs.cache
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\1.sourcelink.json
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\1.csproj.Up2Date
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\1.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\refint\1.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\1.pdb
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\1.genruntimeconfig.cache
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\ref\1.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.redzakazaform.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.zakazo.zakazi_itemsForm.resources

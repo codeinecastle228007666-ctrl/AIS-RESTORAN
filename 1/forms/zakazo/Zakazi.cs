@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using _1.data;
 using _1.forms;
+using _1.forms.zakazo;
 
 namespace _1
 {
@@ -19,9 +20,14 @@ namespace _1
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) //кнопка добавления нового заказа
         {
+            redzakazaform redForm = new redzakazaform();
 
+            if (redForm.ShowDialog() == DialogResult.OK)
+            {
+                LoadZakazi(); //обновляем данные в таблице после добавления нового заказа
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -66,5 +72,12 @@ namespace _1
             }
 
         }
-    }
+
+        private void button5_click (object sender, EventArgs e) //кнопка просмотра состава заказа
+        {
+           if (dataGridView1.CurrentRow == null) return;
+               int zakazId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
+                zakazi_itemsForm sostavForm = new zakazi_itemsForm(zakazId);
+                sostavForm.ShowDialog();
+        }   }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "G:\\курсач\\sss rank\\1\\1\\1.csproj": {}
+    "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\1.csproj": {}
   },
   "projects": {
-    "G:\\курсач\\sss rank\\1\\1\\1.csproj": {
+    "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\курсач\\sss rank\\1\\1\\1.csproj",
+        "projectUniqueName": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\1.csproj",
         "projectName": "1",
-        "projectPath": "G:\\курсач\\sss rank\\1\\1\\1.csproj",
+        "projectPath": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\1.csproj",
         "packagesPath": "Z:\\Users\\yasuo\\.nuget\\packages\\",
-        "outputPath": "G:\\курсач\\sss rank\\1\\1\\obj\\",
+        "outputPath": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "E:\\forcsharp2\\NuGetPackages"

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cXu+QKaIwvI=",
+  "dgSpecHash": "GzTFPgf71jo=",
   "success": true,
-  "projectFilePath": "G:\\курсач\\sss rank\\1\\1\\1.csproj",
+  "projectFilePath": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\1.csproj",
   "expectedPackageFiles": [
     "Z:\\Users\\yasuo\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
     "Z:\\Users\\yasuo\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",

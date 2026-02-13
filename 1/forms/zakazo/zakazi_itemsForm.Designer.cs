@@ -1,6 +1,6 @@
-﻿namespace _1
+﻿namespace _1.forms.zakazo
 {
-    partial class Zakazi
+    partial class zakazi_itemsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -31,8 +31,6 @@
             dataGridView1 = new DataGridView();
             button1 = new Button();
             button2 = new Button();
-            button3 = new Button();
-            button4 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -42,61 +40,39 @@
             dataGridView1.Dock = DockStyle.Top;
             dataGridView1.Location = new Point(0, 0);
             dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(800, 280);
+            dataGridView1.Size = new Size(800, 305);
             dataGridView1.TabIndex = 0;
             // 
             // button1
             // 
-            button1.Location = new Point(24, 370);
+            button1.Location = new Point(30, 347);
             button1.Name = "button1";
-            button1.Size = new Size(112, 39);
+            button1.Size = new Size(150, 70);
             button1.TabIndex = 1;
-            button1.Text = "Добавить";
+            button1.Text = "Добавить блюдо";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
             // button2
             // 
-            button2.Location = new Point(245, 370);
+            button2.Location = new Point(267, 347);
             button2.Name = "button2";
-            button2.Size = new Size(112, 39);
+            button2.Size = new Size(150, 70);
             button2.TabIndex = 2;
-            button2.Text = "Изменить";
+            button2.Text = "Удалить блюдо";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
             // 
-            // button3
-            // 
-            button3.Location = new Point(483, 370);
-            button3.Name = "button3";
-            button3.Size = new Size(112, 39);
-            button3.TabIndex = 3;
-            button3.Text = "Удалить";
-            button3.UseVisualStyleBackColor = true;
-            // 
-            // button4
-            // 
-            button4.Location = new Point(24, 286);
-            button4.Name = "button4";
-            button4.Size = new Size(112, 42);
-            button4.TabIndex = 4;
-            button4.Text = "Оплатить";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
-            // 
-            // Zakazi
+            // zakazi_itemsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 420);
-            Controls.Add(button4);
-            Controls.Add(button3);
+            ClientSize = new Size(800, 450);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
-            Name = "Zakazi";
-            Text = "Заказы";
-            Load += Zakazi_Load;
+            Name = "zakazi_itemsForm";
+            Text = "Состав заказа";
+            Load += zakazi_itemsForm_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
@@ -106,7 +82,5 @@
         private DataGridView dataGridView1;
         private Button button1;
         private Button button2;
-        private Button button3;
-        private Button button4;
     }
 }
