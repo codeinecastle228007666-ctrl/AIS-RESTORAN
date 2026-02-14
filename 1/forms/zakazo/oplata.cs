@@ -77,7 +77,7 @@ namespace _1.forms
         VALUES (@zakaz, NOW(), @sposob, @summa);
 
         UPDATE zakazi
-        SET status_zakaza_id = 2
+        SET status_zakaza_id = 6
         WHERE zakaz_id = @zakaz;
     ";
 

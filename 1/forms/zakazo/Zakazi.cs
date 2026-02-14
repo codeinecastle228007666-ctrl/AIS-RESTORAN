@@ -1,4 +1,7 @@
-﻿using System;
+﻿using _1.data;
+using _1.forms;
+using _1.forms.zakazo;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,9 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using _1.data;
-using _1.forms;
-using _1.forms.zakazo;
+using System.Windows.Forms.VisualStyles;
 
 namespace _1
 {
@@ -45,6 +46,7 @@ namespace _1
             string sql = @"
                 SELECT 
                     z.zakaz_id AS ""ID"",
+                    z.status_zakaza_id AS ""StatusID"",
                     c.fio AS ""Клиент"",
                     s.fio AS ""Сотрудник"",
                     z.data_zakaza AS ""Дата заказа"",
@@ -57,7 +59,12 @@ namespace _1
                 ";
             dataGridView1.DataSource = Db.GetData(sql);
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridView1.Columns["StatusID"].Visible = false; //скрываем столбец с ID статуса
 
+            if (dataGridView1.Rows.Count >0)
+            {
+                dataGridView1.Rows[0].Selected = true;
+            }
         }
 
         private void button4_Click(object sender, EventArgs e) //кнопка оплаты заказа
@@ -73,11 +80,111 @@ namespace _1
 
         }
 
-        private void button5_click (object sender, EventArgs e) //кнопка просмотра состава заказа
+        private void button5_click(object sender, EventArgs e) //кнопка просмотра состава заказа
         {
-           if (dataGridView1.CurrentRow == null) return;
-               int zakazId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
-                zakazi_itemsForm sostavForm = new zakazi_itemsForm(zakazId);
-                sostavForm.ShowDialog();
-        }   }
+            if (dataGridView1.CurrentRow == null) return;
+            int zakazId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
+            zakazi_itemsForm sostavForm = new zakazi_itemsForm(zakazId);
+            sostavForm.ShowDialog();
+        }
+
+        private bool _loadingstatuses = false; //флаг для предотвращения рекурсии при загрузке статусов
+        private int _currentStatusId; //значение статуса заказа
+        private void LoadAvailableStatuses(int currentStatusId) //загрузка доступных статусов для изменения в комбобокс при выборе заказа
+        {
+
+            _loadingstatuses = true;
+            _currentStatusId = currentStatusId;
+            
+
+            string sql = @"
+        SELECT status_zakaza_id, nazvanie
+        FROM status_zakaza
+    ";
+
+            var table = Db.GetData(sql);
+
+            // фильтрация допустимых переходов
+            var allowed = table.AsEnumerable()
+                .Where(row => IsTransitionAllowed(currentStatusId,
+                    row.Field<int>("status_zakaza_id")));
+                
+                if (allowed.Any())
+            {
+                comboBox1.DataSource = allowed.CopyToDataTable();
+                comboBox1.DisplayMember = "nazvanie";
+                comboBox1.ValueMember = "status_zakaza_id";
+                comboBox1.Enabled = true;
+            }
+                else
+            {
+                comboBox1.DataSource = null;
+                comboBox1.Enabled = false;
+            }
+
+
+                button6.Enabled = false;
+
+            _loadingstatuses = false;
+        }
+
+        private bool IsTransitionAllowed(int oldStatus, int newStatus)//логика допустимых переходов между статусами
+        {
+            if (oldStatus == newStatus) return false; // запрет на выбор текущего статуса
+
+            return
+                (oldStatus == 1 && (newStatus == 2 || newStatus == 7)) || // из "Новый" можно перейти в "Принят" или "Отмененный"
+                (oldStatus == 2 && (newStatus == 3 || newStatus == 7)) || // из "Принят" можно перейти в "Готовится" или "Отмененный"
+                (oldStatus == 3 && newStatus == 4) || // из "Готовится" можно перейти в "Готов"
+                (oldStatus == 4 && newStatus == 5) || // из "Готов" можно перейти в "Выдан"
+                (oldStatus == 5 && newStatus == 6); 
+        }
+
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e) //подгрузка доступных статусов при выборе заказа
+        {
+            if (dataGridView1.CurrentRow == null) return;
+            int status = Convert.ToInt32(dataGridView1.CurrentRow.Cells["StatusID"].Value);
+            LoadAvailableStatuses(status);
+        }
+
+        private void combobox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_loadingstatuses) return; // предотвращаем выполнение кода при загрузке статусов
+            int selectedStatusId = Convert.ToInt32(comboBox1.SelectedValue);
+            button6.Enabled = selectedStatusId != _currentStatusId; // разрешаем кнопку, если выбран другой статус
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null) return;
+
+            int zakazId = Convert.ToInt32(
+                dataGridView1.CurrentRow.Cells["ID"].Value
+            );
+
+            int newStatus = Convert.ToInt32(comboBox1.SelectedValue);
+
+            string sql = @"
+        UPDATE zakazi
+        SET status_zakaza_id = @status
+        WHERE zakaz_id = @id
+    ";
+
+            try
+            {
+                Db.ekzekuttranzakcii(sql,
+                    new Npgsql.NpgsqlParameter("@status", newStatus),
+                    new Npgsql.NpgsqlParameter("@id", zakazId)
+                );
+
+                LoadZakazi();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+    }
+
 }

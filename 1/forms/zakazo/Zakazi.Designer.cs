@@ -34,6 +34,9 @@
             button3 = new Button();
             button4 = new Button();
             button5 = new Button();
+            comboBox1 = new ComboBox();
+            label1 = new Label();
+            button6 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -45,6 +48,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(800, 280);
             dataGridView1.TabIndex = 0;
+            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
             // 
             // button1
             // 
@@ -58,7 +62,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(245, 370);
+            button2.Location = new Point(520, 369);
             button2.Name = "button2";
             button2.Size = new Size(112, 39);
             button2.TabIndex = 2;
@@ -68,7 +72,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(483, 370);
+            button3.Location = new Point(676, 369);
             button3.Name = "button3";
             button3.Size = new Size(112, 39);
             button3.TabIndex = 3;
@@ -77,7 +81,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(245, 286);
+            button4.Location = new Point(194, 286);
             button4.Name = "button4";
             button4.Size = new Size(112, 42);
             button4.TabIndex = 4;
@@ -95,11 +99,42 @@
             button5.UseVisualStyleBackColor = true;
             button5.Click += button5_click;
             // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(194, 379);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(112, 22);
+            comboBox1.TabIndex = 6;
+            comboBox1.SelectedIndexChanged += combobox1_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(194, 362);
+            label1.Name = "label1";
+            label1.Size = new Size(105, 14);
+            label1.TabIndex = 7;
+            label1.Text = "Выбрать статус";
+            // 
+            // button6
+            // 
+            button6.Location = new Point(312, 370);
+            button6.Name = "button6";
+            button6.Size = new Size(81, 36);
+            button6.TabIndex = 8;
+            button6.Text = "Применить статус";
+            button6.UseVisualStyleBackColor = true;
+            button6.Click += button6_Click;
+            // 
             // Zakazi
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 420);
+            ClientSize = new Size(800, 475);
+            Controls.Add(button6);
+            Controls.Add(label1);
+            Controls.Add(comboBox1);
             Controls.Add(button5);
             Controls.Add(button4);
             Controls.Add(button3);
@@ -111,6 +146,7 @@
             Load += Zakazi_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -121,5 +157,8 @@
         private Button button3;
         private Button button4;
         private Button button5;
+        private ComboBox comboBox1;
+        private Label label1;
+        private Button button6;
     }
 }
