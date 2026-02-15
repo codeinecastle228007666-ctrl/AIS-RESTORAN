@@ -19,6 +19,10 @@ namespace _1
         public Zakazi()
         {
             InitializeComponent();
+            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged; //подписываемся на событие изменения выделения в таблице для подгрузки доступных статусов
+
+            // подписка (например в конструкторе)
+            dataGridView1.CellFormatting += dataGridView1_CellFormatting;
         }
 
         private void button1_Click(object sender, EventArgs e) //кнопка добавления нового заказа
@@ -61,7 +65,7 @@ namespace _1
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.Columns["StatusID"].Visible = false; //скрываем столбец с ID статуса
 
-            if (dataGridView1.Rows.Count >0)
+            if (dataGridView1.Rows.Count > 0)
             {
                 dataGridView1.Rows[0].Selected = true;
             }
@@ -95,7 +99,7 @@ namespace _1
 
             _loadingstatuses = true;
             _currentStatusId = currentStatusId;
-            
+
 
             string sql = @"
         SELECT status_zakaza_id, nazvanie
@@ -108,22 +112,22 @@ namespace _1
             var allowed = table.AsEnumerable()
                 .Where(row => IsTransitionAllowed(currentStatusId,
                     row.Field<int>("status_zakaza_id")));
-                
-                if (allowed.Any())
+
+            if (allowed.Any())
             {
                 comboBox1.DataSource = allowed.CopyToDataTable();
                 comboBox1.DisplayMember = "nazvanie";
                 comboBox1.ValueMember = "status_zakaza_id";
                 comboBox1.Enabled = true;
             }
-                else
+            else
             {
                 comboBox1.DataSource = null;
                 comboBox1.Enabled = false;
             }
 
 
-                button6.Enabled = false;
+            button6.Enabled = false;
 
             _loadingstatuses = false;
         }
@@ -137,7 +141,7 @@ namespace _1
                 (oldStatus == 2 && (newStatus == 3 || newStatus == 7)) || // из "Принят" можно перейти в "Готовится" или "Отмененный"
                 (oldStatus == 3 && newStatus == 4) || // из "Готовится" можно перейти в "Готов"
                 (oldStatus == 4 && newStatus == 5) || // из "Готов" можно перейти в "Выдан"
-                (oldStatus == 5 && newStatus == 6); 
+                (oldStatus == 5 && newStatus == 6);
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e) //подгрузка доступных статусов при выборе заказа
@@ -145,6 +149,7 @@ namespace _1
             if (dataGridView1.CurrentRow == null) return;
             int status = Convert.ToInt32(dataGridView1.CurrentRow.Cells["StatusID"].Value);
             LoadAvailableStatuses(status);
+            UpdateUIByStatus(status); //обновляем состояние кнопок в зависимости от статуса заказа
         }
 
         private void combobox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -185,6 +190,42 @@ namespace _1
             }
         }
 
-    }
 
+
+        // обработчик
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dataGridView1.Columns[e.ColumnIndex].Name != "Статус") return;
+
+            // безопасно получаем статус из скрытого столбца StatusID
+            var cellStatus = dataGridView1.Rows[e.RowIndex].Cells["StatusID"].Value;
+            if (cellStatus == null || !int.TryParse(cellStatus.ToString(), out int status)) return;
+
+            Color back = status switch
+            {
+                1 => Color.LightGray,
+                2 => Color.LightBlue,
+                3 => Color.Orange,
+                4 => Color.LightGreen,
+                5 => Color.Green,
+                6 => Color.DarkGreen,
+                7 => Color.Red,
+                _ => dataGridView1.DefaultCellStyle.BackColor
+            };
+
+            e.CellStyle.BackColor = back;
+            e.CellStyle.SelectionBackColor = back; // чтобы при выделении цвет не перекрывался системой
+        }
+
+
+        private void UpdateUIByStatus(int statusId) //метод для включения/отключения кнопок в зависимости от статуса заказа
+        {
+            bool isFinal = statusId == 6 || statusId == 7; //заказ считается завершенным, если он оплачен или отменен
+            comboBox1.Enabled = !isFinal; //комбобокс изменения статуса доступен, если заказ не завершен
+            button6.Enabled = false; //кнопка сохранения изменения статуса по умолчанию отключена, она будет включаться при выборе нового статуса в комбобоксе
+            button4.Enabled = statusId == 4; //кнопка оплаты доступна, если заказ не оплачен
+            button5.Enabled = !isFinal; //кнопка просмотра состава заказа доступна, если заказ не завершен
+        }
+
+    }
 }
