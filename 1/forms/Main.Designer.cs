@@ -60,6 +60,7 @@
             button3.TabIndex = 2;
             button3.Text = "Продукты/склад";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // Main
             // 

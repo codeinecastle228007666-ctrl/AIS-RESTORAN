@@ -104,3 +104,6 @@ Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\ref\1.dll
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.redzakazaform.resources
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.zakazo.zakazi_itemsForm.resources
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.zakazo.dobavlenie_bludaForm.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.Sklad.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.sklad.SkladJournal.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.sklad.Prihod.resources
