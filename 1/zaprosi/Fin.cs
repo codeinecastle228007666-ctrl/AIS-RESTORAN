@@ -11,6 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;  
+using System.IO;
 
 namespace _1.zaprosi
 {
@@ -31,6 +34,7 @@ namespace _1.zaprosi
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.ReadOnly = true;
+            ExcelPackage.License.SetNonCommercialPersonal("Student Project");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -51,8 +55,8 @@ namespace _1.zaprosi
                     ProfitabilityByDay(); break;
                 case 6:
                     AverageCheckByDay(); break;
-   
-                
+
+
             }
 
         }
@@ -257,8 +261,115 @@ namespace _1.zaprosi
             BuildChart(dt, "Дата", "Средний чек", "Средний чек");
         }
 
-        
+        private void ExportToExcel()
+        {
+            if (dataGridView1.DataSource == null)
+            {
+                MessageBox.Show("Нет данных для экспорта.");
+                return;
+            }
 
-       
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "Excel files (*.xlsx)|*.xlsx";
+                sfd.FileName = $"Финансовый_отчет_{DateTime.Now:yyyyMMdd}.xlsx";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    using (ExcelPackage package = new ExcelPackage())
+                    {
+                        var ws = package.Workbook.Worksheets.Add("Финансовый отчет");
+
+                        int currentRow = 1;
+
+                        // ===== Заголовок =====
+                        ws.Cells[currentRow, 1].Value = "ФИНАНСОВЫЙ ОТЧЕТ";
+                        ws.Cells[currentRow, 1, currentRow, dataGridView1.Columns.Count]
+                            .Merge = true;
+                        ws.Cells[currentRow, 1].Style.Font.Size = 16;
+                        ws.Cells[currentRow, 1].Style.Font.Bold = true;
+                        ws.Cells[currentRow, 1].Style.HorizontalAlignment =
+                            OfficeOpenXml.Style.ExcelHorizontalAlignment.Center;
+
+                        currentRow += 2;
+
+                        // ===== Период =====
+                        ws.Cells[currentRow, 1].Value =
+                            $"Период: {dateTimePicker1.Value:dd.MM.yyyy} - {dateTimePicker2.Value:dd.MM.yyyy}";
+                        currentRow++;
+
+                        ws.Cells[currentRow, 1].Value =
+                            $"Дата формирования: {DateTime.Now:dd.MM.yyyy HH:mm}";
+                        currentRow += 2;
+
+                        // ===== Заголовки таблицы =====
+                        for (int col = 0; col < dataGridView1.Columns.Count; col++)
+                        {
+                            ws.Cells[currentRow, col + 1].Value =
+                                dataGridView1.Columns[col].HeaderText;
+
+                            ws.Cells[currentRow, col + 1].Style.Font.Bold = true;
+                            ws.Cells[currentRow, col + 1].Style.Fill.PatternType =
+                                OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            ws.Cells[currentRow, col + 1].Style.Fill.BackgroundColor
+                                .SetColor(Color.LightGray);
+                        }
+
+                        int headerRow = currentRow;
+                        currentRow++;
+
+                        // ===== Данные =====
+                        for (int row = 0; row < dataGridView1.Rows.Count; row++)
+                        {
+                            for (int col = 0; col < dataGridView1.Columns.Count; col++)
+                            {
+                                var value = dataGridView1.Rows[row].Cells[col].Value;
+                                ws.Cells[currentRow, col + 1].Value = value;
+
+                                // Формат чисел
+                                if (value is decimal || value is double || value is int)
+                                {
+                                    ws.Cells[currentRow, col + 1].Style.Numberformat.Format = "#,##0.00";
+                                }
+                            }
+                            currentRow++;
+                        }
+
+                        int dataEndRow = currentRow - 1;
+
+                        // ===== Итоговая строка (для числовых столбцов) =====
+                        ws.Cells[currentRow, 1].Value = "ИТОГО:";
+                        ws.Cells[currentRow, 1].Style.Font.Bold = true;
+
+                        for (int col = 0; col < dataGridView1.Columns.Count; col++)
+                        {
+                            if (decimal.TryParse(
+                                dataGridView1.Rows[0].Cells[col].Value?.ToString(),
+                                out _))
+                            {
+                                string colLetter =
+                                    OfficeOpenXml.ExcelCellAddress.GetColumnLetter(col + 1);
+
+                                ws.Cells[currentRow, col + 1].Formula =
+                                    $"SUM({colLetter}{headerRow + 1}:{colLetter}{dataEndRow})";
+
+                                ws.Cells[currentRow, col + 1].Style.Font.Bold = true;
+                            }
+                        }
+
+                        ws.Cells.AutoFitColumns();
+
+                        File.WriteAllBytes(sfd.FileName, package.GetAsByteArray());
+                    }
+
+                    MessageBox.Show("Отчет успешно сформирован!");
+                }
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ExportToExcel();
+        }
     }
 }

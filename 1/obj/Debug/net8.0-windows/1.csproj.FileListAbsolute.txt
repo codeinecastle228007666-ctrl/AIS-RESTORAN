@@ -112,3 +112,17 @@ Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\WinForms.DataV
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.zaprosi.Fin.resources
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.zaprosi.ZaprosiMain.resources
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.zaprosi.Upr.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\EPPlus.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\EPPlus.Interfaces.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Json.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Physical.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\Microsoft.Extensions.Primitives.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\Microsoft.IO.RecyclableMemoryStream.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\System.Security.Cryptography.Pkcs.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\System.Security.Cryptography.Xml.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll

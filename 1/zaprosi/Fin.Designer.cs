@@ -42,6 +42,7 @@
             dataGridView1 = new DataGridView();
             tabPage2 = new TabPage();
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            button2 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -62,6 +63,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(button2);
             tabPage1.Controls.Add(comboBox1);
             tabPage1.Controls.Add(button1);
             tabPage1.Controls.Add(label2);
@@ -164,6 +166,16 @@
             chart1.TabIndex = 0;
             chart1.Text = "chart1";
             // 
+            // button2
+            // 
+            button2.Location = new Point(659, 11);
+            button2.Name = "button2";
+            button2.Size = new Size(125, 55);
+            button2.TabIndex = 7;
+            button2.Text = "Экспорт в Excel";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // Fin
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
@@ -194,5 +206,6 @@
         private Button button1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private ComboBox comboBox1;
+        private Button button2;
     }
 }
