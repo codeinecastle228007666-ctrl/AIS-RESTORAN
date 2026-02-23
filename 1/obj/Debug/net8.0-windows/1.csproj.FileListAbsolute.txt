@@ -107,3 +107,8 @@ Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.zakaz
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.Sklad.resources
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.sklad.SkladJournal.resources
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.sklad.Prihod.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\WinForms.DataVisualization.Utilities.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\WinForms.DataVisualization.dll
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.zaprosi.Fin.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.zaprosi.ZaprosiMain.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.zaprosi.Upr.resources

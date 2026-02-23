@@ -1,4 +1,5 @@
 using _1.forms;
+using _1.zaprosi;
 
 namespace _1
 {
@@ -18,6 +19,12 @@ namespace _1
         private void button3_Click(object sender, EventArgs e)
         {
             Sklad form = new Sklad();
+            form.ShowDialog();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            ZaprosiMain form = new ZaprosiMain();
             form.ShowDialog();
         }
     }

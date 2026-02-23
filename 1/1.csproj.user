@@ -31,5 +31,14 @@
     <Compile Update="forms\zakazo\zakazi_itemsForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="zaprosi\Fin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="zaprosi\Upr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="zaprosi\ZaprosiMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

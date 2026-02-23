@@ -7,29 +7,46 @@ namespace _1.data
     public static class Db
     {
         private static string connectionString =
-            "Host=localhost;Port=5432;Database=cursed_zxc_V2;Username=postgres;Password=1234"; //строка подключения к базе данных
+            "Host=localhost;Port=5432;Database=cursed_zxc_V2;Username=postgres;Password=1234";
+
+        private static NpgsqlConnection GetConnection()
+        {
+            var conn = new NpgsqlConnection(connectionString);
+            conn.Open();
+            return conn;
+        }
 
         public static DataTable GetData(string sql)
         {
-            using var conn = new NpgsqlConnection(connectionString);
-            conn.Open();
-
+            using var conn = GetConnection();
             using var cmd = new NpgsqlCommand(sql, conn);
             using var adapter = new NpgsqlDataAdapter(cmd);
 
             DataTable table = new DataTable();
             adapter.Fill(table);
-
             return table;
         }
 
-        // старый вариант оставлен для обратной совместимости
+        public static DataTable GetData(string sql, params NpgsqlParameter[] parameters)
+        {
+            using var conn = GetConnection();
+            using var cmd = new NpgsqlCommand(sql, conn);
+
+            if (parameters != null && parameters.Length > 0)
+                cmd.Parameters.AddRange(parameters);
+
+            using var adapter = new NpgsqlDataAdapter(cmd);
+
+            DataTable table = new DataTable();
+            adapter.Fill(table);
+            return table;
+        }
+
         public static void ekzekuttranzakcii(string sql)
         {
-            using var conn = new NpgsqlConnection(connectionString);
-            conn.Open();
-
+            using var conn = GetConnection();
             using var tranzakciya = conn.BeginTransaction();
+
             try
             {
                 using var cmd = new NpgsqlCommand(sql, conn, tranzakciya);
@@ -43,20 +60,18 @@ namespace _1.data
             }
         }
 
-        // новая перегрузка с поддержкой параметров
         public static void ekzekuttranzakcii(string sql, params NpgsqlParameter[] parameters)
         {
-            using var conn = new NpgsqlConnection(connectionString);
-            conn.Open();
-
+            using var conn = GetConnection();
             using var tranzakciya = conn.BeginTransaction();
+
             try
             {
                 using var cmd = new NpgsqlCommand(sql, conn, tranzakciya);
+
                 if (parameters != null && parameters.Length > 0)
-                {
                     cmd.Parameters.AddRange(parameters);
-                }
+
                 cmd.ExecuteNonQuery();
                 tranzakciya.Commit();
             }
