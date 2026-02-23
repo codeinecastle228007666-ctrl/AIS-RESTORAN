@@ -1,5 +1,6 @@
 ﻿using _1.data;
 using _1.forms.sklad;
+using _1.zaprosi;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -66,14 +67,19 @@ namespace _1.forms
                 LoadSklad();
             }
         }
-   
+
         private void button2_Click(object sender, EventArgs e)
         {
             SkladJournal form = new SkladJournal();
             form.ShowDialog();
         }
-    
-    
+
+        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+           
+        }
+
+      
     }
 
 }

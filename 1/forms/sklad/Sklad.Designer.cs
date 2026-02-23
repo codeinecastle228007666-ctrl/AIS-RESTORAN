@@ -43,6 +43,7 @@
             dataGridView1.Size = new Size(800, 300);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
+            dataGridView1.DataBindingComplete += dataGridView1_DataBindingComplete;
             // 
             // button1
             // 
@@ -62,7 +63,7 @@
             button2.TabIndex = 2;
             button2.Text = "Журнал";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += this.button2_Click;
+            button2.Click += button2_Click;
             // 
             // Sklad
             // 

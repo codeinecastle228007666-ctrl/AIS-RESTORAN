@@ -326,10 +326,18 @@ namespace _1.zaprosi
                                 var value = dataGridView1.Rows[row].Cells[col].Value;
                                 ws.Cells[currentRow, col + 1].Value = value;
 
-                                // Формат чисел
-                                if (value is decimal || value is double || value is int)
+                                if (value is DateTime dt)
+                                {
+                                    ws.Cells[currentRow, col + 1].Style.Numberformat.Format = "dd.MM.yyyy";
+                                }
+                                else if (value is decimal || value is double || value is int)
                                 {
                                     ws.Cells[currentRow, col + 1].Style.Numberformat.Format = "#,##0.00";
+                                }
+                                else if (value is DateOnly d)
+                                {
+                                    ws.Cells[currentRow, col + 1].Value = d.ToDateTime(TimeOnly.MinValue);
+                                    ws.Cells[currentRow, col + 1].Style.Numberformat.Format = "dd.MM.yyyy";
                                 }
                             }
                             currentRow++;
@@ -370,6 +378,49 @@ namespace _1.zaprosi
         private void button2_Click(object sender, EventArgs e)
         {
             ExportToExcel();
+        }
+
+
+
+        public void FormatGrid()
+        {
+            foreach (DataGridViewColumn col in dataGridView1.Columns)
+            {
+                string name = col.HeaderText.ToLower();
+
+                // Деньги
+                if (name.Contains("выручка") ||
+                    name.Contains("прибыль") ||
+                    name.Contains("себестоимость") ||
+                    name.Contains("сумма") ||
+                    name.Contains("чек"))
+                {
+                    col.DefaultCellStyle.Format = "N2";
+                    col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                }
+
+                //  Проценты
+                else if (name.Contains("рентабельность") ||
+                         name.Contains("%"))
+                {
+                    col.DefaultCellStyle.Format = "N2";
+                    col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                }
+
+                // Количество
+                else if (name.Contains("количество") ||
+                         name.Contains("остаток") ||
+                         name.Contains("заказов"))
+                {
+                    col.DefaultCellStyle.Format = "N0";
+                    col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
+                }
+            }
+        }
+
+        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            FormatGrid();
         }
     }
 }

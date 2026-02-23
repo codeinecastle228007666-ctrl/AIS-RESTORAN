@@ -33,6 +33,7 @@
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            button2 = new Button();
             comboBox1 = new ComboBox();
             button1 = new Button();
             label2 = new Label();
@@ -42,7 +43,6 @@
             dataGridView1 = new DataGridView();
             tabPage2 = new TabPage();
             chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            button2 = new Button();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -78,6 +78,16 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Таблица";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(659, 11);
+            button2.Name = "button2";
+            button2.Size = new Size(125, 55);
+            button2.TabIndex = 7;
+            button2.Text = "Экспорт в Excel";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // comboBox1
             // 
@@ -137,6 +147,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(786, 332);
             dataGridView1.TabIndex = 0;
+            dataGridView1.DataBindingComplete += dataGridView1_DataBindingComplete;
             // 
             // tabPage2
             // 
@@ -165,16 +176,6 @@
             chart1.Size = new Size(786, 417);
             chart1.TabIndex = 0;
             chart1.Text = "chart1";
-            // 
-            // button2
-            // 
-            button2.Location = new Point(659, 11);
-            button2.Name = "button2";
-            button2.Size = new Size(125, 55);
-            button2.TabIndex = 7;
-            button2.Text = "Экспорт в Excel";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
             // 
             // Fin
             // 
