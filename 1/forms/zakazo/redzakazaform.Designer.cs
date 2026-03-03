@@ -68,6 +68,7 @@
             // 
             // comboBoxStatus
             // 
+            comboBoxStatus.Enabled = false;
             comboBoxStatus.FormattingEnabled = true;
             comboBoxStatus.Location = new Point(165, 286);
             comboBoxStatus.Name = "comboBoxStatus";
