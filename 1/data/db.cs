@@ -9,11 +9,9 @@ namespace _1.data
         private static string connectionString =
             "Host=localhost;Port=5432;Database=cursed_zxc_V2;Username=postgres;Password=1234";
 
-        private static NpgsqlConnection GetConnection()
+        public static NpgsqlConnection GetConnection()
         {
-            var conn = new NpgsqlConnection(connectionString);
-            conn.Open();
-            return conn;
+            return new NpgsqlConnection(connectionString);
         }
 
         public static DataTable GetData(string sql)
@@ -45,6 +43,7 @@ namespace _1.data
         public static void ekzekuttranzakcii(string sql)
         {
             using var conn = GetConnection();
+            conn.Open();
             using var tranzakciya = conn.BeginTransaction();
 
             try
@@ -63,6 +62,7 @@ namespace _1.data
         public static void ekzekuttranzakcii(string sql, params NpgsqlParameter[] parameters)
         {
             using var conn = GetConnection();
+            conn.Open();
             using var tranzakciya = conn.BeginTransaction();
 
             try

@@ -1,7 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Compile Update="forms\Clienti.cs">
+    <Compile Update="forms\bronirovanie\BronirovanieForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="forms\clients\Clienti.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="forms\clients\clientsRedForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="forms\Main.cs">

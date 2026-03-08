@@ -32,6 +32,7 @@
             button2 = new Button();
             button3 = new Button();
             button4 = new Button();
+            button5 = new Button();
             SuspendLayout();
             // 
             // button1
@@ -52,6 +53,7 @@
             button2.TabIndex = 1;
             button2.Text = "Клиенты";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
@@ -65,7 +67,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(426, 76);
+            button4.Location = new Point(418, 272);
             button4.Name = "button4";
             button4.Size = new Size(129, 59);
             button4.TabIndex = 3;
@@ -73,12 +75,23 @@
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
+            // button5
+            // 
+            button5.Location = new Point(418, 173);
+            button5.Name = "button5";
+            button5.Size = new Size(129, 59);
+            button5.TabIndex = 4;
+            button5.Text = "Бронирование";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
+            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.rm222batch3_mind_12;
             ClientSize = new Size(800, 450);
+            Controls.Add(button5);
             Controls.Add(button4);
             Controls.Add(button3);
             Controls.Add(button2);
@@ -94,5 +107,6 @@
         private Button button2;
         private Button button3;
         private Button button4;
+        private Button button5;
     }
 }

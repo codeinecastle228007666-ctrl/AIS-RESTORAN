@@ -66,7 +66,7 @@ namespace _1.forms.sklad
         INSERT INTO sklad_dvizhenie
         (product_id, tip, kolichestvo, postavschik_id, cena)
         VALUES
-        (@productId, 'Приход', @kolvo, @postavId, @cena)
+        (@productId, 'IN', @kolvo, @postavId, @cena)
     ";
 
             try

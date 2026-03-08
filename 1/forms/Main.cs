@@ -1,4 +1,5 @@
 using _1.forms;
+using _1.forms.bronirovanie;
 using _1.zaprosi;
 
 namespace _1
@@ -25,6 +26,18 @@ namespace _1
         private void button4_Click(object sender, EventArgs e)
         {
             ZaprosiMain form = new ZaprosiMain();
+            form.ShowDialog();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            BronirovanieForm form = new BronirovanieForm();
+            form.ShowDialog();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Clienti form = new Clienti();
             form.ShowDialog();
         }
     }
