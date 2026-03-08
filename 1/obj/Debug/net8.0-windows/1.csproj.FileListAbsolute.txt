@@ -128,3 +128,4 @@ Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\System.Securit
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.bronirovanie.BronirovanieForm.resources
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.clients.clientsRedForm.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.bronirovanie.ZalForm.resources

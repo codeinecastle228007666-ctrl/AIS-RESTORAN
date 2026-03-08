@@ -174,5 +174,14 @@ namespace _1.forms.bronirovanie
             dateTimePicker1.CustomFormat = "dd.MM.yyyy HH:mm";
             dateTimePicker1.ShowUpDown = true;
         }
+
+        private void buttonSelectTable_Click(object sender, EventArgs e)
+        {
+            ZalForm zal = new ZalForm(dateTimePicker1.Value);
+            if (zal.ShowDialog() == DialogResult.OK)
+            {
+                comboBox2.SelectedValue = zal.SelectedTableId;
+            }
+        }
     }
 }

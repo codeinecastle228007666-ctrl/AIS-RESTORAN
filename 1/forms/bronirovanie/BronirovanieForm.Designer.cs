@@ -30,7 +30,6 @@
         {
             dataGridView1 = new DataGridView();
             comboBox1 = new ComboBox();
-            comboBox2 = new ComboBox();
             dateTimePicker1 = new DateTimePicker();
             numericUpDown1 = new NumericUpDown();
             comboBox3 = new ComboBox();
@@ -41,6 +40,8 @@
             label5 = new Label();
             button1 = new Button();
             button2 = new Button();
+            comboBox2 = new ComboBox();
+            buttonSelectTable = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
@@ -61,14 +62,6 @@
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(191, 22);
             comboBox1.TabIndex = 1;
-            // 
-            // comboBox2
-            // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(233, 332);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(45, 22);
-            comboBox2.TabIndex = 2;
             // 
             // dateTimePicker1
             // 
@@ -155,7 +148,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(190, 402);
+            button2.Location = new Point(135, 402);
             button2.Name = "button2";
             button2.Size = new Size(117, 36);
             button2.TabIndex = 12;
@@ -163,11 +156,30 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // comboBox2
+            // 
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Location = new Point(233, 332);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(45, 22);
+            comboBox2.TabIndex = 2;
+            // 
+            // buttonSelectTable
+            // 
+            buttonSelectTable.Location = new Point(221, 360);
+            buttonSelectTable.Name = "buttonSelectTable";
+            buttonSelectTable.Size = new Size(74, 36);
+            buttonSelectTable.TabIndex = 13;
+            buttonSelectTable.Text = "Схема зала";
+            buttonSelectTable.UseVisualStyleBackColor = true;
+            buttonSelectTable.Click += buttonSelectTable_Click;
+            // 
             // BronirovanieForm
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(buttonSelectTable);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(label5);
@@ -194,7 +206,6 @@
 
         private DataGridView dataGridView1;
         private ComboBox comboBox1;
-        private ComboBox comboBox2;
         private DateTimePicker dateTimePicker1;
         private NumericUpDown numericUpDown1;
         private ComboBox comboBox3;
@@ -205,5 +216,7 @@
         private Label label5;
         private Button button1;
         private Button button2;
+        private ComboBox comboBox2;
+        private Button buttonSelectTable;
     }
 }
