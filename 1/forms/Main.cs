@@ -1,5 +1,6 @@
 using _1.forms;
 using _1.forms.bronirovanie;
+using _1.forms.Menu;
 using _1.zaprosi;
 
 namespace _1
@@ -39,6 +40,12 @@ namespace _1
         {
             Clienti form = new Clienti();
             form.ShowDialog();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            MenuForm menuForm = new MenuForm();
+            menuForm.ShowDialog();
         }
     }
 }

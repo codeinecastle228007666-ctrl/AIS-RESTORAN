@@ -42,6 +42,7 @@
             button2 = new Button();
             comboBox2 = new ComboBox();
             buttonSelectTable = new Button();
+            buttonApplyStatus = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
@@ -54,6 +55,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(800, 304);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellFormatting += dataGridView1_CellFormatting;
             // 
             // comboBox1
             // 
@@ -174,11 +176,22 @@
             buttonSelectTable.UseVisualStyleBackColor = true;
             buttonSelectTable.Click += buttonSelectTable_Click;
             // 
+            // buttonApplyStatus
+            // 
+            buttonApplyStatus.Location = new Point(625, 360);
+            buttonApplyStatus.Name = "buttonApplyStatus";
+            buttonApplyStatus.Size = new Size(147, 23);
+            buttonApplyStatus.TabIndex = 14;
+            buttonApplyStatus.Text = "Применить статус";
+            buttonApplyStatus.UseVisualStyleBackColor = true;
+            buttonApplyStatus.Click += buttonApplyStatus_Click;
+            // 
             // BronirovanieForm
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(buttonApplyStatus);
             Controls.Add(buttonSelectTable);
             Controls.Add(button2);
             Controls.Add(button1);
@@ -218,5 +231,6 @@
         private Button button2;
         private ComboBox comboBox2;
         private Button buttonSelectTable;
+        private Button buttonApplyStatus;
     }
 }

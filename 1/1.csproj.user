@@ -16,6 +16,15 @@
     <Compile Update="forms\Main.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="forms\Menu\BludoEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="forms\Menu\MenuForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="forms\Menu\SostavBludaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="forms\sklad\Prihod.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -135,17 +135,23 @@ namespace _1.forms.bronirovanie
 
         bool TableIsBusy(int stol, DateTime date)
         {
+
+            DateTime end = date.AddHours(2); // Предполагаем, что бронь занимает 2 часа
             string sql = @"
         SELECT COUNT(*)
         FROM bronirovanie
         WHERE stol_id = @stol AND data_broni = @date
-        AND status_broni_id<>3";
+        AND status_broni_id<>3
+        AND (
+              data_broni <@end
+              AND data_broni + interval '2 hour' > @start)";
 
             using (var con = Db.GetConnection())
             using (var cmd = new NpgsqlCommand(sql, con))
             {
                 cmd.Parameters.AddWithValue("@stol", stol);
-                cmd.Parameters.AddWithValue("@date", date);
+                cmd.Parameters.AddWithValue("@start", date);
+                cmd.Parameters.AddWithValue("@end", end);
 
                 con.Open();
 
@@ -183,5 +189,52 @@ namespace _1.forms.bronirovanie
                 comboBox2.SelectedValue = zal.SelectedTableId;
             }
         }
+
+        private void buttonApplyStatus_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null) return;
+
+            int bronId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
+            int statusId = Convert.ToInt32(comboBox3.SelectedValue);
+            string sql = @"
+                UPDATE bronirovanie
+                SET status_broni_id = @s
+                WHERE bronirovanie_id = @id";
+
+            Db.ekzekuttranzakcii(sql, new NpgsqlParameter("@s", statusId), new NpgsqlParameter("@id", bronId));
+
+            LoadBron();
+        }
+
+        private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "Статус")
+            {
+                string status = e.Value?.ToString();
+
+                if (status == "Подтверждена")
+                {
+                    e.CellStyle.BackColor = Color.LightGreen;
+                }
+                else if (status == "Ожидает подтверждения")
+                {
+                    e.CellStyle.BackColor = Color.Khaki;
+                }
+                else if (status == "Отменена")
+                {
+                    e.CellStyle.BackColor = Color.LightCoral;
+                }
+                else if (status == "Выполнена")
+                {
+                    e.CellStyle.BackColor = Color.LightBlue;
+                }
+                else if (status == "Просрочена")
+                {
+                    e.CellStyle.BackColor = Color.Gray;
+                }
+            }
+        }
+
+
     }
 }
