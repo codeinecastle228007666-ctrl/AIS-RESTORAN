@@ -78,26 +78,36 @@ namespace _1.forms.bronirovanie
             DialogResult = DialogResult.OK;
             Close();
         }
-        
+
 
         bool TableIsBooked(int stolId)
         {
+            DateTime end = selectedDate.AddHours(2);
+
             string sql = @"
-                SELECT COUNT(*) 
-                FROM bronirovanie 
-                WHERE stol_id = @stolId AND data_broni = @date AND status_broni_id <> 3
-            ";
+    SELECT COUNT(*)
+    FROM bronirovanie
+    WHERE stol_id = @stolId
+    AND status_broni_id <> 3
+    AND (
+          data_broni < @end
+          AND data_broni + interval '2 hour' > @start
+        )
+    ";
 
             using (var con = Db.GetConnection())
-                using (var cmd = new NpgsqlCommand(sql, con))
-                {
-                    cmd.Parameters.AddWithValue("@stolId", stolId);
-                    cmd.Parameters.AddWithValue("@date", selectedDate);
-                    con.Open();
-                    int count = Convert.ToInt32(cmd.ExecuteScalar());
-                    return count > 0;
+            using (var cmd = new NpgsqlCommand(sql, con))
+            {
+                cmd.Parameters.AddWithValue("@stolId", stolId);
+                cmd.Parameters.AddWithValue("@start", selectedDate);
+                cmd.Parameters.AddWithValue("@end", end);
+
+                con.Open();
+
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+
+                return count > 0;
             }
-          
         }
     }
 

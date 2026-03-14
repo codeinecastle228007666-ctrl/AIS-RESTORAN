@@ -12,6 +12,44 @@ namespace _1
             InitializeComponent();
         }
 
+        int roleId;
+        int userId;
+        public Main(int role,int user)
+        {
+            InitializeComponent();
+            roleId= role;
+            userId= user;
+            ApplyRole();
+
+        }
+        void ApplyRole()
+        {
+            if (roleId == 1) // официант
+            {
+                button6.Visible = false;
+                button3.Visible = false;
+                button4.Visible = false;
+            }
+
+            if (roleId == 2) // повар
+            {
+                button6.Visible = false;
+                button3.Visible = false;
+                button4.Visible = false;
+            }
+
+            if (roleId == 3) // шеф
+            {
+                button3.Visible = false;
+                button4.Visible = false;
+            }
+
+            if (roleId == 4) // руководитель
+            {
+                // всё доступно
+            }
+        }
+
         private void button1_Click(object sender, EventArgs e) //кнопка открытия формы заказов
         {
             Zakazi form = new Zakazi();

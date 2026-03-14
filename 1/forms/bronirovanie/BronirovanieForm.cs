@@ -140,7 +140,7 @@ namespace _1.forms.bronirovanie
             string sql = @"
         SELECT COUNT(*)
         FROM bronirovanie
-        WHERE stol_id = @stol AND data_broni = @date
+        WHERE stol_id = @stol 
         AND status_broni_id<>3
         AND (
               data_broni <@end
