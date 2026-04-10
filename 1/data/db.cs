@@ -16,13 +16,21 @@ namespace _1.data
 
         public static DataTable GetData(string sql)
         {
-            using var conn = GetConnection();
-            using var cmd = new NpgsqlCommand(sql, conn);
-            using var adapter = new NpgsqlDataAdapter(cmd);
+            try
+            {
+                using var conn = GetConnection();
+                using var cmd = new NpgsqlCommand(sql, conn);
+                using var adapter = new NpgsqlDataAdapter(cmd);
 
-            DataTable table = new DataTable();
-            adapter.Fill(table);
-            return table;
+                DataTable table = new DataTable();
+                adapter.Fill(table);
+                return table;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка базы данных:\n" + ex.Message);
+                return new DataTable();
+            }
         }
 
         public static DataTable GetData(string sql, params NpgsqlParameter[] parameters)

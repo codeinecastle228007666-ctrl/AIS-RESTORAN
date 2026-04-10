@@ -1,14 +1,7 @@
 ﻿using _1.data;
-using _1.forms.Menu;
 using Npgsql;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace _1.forms
@@ -26,28 +19,35 @@ namespace _1.forms
             string password = textBoxPassword.Text;
 
             string sql = @"
-        SELECT * 
+        SELECT user_id, role_id, role_name
         FROM auth_user(@login,@password)";
 
-            DataTable dt = Db.GetData(sql,
-                new NpgsqlParameter("@login", login),
-                new NpgsqlParameter("@password", password)
-            );
-
-            if (dt.Rows.Count == 0)
+            try
             {
-                MessageBox.Show("Неверный логин или пароль");
-                return;
+                DataTable dt = Db.GetData(sql,
+                    new NpgsqlParameter("@login", login),
+                    new NpgsqlParameter("@password", password)
+                );
+
+                if (dt.Rows.Count == 0)
+                {
+                    MessageBox.Show("Неверный логин или пароль");
+                    return;
+                }
+
+                // Сохраняем данные в сессию
+                Session.UserId = Convert.ToInt32(dt.Rows[0]["user_id"]);
+                Session.RoleId = Convert.ToInt32(dt.Rows[0]["role_id"]);
+                Session.RoleName = dt.Rows[0]["role_name"].ToString();
+
+                // Закрываем форму авторизации с успешным результатом
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
-
-            Session.UserId = Convert.ToInt32(dt.Rows[0]["user_id"]);
-            Session.RoleId = Convert.ToInt32(dt.Rows[0]["role_id"]);
-            Session.RoleName = dt.Rows[0]["role_name"].ToString();
-
-            Main m = new Main();
-            m.Show();
-
-            this.Hide();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка авторизации:\n" + ex.Message);
+            }
         }
     }
 }

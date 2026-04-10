@@ -4,21 +4,31 @@ namespace _1
 {
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             Application.ThreadException += GlobalException;
-            Application.Run(new Auth());
+
+            // ѕоказываем форму авторизации
+            using (var auth = new Auth())
+            {
+                if (auth.ShowDialog() == DialogResult.OK)
+                {
+                    // ≈сли авторизаци€ успешна, запускаем главную форму
+                    Application.Run(new Main(Session.RoleId, Session.UserId));
+                }
+                else
+                {
+                    // ≈сли авторизаци€ не успешна или закрыта, завершаем приложение
+                    Application.Exit();
+                }
+            }
         }
+
         static void GlobalException(object sender, ThreadExceptionEventArgs e)
         {
             MessageBox.Show(

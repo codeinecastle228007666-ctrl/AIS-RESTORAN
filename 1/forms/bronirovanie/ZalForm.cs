@@ -102,11 +102,17 @@ namespace _1.forms.bronirovanie
                 cmd.Parameters.AddWithValue("@start", selectedDate);
                 cmd.Parameters.AddWithValue("@end", end);
 
-                con.Open();
-
-                int count = Convert.ToInt32(cmd.ExecuteScalar());
-
-                return count > 0;
+                try
+                {
+                    con.Open();
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    return count > 0;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ошибка проверки бронирования:\n" + ex.Message);
+                    return false;
+                }
             }
         }
     }

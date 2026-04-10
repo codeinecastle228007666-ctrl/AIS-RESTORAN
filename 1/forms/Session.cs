@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _1.forms
 {
-    internal class Session
+    public static class Session
     {
         public static int UserId;
         public static int RoleId;

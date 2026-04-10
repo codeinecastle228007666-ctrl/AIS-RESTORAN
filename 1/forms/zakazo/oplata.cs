@@ -27,13 +27,27 @@ namespace _1.forms
                 FROM oplata 
                 WHERE zakaz_id = {_zakazId}
             ";
-            var checkTable = Db.GetData(checksql);
-            if (Convert.ToInt32(checkTable.Rows[0][0]) > 0)
+            try
             {
-                MessageBox.Show("Этот заказ уже оплачен!");
-                this.DialogResult = DialogResult.Cancel;
-                this.Close();
-                return;
+                var checkTable = Db.GetData(checksql);
+
+                if (checkTable.Rows.Count == 0)
+                {
+                    MessageBox.Show("Ошибка получения данных");
+                    return;
+                }
+
+                if (Convert.ToInt32(checkTable.Rows[0][0]) > 0)
+                {
+                    MessageBox.Show("Этот заказ уже оплачен!");
+                    this.DialogResult = DialogResult.Cancel;
+                    this.Close();
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка проверки оплаты:\n" + ex.Message);
             }
 
             string sql = "SELECT sposob_oplati_id, nazvanie FROM sposob_oplati";

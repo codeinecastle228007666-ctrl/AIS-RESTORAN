@@ -7,57 +7,93 @@ namespace _1
 {
     public partial class Main : Form
     {
-        public Main()
-        {
-            InitializeComponent();
-        }
+        private int roleId;
+        private int userId;
 
-        int roleId;
-        int userId;
+        // Конструктор с параметрами
         public Main(int role, int user)
         {
             InitializeComponent();
             roleId = role;
             userId = user;
-
-
         }
 
-
-        private void button1_Click(object sender, EventArgs e) //кнопка открытия формы заказов
+        private void button1_Click(object sender, EventArgs e)
         {
-            Zakazi form = new Zakazi();
-            form.ShowDialog();
+            try
+            {
+                Zakazi form = new Zakazi();
+                form.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Sklad form = new Sklad();
-            form.ShowDialog();
+            try
+            {
+                Sklad form = new Sklad();
+                form.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            ZaprosiMain form = new ZaprosiMain();
-            form.ShowDialog();
+            try
+            {
+                ZaprosiMain form = new ZaprosiMain();
+                form.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+            }
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            BronirovanieForm form = new BronirovanieForm();
-            form.ShowDialog();
+            try
+            {
+                BronirovanieForm form = new BronirovanieForm();
+                form.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Clienti form = new Clienti();
-            form.ShowDialog();
+            try
+            {
+                Clienti form = new Clienti();
+                form.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+            }
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            MenuForm menuForm = new MenuForm();
-            menuForm.ShowDialog();
+            try
+            {
+                MenuForm menuForm = new MenuForm();
+                menuForm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+            }
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -66,7 +102,6 @@ namespace _1
 
             if (Session.RoleId == 1) // официант
             {
-                
                 button4.Enabled = false;
                 button3.Enabled = false;
             }
@@ -88,6 +123,18 @@ namespace _1
             if (Session.RoleId == 4) // руководитель
             {
                 // доступ ко всему
+            }
+        }
+
+        private void Main_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show(
+                "Вы уверены, что хотите выйти?",
+                "Выход",
+                MessageBoxButtons.YesNo
+            ) == DialogResult.No)
+            {
+                e.Cancel = true;
             }
         }
     }

@@ -121,6 +121,7 @@
             Controls.Add(button1);
             Name = "Main";
             Text = "АИС \"Ресторан\"";
+            FormClosing += Main_FormClosing;
             Load += Main_Load;
             ResumeLayout(false);
             PerformLayout();
