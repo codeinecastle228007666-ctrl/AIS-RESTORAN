@@ -1,4 +1,5 @@
 ﻿using _1.data;
+using _1.forms.Menu;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -21,30 +22,32 @@ namespace _1.forms
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string login = textBoxLogin.Text;
+            string password = textBoxPassword.Text;
+
             string sql = @"
-            SELECT user_id, role_id
-            FROM users
-            WHERE login = @l AND password = @p
-            ";
+        SELECT * 
+        FROM auth_user(@login,@password)";
 
             DataTable dt = Db.GetData(sql,
-                new NpgsqlParameter("@l", textBoxLogin.Text),
-                new NpgsqlParameter("@p", textBoxPassword.Text)
+                new NpgsqlParameter("@login", login),
+                new NpgsqlParameter("@password", password)
             );
 
-            if (dt.Rows.Count == 1)
-            {
-                int roleId = Convert.ToInt32(dt.Rows[0]["role_id"]);
-                int userId = Convert.ToInt32(dt.Rows[0]["user_id"]);
-
-                Main main = new Main(roleId,userId);
-                main.Show();
-                this.Hide();
-            }
-            else
+            if (dt.Rows.Count == 0)
             {
                 MessageBox.Show("Неверный логин или пароль");
+                return;
             }
+
+            Session.UserId = Convert.ToInt32(dt.Rows[0]["user_id"]);
+            Session.RoleId = Convert.ToInt32(dt.Rows[0]["role_id"]);
+            Session.RoleName = dt.Rows[0]["role_name"].ToString();
+
+            Main m = new Main();
+            m.Show();
+
+            this.Hide();
         }
     }
 }

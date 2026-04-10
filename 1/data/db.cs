@@ -27,17 +27,31 @@ namespace _1.data
 
         public static DataTable GetData(string sql, params NpgsqlParameter[] parameters)
         {
-            using var conn = GetConnection();
-            using var cmd = new NpgsqlCommand(sql, conn);
+            try
+            {
+                using (var conn = new NpgsqlConnection(connectionString))
+                {
+                    conn.Open();
 
-            if (parameters != null && parameters.Length > 0)
-                cmd.Parameters.AddRange(parameters);
+                    using (var cmd = new NpgsqlCommand(sql, conn))
+                    {
+                        if (parameters != null)
+                            cmd.Parameters.AddRange(parameters);
 
-            using var adapter = new NpgsqlDataAdapter(cmd);
-
-            DataTable table = new DataTable();
-            adapter.Fill(table);
-            return table;
+                        using (var da = new NpgsqlDataAdapter(cmd))
+                        {
+                            DataTable dt = new DataTable();
+                            da.Fill(dt);
+                            return dt;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка базы данных:\n" + ex.Message);
+                return new DataTable();
+            }
         }
 
         public static void ekzekuttranzakcii(string sql)
@@ -61,24 +75,24 @@ namespace _1.data
 
         public static void ekzekuttranzakcii(string sql, params NpgsqlParameter[] parameters)
         {
-            using var conn = GetConnection();
-            conn.Open();
-            using var tranzakciya = conn.BeginTransaction();
-
             try
             {
-                using var cmd = new NpgsqlCommand(sql, conn, tranzakciya);
+                using (var conn = new NpgsqlConnection(connectionString))
+                {
+                    conn.Open();
 
-                if (parameters != null && parameters.Length > 0)
-                    cmd.Parameters.AddRange(parameters);
+                    using (var cmd = new NpgsqlCommand(sql, conn))
+                    {
+                        if (parameters != null)
+                            cmd.Parameters.AddRange(parameters);
 
-                cmd.ExecuteNonQuery();
-                tranzakciya.Commit();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
             }
-            catch
+            catch (Exception ex)
             {
-                tranzakciya.Rollback();
-                throw;
+                MessageBox.Show("Ошибка выполнения запроса:\n" + ex.Message);
             }
         }
     }

@@ -34,6 +34,7 @@
             button4 = new Button();
             button5 = new Button();
             button6 = new Button();
+            labelRole = new Label();
             SuspendLayout();
             // 
             // button1
@@ -96,12 +97,22 @@
             button6.UseVisualStyleBackColor = true;
             button6.Click += button6_Click;
             // 
+            // labelRole
+            // 
+            labelRole.AutoSize = true;
+            labelRole.Font = new Font("Segoe UI", 15F);
+            labelRole.Location = new Point(3, 12);
+            labelRole.Name = "labelRole";
+            labelRole.Size = new Size(0, 23);
+            labelRole.TabIndex = 6;
+            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.rm222batch3_mind_12;
             ClientSize = new Size(800, 450);
+            Controls.Add(labelRole);
             Controls.Add(button6);
             Controls.Add(button5);
             Controls.Add(button4);
@@ -110,7 +121,9 @@
             Controls.Add(button1);
             Name = "Main";
             Text = "АИС \"Ресторан\"";
+            Load += Main_Load;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -121,5 +134,6 @@
         private Button button4;
         private Button button5;
         private Button button6;
+        private Label labelRole;
     }
 }

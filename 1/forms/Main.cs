@@ -14,41 +14,15 @@ namespace _1
 
         int roleId;
         int userId;
-        public Main(int role,int user)
+        public Main(int role, int user)
         {
             InitializeComponent();
-            roleId= role;
-            userId= user;
-            ApplyRole();
+            roleId = role;
+            userId = user;
+
 
         }
-        void ApplyRole()
-        {
-            if (roleId == 1) // официант
-            {
-                button6.Visible = false;
-                button3.Visible = false;
-                button4.Visible = false;
-            }
 
-            if (roleId == 2) // повар
-            {
-                button6.Visible = false;
-                button3.Visible = false;
-                button4.Visible = false;
-            }
-
-            if (roleId == 3) // шеф
-            {
-                button3.Visible = false;
-                button4.Visible = false;
-            }
-
-            if (roleId == 4) // руководитель
-            {
-                // всё доступно
-            }
-        }
 
         private void button1_Click(object sender, EventArgs e) //кнопка открытия формы заказов
         {
@@ -84,6 +58,37 @@ namespace _1
         {
             MenuForm menuForm = new MenuForm();
             menuForm.ShowDialog();
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+            labelRole.Text = Session.RoleName;
+
+            if (Session.RoleId == 1) // официант
+            {
+                
+                button4.Enabled = false;
+                button3.Enabled = false;
+            }
+
+            if (Session.RoleId == 2) // повар
+            {
+                button1.Enabled = false;
+                button2.Enabled = false;
+                button4.Enabled = false;
+            }
+
+            if (Session.RoleId == 3) // шеф
+            {
+                button4.Enabled = false;
+                button2.Enabled = false;
+                button5.Enabled = false;
+            }
+
+            if (Session.RoleId == 4) // руководитель
+            {
+                // доступ ко всему
+            }
         }
     }
 }

@@ -13,7 +13,19 @@ namespace _1
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            Application.ThreadException += GlobalException;
             Application.Run(new Auth());
+        }
+        static void GlobalException(object sender, ThreadExceptionEventArgs e)
+        {
+            MessageBox.Show(
+                "Произошла ошибка:\n" + e.Exception.Message,
+                "Ошибка",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
         }
     }
 }

@@ -67,6 +67,7 @@
             // 
             textBoxPassword.Location = new Point(85, 67);
             textBoxPassword.Name = "textBoxPassword";
+            textBoxPassword.PasswordChar = '*';
             textBoxPassword.PlaceholderText = "Введите пароль";
             textBoxPassword.Size = new Size(126, 23);
             textBoxPassword.TabIndex = 3;
