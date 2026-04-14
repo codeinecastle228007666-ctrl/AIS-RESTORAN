@@ -62,8 +62,9 @@ namespace _1
                     ORDER BY z.data_zakaza DESC
                 ";
             dataGridView1.DataSource = Db.GetData(sql);
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.Columns["StatusID"].Visible = false; //скрываем столбец с ID статуса
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            
 
             if (dataGridView1.Rows.Count > 0)
             {

@@ -19,28 +19,43 @@ namespace _1.forms
             string password = textBoxPassword.Text;
 
             string sql = @"
-        SELECT user_id, role_id, role_name
-        FROM auth_user(@login,@password)";
+SELECT 
+u.user_id,
+u.role_id,
+r.nazvanie AS role_name
+FROM users u
+JOIN role r ON r.role_id = u.role_id
+WHERE u.login = @l
+AND u.password_hash = crypt(@p, u.password_hash)
+";
 
             try
             {
                 DataTable dt = Db.GetData(sql,
-                    new NpgsqlParameter("@login", login),
-                    new NpgsqlParameter("@password", password)
+                    new NpgsqlParameter("@l", login),
+                    new NpgsqlParameter("@p", password)
                 );
 
                 if (dt.Rows.Count == 0)
                 {
                     MessageBox.Show("Неверный логин или пароль");
+                    Db.Execute(
+"INSERT INTO login_log(user_id, success) VALUES(NULL, false)"
+);
                     return;
                 }
 
-                // Сохраняем данные в сессию
                 Session.UserId = Convert.ToInt32(dt.Rows[0]["user_id"]);
                 Session.RoleId = Convert.ToInt32(dt.Rows[0]["role_id"]);
                 Session.RoleName = dt.Rows[0]["role_name"].ToString();
+                Session.ApplyToDb();
+                Db.Execute(
+"INSERT INTO login_log(user_id, success) VALUES(@u, true)",
+new NpgsqlParameter("@u", Session.UserId)
+);
 
-                // Закрываем форму авторизации с успешным результатом
+               
+
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }

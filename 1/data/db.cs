@@ -103,5 +103,26 @@ namespace _1.data
                 MessageBox.Show("Ошибка выполнения запроса:\n" + ex.Message);
             }
         }
+
+        public static void Execute(string sql, params NpgsqlParameter[] parameters)
+        {
+            try
+            {
+                using (var conn = new NpgsqlConnection(connectionString))
+                {
+                    conn.Open();
+                    using (var cmd = new NpgsqlCommand(sql, conn))
+                    {
+                        if (parameters != null)
+                            cmd.Parameters.AddRange(parameters);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка выполнения запроса:\n" + ex.Message);
+            }
+        }
     }
 }

@@ -35,6 +35,7 @@ namespace _1.forms
     ";
 
             dataGridView1.DataSource = Db.GetData(sql);
+            dataGridView1.Columns["ID"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 

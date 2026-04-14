@@ -34,6 +34,7 @@ namespace _1
             dataTable = Db.GetData(sql);
             bindingSource.DataSource = dataTable;
             dataGridView1.DataSource = bindingSource;
+            dataGridView1.Columns["ID"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
