@@ -16,6 +16,9 @@
     <Compile Update="forms\clients\clientsRedForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="forms\DumpRestore.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="forms\Main.cs">
       <SubType>Form</SubType>
     </Compile>

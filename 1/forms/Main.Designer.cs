@@ -35,6 +35,7 @@
             button5 = new Button();
             button6 = new Button();
             labelRole = new Label();
+            button7 = new Button();
             SuspendLayout();
             // 
             // button1
@@ -106,12 +107,23 @@
             labelRole.Size = new Size(0, 23);
             labelRole.TabIndex = 6;
             // 
+            // button7
+            // 
+            button7.Location = new Point(656, 380);
+            button7.Name = "button7";
+            button7.Size = new Size(132, 58);
+            button7.TabIndex = 7;
+            button7.Text = "Резервное копирование";
+            button7.UseVisualStyleBackColor = true;
+            button7.Click += button7_Click;
+            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources.rm222batch3_mind_12;
             ClientSize = new Size(800, 450);
+            Controls.Add(button7);
             Controls.Add(labelRole);
             Controls.Add(button6);
             Controls.Add(button5);
@@ -136,5 +148,6 @@
         private Button button5;
         private Button button6;
         private Label labelRole;
+        private Button button7;
     }
 }
