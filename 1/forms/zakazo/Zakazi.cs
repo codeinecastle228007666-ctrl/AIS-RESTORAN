@@ -63,6 +63,7 @@ namespace _1
                 ";
             dataGridView1.DataSource = Db.GetData(sql);
             dataGridView1.Columns["StatusID"].Visible = false; //скрываем столбец с ID статуса
+            dataGridView1.Columns["ID"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             
 

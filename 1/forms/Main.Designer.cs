@@ -40,7 +40,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(110, 76);
+            button1.Location = new Point(26, 31);
             button1.Name = "button1";
             button1.Size = new Size(129, 59);
             button1.TabIndex = 0;
@@ -50,7 +50,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(110, 173);
+            button2.Location = new Point(26, 116);
             button2.Name = "button2";
             button2.Size = new Size(129, 59);
             button2.TabIndex = 1;
@@ -60,7 +60,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(110, 272);
+            button3.Location = new Point(26, 204);
             button3.Name = "button3";
             button3.Size = new Size(129, 59);
             button3.TabIndex = 2;
@@ -70,7 +70,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(418, 272);
+            button4.Location = new Point(216, 204);
             button4.Name = "button4";
             button4.Size = new Size(129, 59);
             button4.TabIndex = 3;
@@ -80,7 +80,7 @@
             // 
             // button5
             // 
-            button5.Location = new Point(418, 173);
+            button5.Location = new Point(216, 116);
             button5.Name = "button5";
             button5.Size = new Size(129, 59);
             button5.TabIndex = 4;
@@ -90,7 +90,7 @@
             // 
             // button6
             // 
-            button6.Location = new Point(418, 76);
+            button6.Location = new Point(216, 31);
             button6.Name = "button6";
             button6.Size = new Size(129, 59);
             button6.TabIndex = 5;
@@ -109,7 +109,7 @@
             // 
             // button7
             // 
-            button7.Location = new Point(656, 380);
+            button7.Location = new Point(121, 304);
             button7.Name = "button7";
             button7.Size = new Size(132, 58);
             button7.TabIndex = 7;
@@ -121,8 +121,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackgroundImage = Properties.Resources.rm222batch3_mind_12;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(404, 399);
             Controls.Add(button7);
             Controls.Add(labelRole);
             Controls.Add(button6);

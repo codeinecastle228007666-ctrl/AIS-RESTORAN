@@ -40,6 +40,7 @@ namespace _1.forms.bronirovanie
             comboBox2.DataSource = dt;
             comboBox2.DisplayMember = "nomer";
             comboBox2.ValueMember = "stol_id";
+
         }
 
         void LoadStatus()
@@ -67,6 +68,7 @@ namespace _1.forms.bronirovanie
     JOIN status_broni st ON b.status_broni_id = st.status_broni_id
     ORDER BY b.data_broni";
             dataGridView1.DataSource = Db.GetData(sql);
+            dataGridView1.Columns["ID"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 

@@ -20,7 +20,7 @@ namespace _1.forms.clients
             InitializeComponent();
         }
 
-        // Добавьте этот конструктор в класс clientsRedForm
+        
         public clientsRedForm(int id)
         {
             InitializeComponent();
@@ -66,6 +66,13 @@ namespace _1.forms.clients
             if (string.IsNullOrWhiteSpace(textBoxFIO.Text))
             {
                 MessageBox.Show("Пожалуйста, введите ФИО клиента.");
+                return;
+            }
+
+
+            if (!maskedTextBox1.MaskCompleted)
+            {
+                MessageBox.Show("Введите номер телефона");
                 return;
             }
 

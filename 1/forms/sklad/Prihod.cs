@@ -41,54 +41,119 @@ namespace _1.forms.sklad
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int productId = Convert.ToInt32(comboBox1.SelectedValue);
-            int postavId = Convert.ToInt32(comboBox2.SelectedValue);
-
-            if (!decimal.TryParse(textBox1.Text, out decimal kolvo) || kolvo <= 0)
-            {
-                MessageBox.Show("Неверное количество");
-                return;
-            }
-
-            if (!decimal.TryParse(textBox2.Text, out decimal cena) || cena <= 0)
-            {
-                MessageBox.Show("Неверная цена");
-                return;
-            }
-
-            string sql1 = @"
-        UPDATE sklad
-        SET kolichestvo = kolichestvo + @kolvo
-        WHERE product_id = @productId
-    ";
-
-            string sql2 = @"
-        INSERT INTO sklad_dvizhenie
-        (product_id, tip, kolichestvo, postavschik_id, cena)
-        VALUES
-        (@productId, 'IN', @kolvo, @postavId, @cena)
-    ";
-
             try
             {
-                Db.ekzekuttranzakcii(sql1,
-                    new NpgsqlParameter("@kolvo", kolvo),
-                    new NpgsqlParameter("@productId", productId)
-                );
+                // ========== 1. ПРОВЕРКА ВЫБОРА ==========
+                if (comboBox1.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Выберите продукт");
+                    return;
+                }
 
-                Db.ekzekuttranzakcii(sql2,
-                    new NpgsqlParameter("@productId", productId),
-                    new NpgsqlParameter("@kolvo", kolvo),
-                    new NpgsqlParameter("@postavId", postavId),
-                    new NpgsqlParameter("@cena", cena)
-                );
+                if (comboBox2.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Выберите поставщика");
+                    return;
+                }
 
-                MessageBox.Show("Приход сохранён");
+                // ========== 2. ПОЛУЧЕНИЕ ID ==========
+                if (comboBox1.SelectedValue == null || comboBox1.SelectedValue == DBNull.Value)
+                {
+                    MessageBox.Show("Ошибка: не удалось получить ID продукта");
+                    return;
+                }
+
+                if (comboBox2.SelectedValue == null || comboBox2.SelectedValue == DBNull.Value)
+                {
+                    MessageBox.Show("Ошибка: не удалось получить ID поставщика");
+                    return;
+                }
+
+                int productId = Convert.ToInt32(comboBox1.SelectedValue);
+                int postavId = Convert.ToInt32(comboBox2.SelectedValue);
+
+                // ========== 3. ПАРСИНГ ==========
+                System.Globalization.CultureInfo ruCulture = new System.Globalization.CultureInfo("ru-RU");
+
+                if (!decimal.TryParse(textBox1.Text, System.Globalization.NumberStyles.Any, ruCulture, out decimal kolvo) || kolvo <= 0)
+                {
+                    MessageBox.Show("Количество должно быть больше 0");
+                    return;
+                }
+
+                if (!decimal.TryParse(textBox2.Text, System.Globalization.NumberStyles.Any, ruCulture, out decimal cena) || cena <= 0)
+                {
+                    MessageBox.Show("Цена должна быть больше 0");
+                    return;
+                }
+
+                kolvo = Math.Round(kolvo, 3);
+                cena = Math.Round(cena, 2);
+
+                using var conn = Db.GetConnection();
+                conn.Open();
+                using var tr = conn.BeginTransaction();
+
+                // ========== ГЛАВНОЕ: Устанавливаем ID пользователя для триггера ==========
+                // Используем 1 как ID пользователя по умолчанию (можно заменить на реальный ID текущего пользователя)
+                string setUserId = "SET LOCAL app.user_id = '1'";
+                using (var setCmd = new NpgsqlCommand(setUserId, conn, tr))
+                {
+                    setCmd.ExecuteNonQuery();
+                }
+
+                // ========== 4. РАБОТА С sklad ==========
+                string checkSql = "SELECT COUNT(*) FROM sklad WHERE product_id = @productId";
+                using (var checkCmd = new NpgsqlCommand(checkSql, conn, tr))
+                {
+                    checkCmd.Parameters.Add("@productId", NpgsqlTypes.NpgsqlDbType.Integer).Value = productId;
+                    long count = (long)checkCmd.ExecuteScalar();
+
+                    if (count == 0)
+                    {
+                        string insertSql = @"INSERT INTO sklad (product_id, kolichestvo) VALUES (@productId, @kolvo)";
+                        using (var insertCmd = new NpgsqlCommand(insertSql, conn, tr))
+                        {
+                            insertCmd.Parameters.Add("@productId", NpgsqlTypes.NpgsqlDbType.Integer).Value = productId;
+                            insertCmd.Parameters.Add("@kolvo", NpgsqlTypes.NpgsqlDbType.Numeric).Value = kolvo;
+                            insertCmd.ExecuteNonQuery();
+                        }
+                    }
+                    else
+                    {
+                        string updateSql = @"UPDATE sklad SET kolichestvo = kolichestvo + @kolvo WHERE product_id = @productId";
+                        using (var updateCmd = new NpgsqlCommand(updateSql, conn, tr))
+                        {
+                            updateCmd.Parameters.Add("@kolvo", NpgsqlTypes.NpgsqlDbType.Numeric).Value = kolvo;
+                            updateCmd.Parameters.Add("@productId", NpgsqlTypes.NpgsqlDbType.Integer).Value = productId;
+                            updateCmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+
+                // ========== 5. ВСТАВКА В sklad_dvizhenie ==========
+                string kolvoStr = kolvo.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                string cenaStr = cena.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+                string sql2 = $@"
+            INSERT INTO sklad_dvizhenie
+            (product_id, zakaz_id, tip, kolichestvo, postavschik_id, cena, data_dvizheniya)
+            VALUES
+            ({productId}, NULL, 'IN', {kolvoStr}, {postavId}, {cenaStr}, now())
+        ";
+
+                using (var cmd2 = new NpgsqlCommand(sql2, conn, tr))
+                {
+                    cmd2.ExecuteNonQuery();
+                }
+
+                tr.Commit();
+                MessageBox.Show($"Приход сохранён!\n\nТовар: {comboBox1.Text}\nКоличество: {kolvo:0.000}\nЦена: {cena:0.00}", "Успех");
                 this.DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($" ОШИБКА: {ex.Message}\n\n{ex.StackTrace}", "Ошибка");
             }
         }
 
@@ -96,6 +161,37 @@ namespace _1.forms.sklad
         {
             LoadPostavshiki();
             LoadProducts();
+            textBox1.KeyPress += numeric_KeyPress;
+            textBox2.KeyPress += numeric_KeyPress;
+        }
+
+        private void numeric_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox box = sender as TextBox;
+
+            if (!char.IsDigit(e.KeyChar) &&
+                e.KeyChar != ',' &&
+                e.KeyChar != '\b')
+            {
+                e.Handled = true;
+            }
+
+            if (e.KeyChar == ',' && box.Text.Contains(","))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+            if (decimal.TryParse(textBox1.Text, out decimal value))
+                textBox1.Text = value.ToString("0.000");
+        }
+
+        private void textBox2_Leave(object sender, EventArgs e)
+        {
+            if (decimal.TryParse(textBox2.Text, out decimal value))
+                textBox2.Text = value.ToString("0.00");
         }
     }
 }

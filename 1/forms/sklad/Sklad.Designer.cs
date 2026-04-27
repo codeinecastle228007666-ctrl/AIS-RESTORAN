@@ -31,6 +31,7 @@
             dataGridView1 = new DataGridView();
             button1 = new Button();
             button2 = new Button();
+            buttonZayavka = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -65,11 +66,22 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // buttonZayavka
+            // 
+            buttonZayavka.Location = new Point(184, 352);
+            buttonZayavka.Name = "buttonZayavka";
+            buttonZayavka.Size = new Size(139, 55);
+            buttonZayavka.TabIndex = 3;
+            buttonZayavka.Text = "Оформить заявку на поставку";
+            buttonZayavka.UseVisualStyleBackColor = true;
+            buttonZayavka.Click += buttonZayavka_Click;
+            // 
             // Sklad
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(buttonZayavka);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
@@ -85,5 +97,6 @@
         private DataGridView dataGridView1;
         private Button button1;
         private Button button2;
+        private Button buttonZayavka;
     }
 }

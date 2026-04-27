@@ -3,12 +3,84 @@
   "WorkspaceRootPath": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\dumprestore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\dumprestore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\zayavkapostavshiku.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\sklad\\zayavkapostavshiku.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\zayavkapostavshiku.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\sklad\\zayavkapostavshiku.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\zayavkapostavshiku.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\sklad\\zayavkapostavshiku.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\sklad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\sklad\\sklad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\sklad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\sklad\\sklad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\prihod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\sklad\\prihod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\prihod.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\sklad\\prihod.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\zakazi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\zakazo\\zakazi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\zakazi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\zakazo\\zakazi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\bronirovanie\\bronirovanieform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\bronirovanie\\bronirovanieform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\data\\db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\data\\db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\prihod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\sklad\\prihod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\clientsredform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\clients\\clientsredform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\clientsredform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\clients\\clientsredform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\clienti.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\clients\\clienti.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\session.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\session.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\puti_dlya_rk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\puti_dlya_rk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\dumprestore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\dumprestore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\dumprestore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -19,28 +91,12 @@
       "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\zakazo\\oplata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\puti_dlya_rk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\puti_dlya_rk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\data\\db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\data\\db.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\zaprosi\\fin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\zaprosi\\fin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\zaprosi\\fin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\zaprosi\\fin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\bronirovanie\\bronirovanieform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\bronirovanie\\bronirovanieform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\bronirovanie\\bronirovanieform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -53,14 +109,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\clienti.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\clients\\clienti.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\clienti.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\clients\\clienti.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\clientsredform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\clients\\clientsredform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\menu\\bludoeditform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -81,10 +129,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\menu\\sostavbludaform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\menu\\sostavbludaform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\prihod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\sklad\\prihod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\dobavlenie_bludaform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -111,14 +155,6 @@
       "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\zakazo\\redzakazaform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\zakazi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\zakazo\\zakazi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\zakazi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\zakazo\\zakazi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\skladjournal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\sklad\\skladjournal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -127,20 +163,8 @@
       "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\sklad\\skladjournal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\sklad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\sklad\\sklad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\sklad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\sklad\\sklad.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\auth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\auth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|z:\\users\\yasuo\\desktop\\graaaaaaaaaaa\\1\\1\\forms\\session.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|solutionrelative:1\\forms\\session.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AE18BA73-2FF7-49DD-95D8-744357956144}|1\\1.csproj|Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\auth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -162,7 +186,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -174,45 +198,133 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
+              "Title": "ZayavkaPostavshiku.cs",
+              "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\ZayavkaPostavshiku.cs",
+              "RelativeDocumentMoniker": "1\\forms\\sklad\\ZayavkaPostavshiku.cs",
+              "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\ZayavkaPostavshiku.cs",
+              "RelativeToolTip": "1\\forms\\sklad\\ZayavkaPostavshiku.cs",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAmwMQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T18:48:26.723Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ZayavkaPostavshiku.Designer.cs",
+              "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\ZayavkaPostavshiku.Designer.cs",
+              "RelativeDocumentMoniker": "1\\forms\\sklad\\ZayavkaPostavshiku.Designer.cs",
+              "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\ZayavkaPostavshiku.Designer.cs",
+              "RelativeToolTip": "1\\forms\\sklad\\ZayavkaPostavshiku.Designer.cs",
+              "ViewState": "AgIAAHEAAAAAAAAAAAAuwJUAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T18:47:26.306Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ZayavkaPostavshiku.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\ZayavkaPostavshiku.cs",
+              "RelativeDocumentMoniker": "1\\forms\\sklad\\ZayavkaPostavshiku.cs",
+              "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\ZayavkaPostavshiku.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "1\\forms\\sklad\\ZayavkaPostavshiku.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T18:47:05.781Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Prihod.Designer.cs",
+              "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\Prihod.Designer.cs",
+              "RelativeDocumentMoniker": "1\\forms\\sklad\\Prihod.Designer.cs",
+              "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\Prihod.Designer.cs",
+              "RelativeToolTip": "1\\forms\\sklad\\Prihod.Designer.cs",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAcwGUAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T17:58:47.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Prihod.cs",
+              "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\Prihod.cs",
+              "RelativeDocumentMoniker": "1\\forms\\sklad\\Prihod.cs",
+              "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\Prihod.cs",
+              "RelativeToolTip": "1\\forms\\sklad\\Prihod.cs",
+              "ViewState": "AgIAAKIAAAAAAAAAAAAAwMQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T17:48:17.492Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "clientsRedForm.cs",
+              "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\clientsRedForm.cs",
+              "RelativeDocumentMoniker": "1\\forms\\clients\\clientsRedForm.cs",
+              "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\clientsRedForm.cs",
+              "RelativeToolTip": "1\\forms\\clients\\clientsRedForm.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAwwEgAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-27T17:41:04.314Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "clientsRedForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\clientsRedForm.cs",
+              "RelativeDocumentMoniker": "1\\forms\\clients\\clientsRedForm.cs",
+              "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\clientsRedForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "1\\forms\\clients\\clientsRedForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T15:38:28.7Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
               "Title": "Puti_dlya_rk.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\Puti_dlya_rk.cs",
               "RelativeDocumentMoniker": "1\\forms\\Puti_dlya_rk.cs",
               "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\Puti_dlya_rk.cs",
               "RelativeToolTip": "1\\forms\\Puti_dlya_rk.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAwwCUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-15T16:45:59.403Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 19,
               "Title": "DumpRestore.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\DumpRestore.cs",
               "RelativeDocumentMoniker": "1\\forms\\DumpRestore.cs",
               "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\DumpRestore.cs",
               "RelativeToolTip": "1\\forms\\DumpRestore.cs",
-              "ViewState": "AgIAAOsAAAAAAAAAAAAqwAoBAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAALcAAAAAAAAAAAAwwMgAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-15T16:36:48.408Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 20,
               "Title": "DumpRestore.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\DumpRestore.cs",
               "RelativeDocumentMoniker": "1\\forms\\DumpRestore.cs",
               "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\DumpRestore.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "1\\forms\\DumpRestore.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-15T16:35:05.674Z",
-              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+              "WhenOpened": "2026-04-15T16:35:05.674Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 22,
               "Title": "Fin.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\zaprosi\\Fin.cs",
               "RelativeDocumentMoniker": "1\\zaprosi\\Fin.cs",
@@ -225,7 +337,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 23,
               "Title": "Fin.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\zaprosi\\Fin.cs",
               "RelativeDocumentMoniker": "1\\zaprosi\\Fin.cs",
@@ -236,7 +348,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 26,
               "Title": "Clienti.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\Clienti.cs",
               "RelativeDocumentMoniker": "1\\forms\\clients\\Clienti.cs",
@@ -249,29 +361,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "Clienti.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\Clienti.cs",
               "RelativeDocumentMoniker": "1\\forms\\clients\\Clienti.cs",
               "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\Clienti.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "1\\forms\\clients\\Clienti.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T15:38:30.105Z"
+              "WhenOpened": "2026-04-14T15:38:30.105Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "clientsRedForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\clientsRedForm.cs",
-              "RelativeDocumentMoniker": "1\\forms\\clients\\clientsRedForm.cs",
-              "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\clients\\clientsRedForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "RelativeToolTip": "1\\forms\\clients\\clientsRedForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T15:38:28.7Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 27,
               "Title": "BludoEditForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\Menu\\BludoEditForm.cs",
               "RelativeDocumentMoniker": "1\\forms\\Menu\\BludoEditForm.cs",
@@ -282,7 +384,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 30,
               "Title": "SostavBludaForm.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\Menu\\SostavBludaForm.cs",
               "RelativeDocumentMoniker": "1\\forms\\Menu\\SostavBludaForm.cs",
@@ -295,7 +397,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 31,
               "Title": "SostavBludaForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\Menu\\SostavBludaForm.cs",
               "RelativeDocumentMoniker": "1\\forms\\Menu\\SostavBludaForm.cs",
@@ -306,18 +408,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 11,
               "Title": "Prihod.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\Prihod.cs",
               "RelativeDocumentMoniker": "1\\forms\\sklad\\Prihod.cs",
               "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\Prihod.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "1\\forms\\sklad\\Prihod.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T15:38:13.853Z"
+              "WhenOpened": "2026-04-14T15:38:13.853Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 32,
               "Title": "dobavlenie_bludaForm.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\dobavlenie_bludaForm.cs",
               "RelativeDocumentMoniker": "1\\forms\\zakazo\\dobavlenie_bludaForm.cs",
@@ -330,7 +433,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 35,
               "Title": "zakazi_itemsForm.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\zakazi_itemsForm.cs",
               "RelativeDocumentMoniker": "1\\forms\\zakazo\\zakazi_itemsForm.cs",
@@ -343,7 +446,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 36,
               "Title": "zakazi_itemsForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\zakazi_itemsForm.cs",
               "RelativeDocumentMoniker": "1\\forms\\zakazo\\zakazi_itemsForm.cs",
@@ -354,20 +457,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 7,
               "Title": "Zakazi.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\Zakazi.cs",
               "RelativeDocumentMoniker": "1\\forms\\zakazo\\Zakazi.cs",
               "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\Zakazi.cs",
               "RelativeToolTip": "1\\forms\\zakazo\\Zakazi.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAowDgAAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAACgAAAAAAAAAAAAkwEEAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-14T15:36:50.88Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 8,
+              "Title": "Zakazi.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\Zakazi.cs",
+              "RelativeDocumentMoniker": "1\\forms\\zakazo\\Zakazi.cs",
+              "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\Zakazi.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "RelativeToolTip": "1\\forms\\zakazo\\Zakazi.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-26T13:20:46.784Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
               "Title": "MenuForm.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\Menu\\MenuForm.cs",
               "RelativeDocumentMoniker": "1\\forms\\Menu\\MenuForm.cs",
@@ -380,7 +495,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 29,
               "Title": "MenuForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\Menu\\MenuForm.cs",
               "RelativeDocumentMoniker": "1\\forms\\Menu\\MenuForm.cs",
@@ -391,7 +506,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 38,
               "Title": "SkladJournal.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\SkladJournal.cs",
               "RelativeDocumentMoniker": "1\\forms\\sklad\\SkladJournal.cs",
@@ -404,7 +519,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 39,
               "Title": "SkladJournal.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\SkladJournal.cs",
               "RelativeDocumentMoniker": "1\\forms\\sklad\\SkladJournal.cs",
@@ -415,27 +530,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 3,
               "Title": "Sklad.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\Sklad.cs",
               "RelativeDocumentMoniker": "1\\forms\\sklad\\Sklad.cs",
               "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\Sklad.cs",
               "RelativeToolTip": "1\\forms\\sklad\\Sklad.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAACUAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAMwFUAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-14T15:35:39.955Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 4,
               "Title": "Sklad.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\Sklad.cs",
               "RelativeDocumentMoniker": "1\\forms\\sklad\\Sklad.cs",
               "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\sklad\\Sklad.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "1\\forms\\sklad\\Sklad.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T15:35:33.764Z"
+              "WhenOpened": "2026-04-14T15:35:33.764Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
             },
             {
               "$type": "Document",
@@ -445,14 +561,14 @@
               "RelativeDocumentMoniker": "1\\forms\\bronirovanie\\BronirovanieForm.cs",
               "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\bronirovanie\\BronirovanieForm.cs",
               "RelativeToolTip": "1\\forms\\bronirovanie\\BronirovanieForm.cs",
-              "ViewState": "AgIAANYAAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAIwEcAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-10T18:36:24.068Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 24,
               "Title": "BronirovanieForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\bronirovanie\\BronirovanieForm.cs",
               "RelativeDocumentMoniker": "1\\forms\\bronirovanie\\BronirovanieForm.cs",
@@ -463,7 +579,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 21,
               "Title": "oplata.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\oplata.cs",
               "RelativeDocumentMoniker": "1\\forms\\zakazo\\oplata.cs",
@@ -476,7 +592,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 34,
               "Title": "oplata.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\oplata.cs",
               "RelativeDocumentMoniker": "1\\forms\\zakazo\\oplata.cs",
@@ -487,7 +603,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 43,
               "Title": "ZalForm.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\bronirovanie\\ZalForm.cs",
               "RelativeDocumentMoniker": "1\\forms\\bronirovanie\\ZalForm.cs",
@@ -500,7 +616,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 25,
               "Title": "ZalForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\bronirovanie\\ZalForm.cs",
               "RelativeDocumentMoniker": "1\\forms\\bronirovanie\\ZalForm.cs",
@@ -511,7 +627,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 37,
               "Title": "redzakazaform.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\redzakazaform.cs",
               "RelativeDocumentMoniker": "1\\forms\\zakazo\\redzakazaform.cs",
@@ -522,7 +638,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 33,
               "Title": "dobavlenie_bludaForm.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\dobavlenie_bludaForm.cs",
               "RelativeDocumentMoniker": "1\\forms\\zakazo\\dobavlenie_bludaForm.cs",
@@ -533,19 +649,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "db.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\data\\db.cs",
               "RelativeDocumentMoniker": "1\\data\\db.cs",
               "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\data\\db.cs",
               "RelativeToolTip": "1\\data\\db.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAH0AAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-10T17:48:42.986Z"
+              "WhenOpened": "2026-04-10T17:48:42.986Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 15,
               "Title": "Session.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\Session.cs",
               "RelativeDocumentMoniker": "1\\forms\\Session.cs",
@@ -553,22 +670,12 @@
               "RelativeToolTip": "1\\forms\\Session.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-10T16:34:46.172Z"
+              "WhenOpened": "2026-04-10T16:34:46.172Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "Zakazi.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\Zakazi.cs",
-              "RelativeDocumentMoniker": "1\\forms\\zakazo\\Zakazi.cs",
-              "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\zakazo\\Zakazi.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "RelativeToolTip": "1\\forms\\zakazo\\Zakazi.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-26T13:20:46.784Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 42,
               "Title": "Program.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\Program.cs",
               "RelativeDocumentMoniker": "1\\Program.cs",
@@ -580,7 +687,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 40,
               "Title": "Auth.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\Auth.cs",
               "RelativeDocumentMoniker": "1\\forms\\Auth.cs",
@@ -593,7 +700,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 41,
               "Title": "Auth.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\Auth.cs",
               "RelativeDocumentMoniker": "1\\forms\\Auth.cs",
@@ -604,7 +711,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 17,
               "Title": "Main.cs",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\Main.cs",
               "RelativeDocumentMoniker": "1\\forms\\Main.cs",
@@ -617,14 +724,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 16,
               "Title": "Main.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "DocumentMoniker": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\Main.cs",
               "RelativeDocumentMoniker": "1\\forms\\Main.cs",
               "ToolTip": "Z:\\Users\\yasuo\\Desktop\\graaaaaaaaaaa\\1\\1\\forms\\Main.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "RelativeToolTip": "1\\forms\\Main.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-09T06:34:36.132Z"
+              "WhenOpened": "2026-03-09T06:34:36.132Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0442\u043E\u0440]"
             }
           ]
         }

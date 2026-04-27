@@ -77,10 +77,14 @@ namespace _1.forms
 
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
         {
-           
+
         }
 
-      
+        private void buttonZayavka_Click(object sender, EventArgs e)
+        {
+            ZayavkaPostavshiku form = new ZayavkaPostavshiku();
+            form.ShowDialog();
+        }
     }
 
 }

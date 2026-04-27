@@ -40,6 +40,9 @@
     <Compile Update="forms\sklad\SkladJournal.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="forms\sklad\ZayavkaPostavshiku.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="forms\zakazo\oplata.cs">
       <SubType>Form</SubType>
     </Compile>
