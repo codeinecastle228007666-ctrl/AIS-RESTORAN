@@ -19,6 +19,9 @@
     <Compile Update="forms\DumpRestore.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="forms\HelpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="forms\Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -31,6 +34,9 @@
     <Compile Update="forms\Menu\SostavBludaForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="forms\hr\SelectRoleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="forms\sklad\Prihod.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -41,6 +47,12 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="forms\sklad\ZayavkaPostavshiku.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="forms\hr\SotrudnikEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="forms\hr\SotrudnikiForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="forms\zakazo\oplata.cs">

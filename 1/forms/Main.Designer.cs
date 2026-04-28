@@ -36,11 +36,13 @@
             button6 = new Button();
             labelRole = new Label();
             button7 = new Button();
+            button8 = new Button();
+            button9 = new Button();
             SuspendLayout();
             // 
             // button1
             // 
-            button1.Location = new Point(26, 31);
+            button1.Location = new Point(26, 77);
             button1.Name = "button1";
             button1.Size = new Size(129, 59);
             button1.TabIndex = 0;
@@ -50,7 +52,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(26, 116);
+            button2.Location = new Point(26, 160);
             button2.Name = "button2";
             button2.Size = new Size(129, 59);
             button2.TabIndex = 1;
@@ -60,7 +62,7 @@
             // 
             // button3
             // 
-            button3.Location = new Point(26, 204);
+            button3.Location = new Point(26, 243);
             button3.Name = "button3";
             button3.Size = new Size(129, 59);
             button3.TabIndex = 2;
@@ -70,7 +72,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(216, 204);
+            button4.Location = new Point(216, 243);
             button4.Name = "button4";
             button4.Size = new Size(129, 59);
             button4.TabIndex = 3;
@@ -80,7 +82,7 @@
             // 
             // button5
             // 
-            button5.Location = new Point(216, 116);
+            button5.Location = new Point(216, 160);
             button5.Name = "button5";
             button5.Size = new Size(129, 59);
             button5.TabIndex = 4;
@@ -90,7 +92,7 @@
             // 
             // button6
             // 
-            button6.Location = new Point(216, 31);
+            button6.Location = new Point(216, 77);
             button6.Name = "button6";
             button6.Size = new Size(129, 59);
             button6.TabIndex = 5;
@@ -109,19 +111,42 @@
             // 
             // button7
             // 
-            button7.Location = new Point(121, 304);
+            button7.Location = new Point(263, 392);
             button7.Name = "button7";
-            button7.Size = new Size(132, 58);
+            button7.Size = new Size(129, 58);
             button7.TabIndex = 7;
             button7.Text = "Резервное копирование";
             button7.UseVisualStyleBackColor = true;
             button7.Click += button7_Click;
             // 
+            // button8
+            // 
+            button8.Location = new Point(26, 328);
+            button8.Name = "button8";
+            button8.Size = new Size(129, 58);
+            button8.TabIndex = 8;
+            button8.Text = "Сотрудники";
+            button8.UseVisualStyleBackColor = true;
+            button8.Click += button8_Click;
+            // 
+            // button9
+            // 
+            button9.Font = new Font("Segoe UI", 15F);
+            button9.Location = new Point(338, 12);
+            button9.Name = "button9";
+            button9.Size = new Size(54, 46);
+            button9.TabIndex = 9;
+            button9.Text = "?";
+            button9.UseVisualStyleBackColor = true;
+            button9.Click += button9_Click;
+            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(404, 399);
+            ClientSize = new Size(404, 462);
+            Controls.Add(button9);
+            Controls.Add(button8);
             Controls.Add(button7);
             Controls.Add(labelRole);
             Controls.Add(button6);
@@ -148,5 +173,7 @@
         private Button button6;
         private Label labelRole;
         private Button button7;
+        private Button button8;
+        private Button button9;
     }
 }

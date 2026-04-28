@@ -106,6 +106,7 @@ namespace _1
                 button4.Enabled = false;
                 button3.Enabled = false;
                 button7.Enabled = false;
+                button8.Enabled = false;
             }
 
             if (Session.RoleId == 2) // повар
@@ -114,6 +115,7 @@ namespace _1
                 button2.Enabled = false;
                 button4.Enabled = false;
                 button7.Enabled = false;
+                button8.Enabled = false;
             }
 
             if (Session.RoleId == 3) // шеф
@@ -122,6 +124,7 @@ namespace _1
                 button2.Enabled = false;
                 button5.Enabled = false;
                 button7.Enabled = false;
+                button8.Enabled = false;
             }
 
             if (Session.RoleId == 4) // руководитель
@@ -267,6 +270,17 @@ namespace _1
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
             }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            SotrudnikiForm form = new SotrudnikiForm();
+            form.ShowDialog();
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            new HelpForm().ShowDialog();
         }
     }
 }

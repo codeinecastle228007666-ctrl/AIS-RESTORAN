@@ -111,8 +111,8 @@ namespace _1.forms.sklad
 Товар: {product}
 Количество: {kolvo:0.000}
 Статус: {status}
-========================================
-Примечание: Заявка сформирована автоматически
+
+Поставщик: _______     Получатель: ________
 Дата создания: {DateTime.Now:dd.MM.yyyy HH:mm:ss}";
 
                 System.IO.File.WriteAllText(filePath, content, Encoding.UTF8);
