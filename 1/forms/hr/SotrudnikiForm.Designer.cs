@@ -16,7 +16,8 @@
             buttonAdd = new Button();
             buttonEdit = new Button();
             buttonDelete = new Button();
-            this.buttonCreateUser = new Button();
+            buttonCreateUser = new Button();
+            buttonSalary = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -43,7 +44,7 @@
             // 
             buttonEdit.Location = new Point(130, 370);
             buttonEdit.Name = "buttonEdit";
-            buttonEdit.Size = new Size(100, 40);
+            buttonEdit.Size = new Size(112, 40);
             buttonEdit.TabIndex = 2;
             buttonEdit.Text = "Редактировать";
             buttonEdit.UseVisualStyleBackColor = true;
@@ -58,23 +59,34 @@
             buttonDelete.Text = "Удалить";
             buttonDelete.UseVisualStyleBackColor = true;
             buttonDelete.Click += buttonDelete_Click;
-
+            // 
             // buttonCreateUser
             // 
-            this.buttonCreateUser.Location = new Point(366, 370); // подбери координаты
-            this.buttonCreateUser.Name = "buttonCreateUser";
-            this.buttonCreateUser.Size = new Size(120, 40);
-            this.buttonCreateUser.TabIndex = 4;
-            this.buttonCreateUser.Text = "Создать\nучётную запись";
-            this.buttonCreateUser.UseVisualStyleBackColor = true;
-            this.buttonCreateUser.Click += new EventHandler(this.buttonCreateUser_Click);
-            this.Controls.Add(this.buttonCreateUser);
+            buttonCreateUser.Location = new Point(366, 370);
+            buttonCreateUser.Name = "buttonCreateUser";
+            buttonCreateUser.Size = new Size(120, 40);
+            buttonCreateUser.TabIndex = 4;
+            buttonCreateUser.Text = "Создать\nучётную запись";
+            buttonCreateUser.UseVisualStyleBackColor = true;
+            buttonCreateUser.Click += buttonCreateUser_Click;
+            // 
+            // buttonSalary
+            // 
+            buttonSalary.Location = new Point(508, 370);
+            buttonSalary.Name = "buttonSalary";
+            buttonSalary.Size = new Size(112, 40);
+            buttonSalary.TabIndex = 5;
+            buttonSalary.Text = "Расчет зарплаты";
+            buttonSalary.UseVisualStyleBackColor = true;
+            buttonSalary.Click += buttonSalary_Click;
             // 
             // SotrudnikiForm
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(buttonSalary);
+            Controls.Add(buttonCreateUser);
             Controls.Add(buttonDelete);
             Controls.Add(buttonEdit);
             Controls.Add(buttonAdd);
@@ -90,5 +102,6 @@
         private Button buttonEdit;
         private Button buttonDelete;
         private Button buttonCreateUser;
+        private Button buttonSalary;
     }
 }

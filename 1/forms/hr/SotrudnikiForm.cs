@@ -152,5 +152,21 @@ namespace _1.forms
                 MessageBox.Show("Ошибка: " + ex.Message);
             }
         }
+
+        private void buttonSalary_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentRow == null)
+            {
+                MessageBox.Show("Выберите сотрудника.");
+                return;
+            }
+
+            int sotrudnikId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
+            string fio = dataGridView1.CurrentRow.Cells["ФИО"].Value.ToString();
+            string dolzhnost = dataGridView1.CurrentRow.Cells["Должность"].Value.ToString();
+
+            var form = new SalaryForm(sotrudnikId, fio, dolzhnost);
+            form.ShowDialog();
+        }
     }
 }

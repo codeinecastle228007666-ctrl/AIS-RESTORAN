@@ -139,3 +139,4 @@ Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.Sotru
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.SotrudnikiForm.resources
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.SelectRoleForm.resources
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.HelpForm.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.SalaryForm.resources
