@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
+            textBoxSearch = new TextBox();
+            labelSearch = new Label();
             button1 = new Button();
             button2 = new Button();
             button4 = new Button();
@@ -48,6 +50,24 @@
             dataGridView1.Size = new Size(800, 280);
             dataGridView1.TabIndex = 0;
             dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
+            // 
+            // textBoxSearch
+            // 
+            textBoxSearch.Location = new Point(538, 290);
+            textBoxSearch.Name = "textBoxSearch";
+            textBoxSearch.PlaceholderText = "Поиск по клиенту, сотруднику...";
+            textBoxSearch.Size = new Size(250, 23);
+            textBoxSearch.TabIndex = 9;
+            textBoxSearch.TextChanged += textBoxSearch_TextChanged;
+            // 
+            // labelSearch
+            // 
+            labelSearch.AutoSize = true;
+            labelSearch.Location = new Point(427, 293);
+            labelSearch.Name = "labelSearch";
+            labelSearch.Size = new Size(105, 14);
+            labelSearch.TabIndex = 10;
+            labelSearch.Text = "Поиск заказов:";
             // 
             // button1
             // 
@@ -123,6 +143,8 @@
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 475);
+            Controls.Add(labelSearch);
+            Controls.Add(textBoxSearch);
             Controls.Add(button6);
             Controls.Add(label1);
             Controls.Add(comboBox1);
@@ -149,5 +171,7 @@
         private ComboBox comboBox1;
         private Label label1;
         private Button button6;
+        private TextBox textBoxSearch;
+        private Label labelSearch;
     }
 }

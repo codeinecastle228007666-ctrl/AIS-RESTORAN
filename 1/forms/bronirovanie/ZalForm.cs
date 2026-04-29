@@ -88,7 +88,7 @@ namespace _1.forms.bronirovanie
     SELECT COUNT(*)
     FROM bronirovanie
     WHERE stol_id = @stolId
-    AND status_broni_id <> 3
+    AND status_broni_id NOT IN (3, 4, 5)
     AND (
           data_broni < @end
           AND data_broni + interval '2 hour' > @start

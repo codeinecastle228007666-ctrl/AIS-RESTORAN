@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using _1.data;
+using Npgsql;
 
 namespace _1.forms
 {
@@ -19,17 +14,14 @@ namespace _1.forms
             InitializeComponent();
             _zakazId = zakazId;
         }
-        
-        private void oplata_Load(object sender, EventArgs e) //загрузка данных при открытии формы
+
+        private void oplata_Load(object sender, EventArgs e)
         {
-            string checksql = $@"
-                SELECT COUNT(*) 
-                FROM oplata 
-                WHERE zakaz_id = {_zakazId}
-            ";
+            string checksql = "SELECT COUNT(*) FROM oplata WHERE zakaz_id = @zakaz";
             try
             {
-                var checkTable = Db.GetData(checksql);
+                var checkTable = Db.GetData(checksql,
+                    new NpgsqlParameter("@zakaz", _zakazId));
 
                 if (checkTable.Rows.Count == 0)
                 {
@@ -51,7 +43,6 @@ namespace _1.forms
             }
 
             string sql = "SELECT sposob_oplati_id, nazvanie FROM sposob_oplati";
-
             comboBox1.DataSource = Db.GetData(sql);
             comboBox1.DisplayMember = "nazvanie";
             comboBox1.ValueMember = "sposob_oplati_id";
@@ -59,15 +50,10 @@ namespace _1.forms
             LoadSumma();
         }
 
-        private void LoadSumma() //подгрузка суммы заказа для отображения в текстовом поле
+        private void LoadSumma()
         {
-            string sql = $@"
-            SELECT SUM (kolichestvo * cena)
-            FROM sostav_zakaza
-            WHERE zakaz_id = {_zakazId}
-            ";
-
-            var table = Db.GetData(sql);
+            string sql = "SELECT SUM(kolichestvo * cena) FROM sostav_zakaza WHERE zakaz_id = @zakaz";
+            var table = Db.GetData(sql, new NpgsqlParameter("@zakaz", _zakazId));
 
             if (table.Rows.Count > 0 && table.Rows[0][0] != DBNull.Value)
             {
@@ -77,34 +63,46 @@ namespace _1.forms
             {
                 textBox1.Text = "0";
             }
-
-
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (comboBox1.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите способ оплаты");
+                return;
+            }
+
             int sposobOplatiId = Convert.ToInt32(comboBox1.SelectedValue);
             decimal summa = Convert.ToDecimal(textBox1.Text);
 
+            if (summa <= 0)
+            {
+                MessageBox.Show("Заказ не содержит позиций для оплаты");
+                return;
+            }
+
             string sql = @"
-        INSERT INTO oplata (zakaz_id, data_oplati, sposob_oplati_id, summa)
-        VALUES (@zakaz, NOW(), @sposob, @summa);
+                CALL sp_make_oplata(@p_zakaz_id, @p_sposob_oplati_id);
+                UPDATE zakazi SET status_zakaza_id = 5 WHERE zakaz_id = @zakaz;
+            ";
 
-        UPDATE zakazi
-        SET status_zakaza_id = 5
-        WHERE zakaz_id = @zakaz;
-    ";
+            try
+            {
+                Db.ekzekuttranzakcii(sql,
+                    new NpgsqlParameter("@p_zakaz_id", _zakazId),
+                    new NpgsqlParameter("@p_sposob_oplati_id", sposobOplatiId),
+                    new NpgsqlParameter("@zakaz", _zakazId)
+                );
 
-            Db.ekzekuttranzakcii(sql,
-                new Npgsql.NpgsqlParameter("@zakaz", _zakazId),
-                new Npgsql.NpgsqlParameter("@sposob", sposobOplatiId),
-                new Npgsql.NpgsqlParameter("@summa", summa)
-            );
-
-            MessageBox.Show("Оплата успешно проведена!");
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+                MessageBox.Show("Оплата успешно проведена!");
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка оплаты:\n" + ex.Message);
+            }
         }
-
     }
 }

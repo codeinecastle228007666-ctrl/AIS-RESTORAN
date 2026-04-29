@@ -48,13 +48,6 @@ AND u.password_hash = crypt(@p, u.password_hash)
                 Session.UserId = Convert.ToInt32(dt.Rows[0]["user_id"]);
                 Session.RoleId = Convert.ToInt32(dt.Rows[0]["role_id"]);
                 Session.RoleName = dt.Rows[0]["role_name"].ToString();
-                Session.ApplyToDb();
-                Db.Execute(
-"INSERT INTO login_log(user_id, success) VALUES(@u, true)",
-new NpgsqlParameter("@u", Session.UserId)
-);
-
-               
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();

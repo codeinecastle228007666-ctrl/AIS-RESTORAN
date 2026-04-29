@@ -1,10 +1,7 @@
 ﻿using _1.data;
 using Npgsql;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 namespace _1.forms
 {
     public static class Session
@@ -16,7 +13,10 @@ namespace _1.forms
         public static void ApplyToDb()
         {
             string sql = "SELECT set_config('app.user_id', @id, false)";
-            Db.Execute(sql, new NpgsqlParameter("@id", UserId.ToString()));
+            var conn = Db.GetSessionConnection();
+            using var cmd = new NpgsqlCommand(sql, conn);
+            cmd.Parameters.Add("@id", NpgsqlTypes.NpgsqlDbType.Text).Value = UserId.ToString();
+            cmd.ExecuteNonQuery();
         }
     }
 }

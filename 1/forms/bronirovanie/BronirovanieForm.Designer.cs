@@ -56,6 +56,7 @@
             dataGridView1.Size = new Size(800, 304);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
+            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
             // 
             // comboBox1
             // 

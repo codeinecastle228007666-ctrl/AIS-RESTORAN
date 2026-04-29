@@ -19,33 +19,27 @@ namespace _1
         public Zakazi()
         {
             InitializeComponent();
-            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged; //подписываемся на событие изменения выделения в таблице для подгрузки доступных статусов
-
-            // подписка (например в конструкторе)
+            dataGridView1.SelectionChanged += dataGridView1_SelectionChanged;
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
         }
 
-        private void button1_Click(object sender, EventArgs e) //кнопка добавления нового заказа
+        private void button1_Click(object sender, EventArgs e)
         {
             redzakazaform redForm = new redzakazaform();
-
             if (redForm.ShowDialog() == DialogResult.OK)
             {
-                LoadZakazi(); //обновляем данные в таблице после добавления нового заказа
+                LoadZakazi(textBoxSearch.Text);
             }
         }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void button2_Click(object sender, EventArgs e) { }
 
         private void Zakazi_Load(object sender, EventArgs e)
         {
-            LoadZakazi();
+            LoadZakazi("");
         }
 
-        private void LoadZakazi() //дефолт загрузка всех нужных полей в таблицу
+        private void LoadZakazi(string search)
         {
             string sql = @"
                 SELECT 
@@ -59,13 +53,30 @@ namespace _1
                     JOIN client c ON c.client_id = z.client_id
                     JOIN sotrudniki s ON s.sotrudnik_id = z.sotrudnik_id
                     JOIN status_zakaza sz ON sz.status_zakaza_id = z.status_zakaza_id
-                    ORDER BY z.data_zakaza DESC
+            ";
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                sql += @"
+                    WHERE LOWER(c.fio) LIKE @search
+                    OR LOWER(s.fio) LIKE @search
+                    OR z.zakaz_id::text LIKE @search
                 ";
-            dataGridView1.DataSource = Db.GetData(sql);
-            dataGridView1.Columns["StatusID"].Visible = false; //скрываем столбец с ID статуса
+            }
+
+            sql += " ORDER BY z.data_zakaza DESC";
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                dataGridView1.DataSource = Db.GetData(sql, new Npgsql.NpgsqlParameter("@search", $"%{search.ToLower()}%"));
+            }
+            else
+            {
+                dataGridView1.DataSource = Db.GetData(sql);
+            }
+            dataGridView1.Columns["StatusID"].Visible = false;
             dataGridView1.Columns["ID"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            
 
             if (dataGridView1.Rows.Count > 0)
             {
@@ -73,7 +84,12 @@ namespace _1
             }
         }
 
-        private void button4_Click(object sender, EventArgs e) //кнопка оплаты заказа
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadZakazi(textBoxSearch.Text);
+        }
+
+        private void button4_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
             int zakazId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
@@ -81,12 +97,11 @@ namespace _1
 
             if (oplataForm.ShowDialog() == DialogResult.OK)
             {
-                LoadZakazi(); //обновляем данные в таблице после оплаты
+                LoadZakazi(textBoxSearch.Text);
             }
-
         }
 
-        private void button5_click(object sender, EventArgs e) //кнопка просмотра состава заказа
+        private void button5_click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
             int zakazId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
@@ -94,23 +109,17 @@ namespace _1
             sostavForm.ShowDialog();
         }
 
-        private bool _loadingstatuses = false; //флаг для предотвращения рекурсии при загрузке статусов
-        private int _currentStatusId; //значение статуса заказа
-        private void LoadAvailableStatuses(int currentStatusId) //загрузка доступных статусов для изменения в комбобокс при выборе заказа
-        {
+        private bool _loadingstatuses = false;
+        private int _currentStatusId;
 
+        private void LoadAvailableStatuses(int currentStatusId)
+        {
             _loadingstatuses = true;
             _currentStatusId = currentStatusId;
 
-
-            string sql = @"
-        SELECT status_zakaza_id, nazvanie
-        FROM status_zakaza
-    ";
-
+            string sql = "SELECT status_zakaza_id, nazvanie FROM status_zakaza";
             var table = Db.GetData(sql);
 
-            // фильтрация допустимых переходов
             var allowed = table.AsEnumerable()
                 .Where(row => IsTransitionAllowed(currentStatusId,
                     row.Field<int>("status_zakaza_id")));
@@ -128,54 +137,45 @@ namespace _1
                 comboBox1.Enabled = false;
             }
 
-
             button6.Enabled = false;
-
             _loadingstatuses = false;
         }
 
-        private bool IsTransitionAllowed(int oldStatus, int newStatus)//логика допустимых переходов между статусами
+        private bool IsTransitionAllowed(int oldStatus, int newStatus)
         {
-            if (oldStatus == newStatus) return false; // запрет на выбор текущего статуса
+            if (oldStatus == newStatus) return false;
 
             return
-                (oldStatus == 1 && (newStatus == 2 || newStatus == 7)) || // из "Новый" можно перейти в "Принят" или "Отмененный"
-                (oldStatus == 2 && (newStatus == 3 || newStatus == 7)) || // из "Принят" можно перейти в "Готовится" или "Отмененный"
-                (oldStatus == 3 && newStatus == 4) || // из "Готовится" можно перейти в "Готов"
-                (oldStatus == 4 && newStatus == 5) || // из "Готов" можно перейти в "Выдан"
+                (oldStatus == 1 && (newStatus == 2 || newStatus == 7)) ||
+                (oldStatus == 2 && (newStatus == 3 || newStatus == 7)) ||
+                (oldStatus == 3 && newStatus == 4) ||
+                (oldStatus == 4 && newStatus == 5) ||
                 (oldStatus == 5 && newStatus == 6);
         }
 
-        private void dataGridView1_SelectionChanged(object sender, EventArgs e) //подгрузка доступных статусов при выборе заказа
+        private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
             int status = Convert.ToInt32(dataGridView1.CurrentRow.Cells["StatusID"].Value);
             LoadAvailableStatuses(status);
-            UpdateUIByStatus(status); //обновляем состояние кнопок в зависимости от статуса заказа
+            UpdateUIByStatus(status);
         }
 
         private void combobox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_loadingstatuses) return; // предотвращаем выполнение кода при загрузке статусов
+            if (_loadingstatuses) return;
             int selectedStatusId = Convert.ToInt32(comboBox1.SelectedValue);
-            button6.Enabled = selectedStatusId != _currentStatusId; // разрешаем кнопку, если выбран другой статус
+            button6.Enabled = selectedStatusId != _currentStatusId;
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
 
-            int zakazId = Convert.ToInt32(
-                dataGridView1.CurrentRow.Cells["ID"].Value
-            );
-
+            int zakazId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
             int newStatus = Convert.ToInt32(comboBox1.SelectedValue);
 
-            string sql = @"
-        UPDATE zakazi
-        SET status_zakaza_id = @status
-        WHERE zakaz_id = @id
-    ";
+            string sql = "UPDATE zakazi SET status_zakaza_id = @status WHERE zakaz_id = @id";
 
             try
             {
@@ -184,7 +184,7 @@ namespace _1
                     new Npgsql.NpgsqlParameter("@id", zakazId)
                 );
 
-                LoadZakazi();
+                LoadZakazi(textBoxSearch.Text);
             }
             catch (Exception ex)
             {
@@ -192,14 +192,10 @@ namespace _1
             }
         }
 
-
-
-        // обработчик
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (dataGridView1.Columns[e.ColumnIndex].Name != "Статус") return;
 
-            // безопасно получаем статус из скрытого столбца StatusID
             var cellStatus = dataGridView1.Rows[e.RowIndex].Cells["StatusID"].Value;
             if (cellStatus == null || !int.TryParse(cellStatus.ToString(), out int status)) return;
 
@@ -216,18 +212,16 @@ namespace _1
             };
 
             e.CellStyle.BackColor = back;
-            e.CellStyle.SelectionBackColor = back; // чтобы при выделении цвет не перекрывался системой
+            e.CellStyle.SelectionBackColor = back;
         }
 
-
-        private void UpdateUIByStatus(int statusId) //метод для включения/отключения кнопок в зависимости от статуса заказа
+        private void UpdateUIByStatus(int statusId)
         {
-            bool isFinal = statusId == 6 || statusId == 7; //заказ считается завершенным, если он оплачен или отменен
-            comboBox1.Enabled = !isFinal; //комбобокс изменения статуса доступен, если заказ не завершен
-            button6.Enabled = false; //кнопка сохранения изменения статуса по умолчанию отключена, она будет включаться при выборе нового статуса в комбобоксе
-            button4.Enabled = statusId == 4; //кнопка оплаты доступна, если заказ не оплачен
-            button5.Enabled = !isFinal; //кнопка просмотра состава заказа доступна, если заказ не завершен
+            bool isFinal = statusId == 6 || statusId == 7;
+            comboBox1.Enabled = !isFinal;
+            button6.Enabled = false;
+            button4.Enabled = statusId == 4;
+            button5.Enabled = !isFinal;
         }
-
     }
 }

@@ -41,6 +41,7 @@ namespace _1.forms
             LoadOklad();
         }
 
+        //подгрузка
         private void LoadOklad()
         {
             string sql = @"
@@ -61,6 +62,8 @@ namespace _1.forms
                 labelOklad.Text = "Оклад не найден";
             }
         }
+
+
 
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
@@ -91,7 +94,7 @@ namespace _1.forms
             labelResult.Visible = true;
             buttonExport.Enabled = true;
 
-            // Автоматический экспорт после расчёта (можно убрать, если не нужно)
+            // Автоматический экспорт после расчёта 
             // ExportToExcel();
         }
 

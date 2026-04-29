@@ -43,12 +43,12 @@ namespace _1.forms.Menu
 
         void LoadBludo()
         {
-            string sql = $@"
+            string sql = @"
             SELECT *
             FROM bludo
-            WHERE bludo_id = {bludoId}";
+            WHERE bludo_id = @id";
 
-            var table = Db.GetData(sql);
+            var table = Db.GetData(sql, new Npgsql.NpgsqlParameter("@id", bludoId));
             if (table.Rows.Count == 0) return;
             var row = table.Rows[0];
 

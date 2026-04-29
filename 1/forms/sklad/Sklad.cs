@@ -20,35 +20,72 @@ namespace _1.forms
             InitializeComponent();
         }
 
-        private void LoadSklad()
+        private void LoadSklad(string search = "")
         {
             string sql = @"
-        SELECT 
-            s.product_id AS ""ID"",
-            p.nazvanie AS ""Продукт"",
-            e.nazvanie AS ""Ед. изм"",
-            s.kolichestvo AS ""Остаток""
-        FROM sklad s
-        JOIN product p ON p.product_id = s.product_id
-        JOIN edinica_izmereniya e ON e.edinica_izmereniya_id = p.edinica_izmereniya_id
-        ORDER BY p.nazvanie
-    ";
+                SELECT 
+                    s.product_id AS ""ID"",
+                    p.nazvanie AS ""Продукт"",
+                    e.nazvanie AS ""Ед. изм"",
+                    s.kolichestvo AS ""Остаток""
+                FROM sklad s
+                JOIN product p ON p.product_id = s.product_id
+                JOIN edinica_izmereniya e ON e.edinica_izmereniya_id = p.edinica_izmereniya_id
+                WHERE 1=1
+            ";
 
-            dataGridView1.DataSource = Db.GetData(sql);
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                sql += " AND LOWER(p.nazvanie) LIKE @search";
+            }
+
+            sql += " ORDER BY p.nazvanie";
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                dataGridView1.DataSource = Db.GetData(sql, new Npgsql.NpgsqlParameter("@search", $"%{search.ToLower()}%"));
+            }
+            else
+            {
+                dataGridView1.DataSource = Db.GetData(sql);
+            }
+
             dataGridView1.Columns["ID"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
+        private void CheckLowStock()
+        {
+            string sql = @"
+                SELECT p.nazvanie, s.kolichestvo, e.nazvanie
+                FROM sklad s
+                JOIN product p ON p.product_id = s.product_id
+                JOIN edinica_izmereniya e ON e.edinica_izmereniya_id = p.edinica_izmereniya_id
+                WHERE s.kolichestvo < 1
+                ORDER BY s.kolichestvo ASC
+            ";
+
+            DataTable dt = Db.GetData(sql);
+            if (dt.Rows.Count > 0)
+            {
+                StringBuilder msg = new StringBuilder("Внимание! Заканчиваются следующие продукты:\n\n");
+                foreach (DataRow row in dt.Rows)
+                {
+                    msg.AppendLine($"• {row["nazvanie"]} — {row["kolichestvo"]} {row["edinica_izmereniya_id"]}");
+                }
+                MessageBox.Show(msg.ToString(), "Низкие остатки", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
 
         private void Sklad_Load(object sender, EventArgs e)
         {
-            LoadSklad();
+            LoadSklad("");
+            CheckLowStock();
         }
 
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (dataGridView1.Columns[e.ColumnIndex].Name != "Остаток") return;
-
             if (e.Value == null) return;
 
             if (decimal.TryParse(e.Value.ToString(), out decimal ostatok))
@@ -60,12 +97,14 @@ namespace _1.forms
             }
         }
 
+        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) { }
+
         private void button1_Click(object sender, EventArgs e)
         {
             Prihod form = new Prihod();
             if (form.ShowDialog() == DialogResult.OK)
             {
-                LoadSklad();
+                LoadSklad(textBoxSearch.Text);
             }
         }
 
@@ -75,16 +114,15 @@ namespace _1.forms
             form.ShowDialog();
         }
 
-        private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-
-        }
-
         private void buttonZayavka_Click(object sender, EventArgs e)
         {
             ZayavkaPostavshiku form = new ZayavkaPostavshiku();
             form.ShowDialog();
         }
-    }
 
+        private void textBoxSearch_TextChanged(object sender, EventArgs e)
+        {
+            LoadSklad(textBoxSearch.Text);
+        }
+    }
 }

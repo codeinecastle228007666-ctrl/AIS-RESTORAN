@@ -24,12 +24,12 @@ namespace _1.forms.zakazo
         private bool _oplacheno = false;
         private void zakazi_itemsForm_Load(object sender, EventArgs e)
         {
-            string checksql = $@"
+            string checksql = @"
                 SELECT COUNT(*) 
                 FROM oplata 
-                WHERE zakaz_id = {_zakaziId}
+                WHERE zakaz_id = @zakaz
             ";
-            var checkTable = Db.GetData(checksql);
+            var checkTable = Db.GetData(checksql, new Npgsql.NpgsqlParameter("@zakaz", _zakaziId));
 
             _oplacheno = Convert.ToInt32(checkTable.Rows[0][0]) > 0;
 
@@ -45,7 +45,7 @@ namespace _1.forms.zakazo
 
         private void LoadItems() //дефолт загрузка всех нужных полей в таблицу
         {
-            string sql = $@"
+            string sql = @"
                 SELECT 
                     sz.sostav_id AS ""ID"",
                     b.nazvanie AS ""Блюдо"",
@@ -54,9 +54,9 @@ namespace _1.forms.zakazo
                     (sz.kolichestvo * sz.cena) AS ""Сумма"" 
                 FROM sostav_zakaza sz
                 JOIN bludo b ON b.bludo_id = sz.bludo_id
-                WHERE sz.zakaz_id = {_zakaziId}
+                WHERE sz.zakaz_id = @zakaz
             ";
-            dataGridView1.DataSource = Db.GetData(sql);
+            dataGridView1.DataSource = Db.GetData(sql, new Npgsql.NpgsqlParameter("@zakaz", _zakaziId));
             dataGridView1.Columns["ID"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
@@ -93,11 +93,11 @@ namespace _1.forms.zakazo
             if (_oplacheno) return;
             if (dataGridView1.CurrentRow == null) return;
             int sostavZakazaId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
-            string sql = $@"
+            string sql = @"
                 DELETE FROM sostav_zakaza
-                WHERE sostav_id = {sostavZakazaId}
+                WHERE sostav_id = @id
             ";
-            Db.ekzekuttranzakcii(sql);
+            Db.ekzekuttranzakcii(sql, new Npgsql.NpgsqlParameter("@id", sostavZakazaId));
             LoadItems();
         }
 

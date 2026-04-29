@@ -1,4 +1,4 @@
-using _1.forms;
+п»їusing _1.forms;
 using _1.forms.bronirovanie;
 using _1.forms.Menu;
 using _1.zaprosi;
@@ -11,7 +11,7 @@ namespace _1
         private int roleId;
         private int userId;
         private DumpRestore dumpRestoreForm;
-        // Конструктор с параметрами
+
         public Main(int role, int user)
         {
             InitializeComponent();
@@ -28,7 +28,7 @@ namespace _1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+                MessageBox.Show("РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂРјС‹:\n" + ex.Message);
             }
         }
 
@@ -41,7 +41,7 @@ namespace _1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+                MessageBox.Show("РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂРјС‹:\n" + ex.Message);
             }
         }
 
@@ -54,7 +54,7 @@ namespace _1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+                MessageBox.Show("РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂРјС‹:\n" + ex.Message);
             }
         }
 
@@ -67,7 +67,7 @@ namespace _1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+                MessageBox.Show("РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂРјС‹:\n" + ex.Message);
             }
         }
 
@@ -80,7 +80,7 @@ namespace _1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+                MessageBox.Show("РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂРјС‹:\n" + ex.Message);
             }
         }
 
@@ -93,7 +93,7 @@ namespace _1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+                MessageBox.Show("РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂРјС‹:\n" + ex.Message);
             }
         }
 
@@ -101,24 +101,27 @@ namespace _1
         {
             labelRole.Text = Session.RoleName;
 
-            if (Session.RoleId == 1) // официант
+            if (Session.RoleId == 1) // РћС„РёС†РёР°РЅС‚
             {
                 button4.Enabled = false;
                 button3.Enabled = false;
                 button7.Enabled = false;
                 button8.Enabled = false;
+                button10.Enabled = false;
             }
 
-            if (Session.RoleId == 2) // повар
+            if (Session.RoleId == 2) // РџРѕРІР°СЂ
             {
                 button1.Enabled = false;
                 button2.Enabled = false;
                 button4.Enabled = false;
                 button7.Enabled = false;
                 button8.Enabled = false;
+                button5.Enabled = false;
+                button6.Enabled = false;
             }
 
-            if (Session.RoleId == 3) // шеф
+            if (Session.RoleId == 3) // РЁРµС„-РїРѕРІР°СЂ
             {
                 button4.Enabled = false;
                 button2.Enabled = false;
@@ -127,25 +130,23 @@ namespace _1
                 button8.Enabled = false;
             }
 
-            if (Session.RoleId == 4) // руководитель
+            if (Session.RoleId == 4) // Р СѓРєРѕРІРѕРґРёС‚РµР»СЊ
             {
-                // доступ ко всему
+                // Р’СЃРµ РєРЅРѕРїРєРё РґРѕСЃС‚СѓРїРЅС‹
             }
         }
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Проверяем, не запланирован ли перезапуск
             if (_isRestarting)
             {
-                // Если это перезапуск, не задаем вопрос
                 e.Cancel = false;
                 return;
             }
 
             if (MessageBox.Show(
-                "Вы уверены, что хотите выйти?",
-                "Выход",
+                "Р’С‹ СѓРІРµСЂРµРЅС‹, С‡С‚Рѕ С…РѕС‚РёС‚Рµ РІС‹Р№С‚Рё?",
+                "Р’С‹С…РѕРґ",
                 MessageBoxButtons.YesNo
             ) == DialogResult.No)
             {
@@ -153,20 +154,13 @@ namespace _1
             }
         }
 
-        private bool _isRestarting = false; // Флаг для отслеживания перезапуска
+        private bool _isRestarting = false;
 
         private void button7_Click(object sender, EventArgs e)
         {
-            // Создаем форму ОДИН раз
             dumpRestoreForm = new DumpRestore();
-
-            // Подписываемся на событие
             dumpRestoreForm.OnRestoreCompleted += DumpRestoreForm_OnRestoreCompleted;
-
-            // Показываем форму
             dumpRestoreForm.ShowDialog();
-
-            // После закрытия формы отписываемся от события
             dumpRestoreForm.OnRestoreCompleted -= DumpRestoreForm_OnRestoreCompleted;
             dumpRestoreForm.Dispose();
             dumpRestoreForm = null;
@@ -174,34 +168,26 @@ namespace _1
 
         private void DumpRestoreForm_OnRestoreCompleted()
         {
-            // Этот метод вызывается когда форма DumpRestore уже закрыта
-            // и пользователь согласился на перезапуск
-
-            // Показываем диалог подтверждения
             var exitResult = MessageBox.Show(
-                "Приложение будет перезапущено для применения восстановленной базы данных.\n\n" +
-                "Сохранить все несохраненные данные перед перезапуском?",
-                "Перезапуск приложения",
+                "Р‘Р°Р·Р° РґР°РЅРЅС‹С… РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅР°. РўСЂРµР±СѓРµС‚СЃСЏ РїРµСЂРµР·Р°РїСѓСЃРє РїСЂРёР»РѕР¶РµРЅРёСЏ.\n\n" +
+                "РЎРѕС…СЂР°РЅРёС‚СЊ РЅРµСЃРѕС…СЂР°РЅС‘РЅРЅС‹Рµ РґР°РЅРЅС‹Рµ РїРµСЂРµРґ РІС‹С…РѕРґРѕРј?",
+                "РџРµСЂРµР·Р°РїСѓСЃРє РїСЂРёР»РѕР¶РµРЅРёСЏ",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
             if (exitResult == DialogResult.Yes)
             {
-                // Здесь можно добавить сохранение данных если нужно
                 SaveAllData();
             }
 
-            // Устанавливаем флаг что это запланированный перезапуск
             _isRestarting = true;
 
-            // Показываем финальное сообщение
             MessageBox.Show(
-                "Приложение будет перезапущено.\n\nНажмите OK для продолжения.",
-                "Перезапуск",
+                "РџСЂРёР»РѕР¶РµРЅРёРµ Р±СѓРґРµС‚ РїРµСЂРµР·Р°РїСѓС‰РµРЅРѕ.\n\nРќР°Р¶РјРёС‚Рµ OK РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ.",
+                "РџРµСЂРµР·Р°РїСѓСЃРє",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
 
-            // Перезапускаем приложение
             RestartApplication();
         }
 
@@ -209,28 +195,13 @@ namespace _1
         {
             try
             {
-                // Здесь можно добавить код для сохранения данных
-                // Например, если у вас есть открытые формы с несохраненными изменениями
-
-                // Пример:
-                // if (Application.OpenForms.Count > 0)
-                // {
-                //     foreach (Form form in Application.OpenForms)
-                //     {
-                //         if (form is IDataSave saveForm)
-                //         {
-                //             saveForm.SaveData();
-                //         }
-                //     }
-                // }
-
-                System.Diagnostics.Debug.WriteLine("Данные сохранены перед перезапуском");
+                System.Diagnostics.Debug.WriteLine("Р”Р°РЅРЅС‹Рµ СЃРѕС…СЂР°РЅРµРЅС‹ РїРµСЂРµРґ РїРµСЂРµР·Р°РїСѓСЃРєРѕРј");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"Ошибка при сохранении данных: {ex.Message}",
-                    "Ошибка сохранения",
+                    $"РћС€РёР±РєР° РїСЂРё СЃРѕС…СЂР°РЅРµРЅРёРё РґР°РЅРЅС‹С…: {ex.Message}",
+                    "РћС€РёР±РєР° СЃРѕС…СЂР°РЅРµРЅРёСЏ",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
             }
@@ -240,33 +211,28 @@ namespace _1
         {
             try
             {
-                // Получаем путь к текущему исполняемому файлу
                 string applicationPath = Application.ExecutablePath;
 
-                // Создаем процесс для перезапуска
                 ProcessStartInfo startInfo = new ProcessStartInfo();
                 startInfo.FileName = applicationPath;
                 startInfo.UseShellExecute = true;
                 startInfo.WorkingDirectory = Application.StartupPath;
 
-                // Запускаем новый экземпляр приложения
                 Process.Start(startInfo);
 
-                // Небольшая задержка чтобы новый процесс успел запуститься
                 System.Threading.Thread.Sleep(500);
 
-                // Закрываем текущее приложение
                 Application.Exit();
             }
             catch (Exception ex)
             {
-                _isRestarting = false; // Сбрасываем флаг в случае ошибки
+                _isRestarting = false;
 
                 MessageBox.Show(
-                    "Не удалось автоматически перезапустить приложение.\n" +
-                    $"Ошибка: {ex.Message}\n\n" +
-                    "Пожалуйста, перезапустите приложение вручную.",
-                    "Ошибка перезапуска",
+                    "РќРµ СѓРґР°Р»РѕСЃСЊ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРё РїРµСЂРµР·Р°РїСѓСЃС‚РёС‚СЊ РїСЂРёР»РѕР¶РµРЅРёРµ.\n" +
+                    $"РћС€РёР±РєР°: {ex.Message}\n\n" +
+                    "РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РїРµСЂРµР·Р°РїСѓСЃС‚РёС‚Рµ РїСЂРёР»РѕР¶РµРЅРёРµ РІСЂСѓС‡РЅСѓСЋ.",
+                    "РћС€РёР±РєР° РїРµСЂРµР·Р°РїСѓСЃРєР°",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
             }
@@ -281,6 +247,11 @@ namespace _1
         private void button9_Click(object sender, EventArgs e)
         {
             new HelpForm().ShowDialog();
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            new Kuhnya().ShowDialog();
         }
     }
 }

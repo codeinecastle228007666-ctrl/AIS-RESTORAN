@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
+            textBoxSearch = new TextBox();
+            labelSearch = new Label();
             button1 = new Button();
             button2 = new Button();
             buttonZayavka = new Button();
@@ -46,9 +48,27 @@
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
             dataGridView1.DataBindingComplete += dataGridView1_DataBindingComplete;
             // 
+            // textBoxSearch
+            // 
+            textBoxSearch.Location = new Point(12, 312);
+            textBoxSearch.Name = "textBoxSearch";
+            textBoxSearch.PlaceholderText = "Поиск продукта...";
+            textBoxSearch.Size = new Size(250, 23);
+            textBoxSearch.TabIndex = 4;
+            textBoxSearch.TextChanged += textBoxSearch_TextChanged;
+            // 
+            // labelSearch
+            // 
+            labelSearch.AutoSize = true;
+            labelSearch.Location = new Point(12, 295);
+            labelSearch.Name = "labelSearch";
+            labelSearch.Size = new Size(100, 14);
+            labelSearch.TabIndex = 5;
+            labelSearch.Text = "Поиск продукта:";
+            // 
             // button1
             // 
-            button1.Location = new Point(12, 349);
+            button1.Location = new Point(12, 378);
             button1.Name = "button1";
             button1.Size = new Size(166, 60);
             button1.TabIndex = 1;
@@ -58,7 +78,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(622, 349);
+            button2.Location = new Point(622, 378);
             button2.Name = "button2";
             button2.Size = new Size(166, 60);
             button2.TabIndex = 2;
@@ -68,7 +88,7 @@
             // 
             // buttonZayavka
             // 
-            buttonZayavka.Location = new Point(184, 352);
+            buttonZayavka.Location = new Point(184, 381);
             buttonZayavka.Name = "buttonZayavka";
             buttonZayavka.Size = new Size(139, 55);
             buttonZayavka.TabIndex = 3;
@@ -81,6 +101,8 @@
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(labelSearch);
+            Controls.Add(textBoxSearch);
             Controls.Add(buttonZayavka);
             Controls.Add(button2);
             Controls.Add(button1);
@@ -98,5 +120,7 @@
         private Button button1;
         private Button button2;
         private Button buttonZayavka;
+        private TextBox textBoxSearch;
+        private Label labelSearch;
     }
 }

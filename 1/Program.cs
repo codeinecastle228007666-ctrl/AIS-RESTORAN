@@ -1,3 +1,4 @@
+using _1.data;
 using _1.forms;
 
 namespace _1
@@ -13,17 +14,19 @@ namespace _1
 
             Application.ThreadException += GlobalException;
 
-            // Показываем форму авторизации
             using (var auth = new Auth())
             {
                 if (auth.ShowDialog() == DialogResult.OK)
                 {
-                    // Если авторизация успешна, запускаем главную форму
+                    Db.OpenSession();
+                    Session.ApplyToDb();
+
                     Application.Run(new Main(Session.RoleId, Session.UserId));
+
+                    Db.CloseSession();
                 }
                 else
                 {
-                    // Если авторизация не успешна или закрыта, завершаем приложение
                     Application.Exit();
                 }
             }
@@ -32,8 +35,8 @@ namespace _1
         static void GlobalException(object sender, ThreadExceptionEventArgs e)
         {
             MessageBox.Show(
-                "Произошла ошибка:\n" + e.Exception.Message,
-                "Ошибка",
+                "РќРµРѕР±СЂР°Р±РѕС‚Р°РЅРЅР°СЏ РѕС€РёР±РєР°:\n" + e.Exception.Message,
+                "РћС€РёР±РєР°",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }

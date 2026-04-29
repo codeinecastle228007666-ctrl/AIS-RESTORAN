@@ -39,16 +39,16 @@ namespace _1.forms.Menu
 
         private void LoadSostav()
         {
-            string sql = $@"
+            string sql = @"
                 SELECT sb.sostav_bluda_id AS ""ID"",
                 p.nazvanie AS ""Продукт"",
                 sb.kolichestvo AS ""Количество""
                 FROM sostav_bluda sb
                 JOIN product p ON sb.product_id = p.product_id
-                WHERE sb.bludo_id = {bludoId}
+                WHERE sb.bludo_id = @id
                 ORDER BY p.nazvanie
             ";
-            dataGridView1.DataSource = Db.GetData(sql);
+            dataGridView1.DataSource = Db.GetData(sql, new NpgsqlParameter("@id", bludoId));
             dataGridView1.Columns["ID"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 

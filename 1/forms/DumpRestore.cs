@@ -192,8 +192,8 @@ namespace _1.forms
                 ProcessStartInfo psi = new ProcessStartInfo();
                 psi.FileName = pgRestorePath;
 
-                // ВАЖНОЕ ИЗМЕНЕНИЕ: убираем -c и добавляем --if-exists
-                // -c пытается удалить объекты перед созданием, что вызывает ошибки в пустой базе
+                
+                
                 // Вместо этого просто восстанавливаем данные в свежесозданную пустую базу
                 psi.Arguments = $"-h localhost -p 5432 -U {user} -d {dbName} -v \"{backupFile}\"";
 
