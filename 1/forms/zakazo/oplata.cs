@@ -1,4 +1,5 @@
-п»їusing System;
+// Форма оплаты заказа
+using System;
 using System.Data;
 using System.Windows.Forms;
 using _1.data;
@@ -6,6 +7,7 @@ using Npgsql;
 
 namespace _1.forms
 {
+    // Форма проведения оплаты по заказу. Проверяет, не оплачен ли уже заказ, рассчитывает сумму, вызывает хранимую процедуру sp_make_oplata.
     public partial class oplata : Form
     {
         private int _zakazId;
@@ -17,6 +19,7 @@ namespace _1.forms
 
         private void oplata_Load(object sender, EventArgs e)
         {
+            // Проверка: не оплачен ли уже заказ
             string checksql = "SELECT COUNT(*) FROM oplata WHERE zakaz_id = @zakaz";
             try
             {
@@ -25,13 +28,13 @@ namespace _1.forms
 
                 if (checkTable.Rows.Count == 0)
                 {
-                    MessageBox.Show("РћС€РёР±РєР° РїРѕР»СѓС‡РµРЅРёСЏ РґР°РЅРЅС‹С…");
+                    MessageBox.Show("Ошибка получения данных");
                     return;
                 }
 
                 if (Convert.ToInt32(checkTable.Rows[0][0]) > 0)
                 {
-                    MessageBox.Show("Р­С‚РѕС‚ Р·Р°РєР°Р· СѓР¶Рµ РѕРїР»Р°С‡РµРЅ!");
+                    MessageBox.Show("Этот заказ уже оплачен!");
                     this.DialogResult = DialogResult.Cancel;
                     this.Close();
                     return;
@@ -39,7 +42,7 @@ namespace _1.forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show("РћС€РёР±РєР° РїСЂРѕРІРµСЂРєРё РѕРїР»Р°С‚С‹:\n" + ex.Message);
+                MessageBox.Show("Ошибка проверки оплаты:\n" + ex.Message);
             }
 
             string sql = "SELECT sposob_oplati_id, nazvanie FROM sposob_oplati";
@@ -50,26 +53,24 @@ namespace _1.forms
             LoadSumma();
         }
 
+        // Расчёт общей суммы заказа (сумма произведений количества на цену).
         private void LoadSumma()
         {
             string sql = "SELECT SUM(kolichestvo * cena) FROM sostav_zakaza WHERE zakaz_id = @zakaz";
             var table = Db.GetData(sql, new NpgsqlParameter("@zakaz", _zakazId));
 
             if (table.Rows.Count > 0 && table.Rows[0][0] != DBNull.Value)
-            {
                 textBox1.Text = table.Rows[0][0].ToString();
-            }
             else
-            {
                 textBox1.Text = "0";
-            }
         }
 
+        // Проведение оплаты: вызов хранимой процедуры и смена статуса заказа.
         private void button1_Click(object sender, EventArgs e)
         {
             if (comboBox1.SelectedValue == null)
             {
-                MessageBox.Show("Р’С‹Р±РµСЂРёС‚Рµ СЃРїРѕСЃРѕР± РѕРїР»Р°С‚С‹");
+                MessageBox.Show("Выберите способ оплаты");
                 return;
             }
 
@@ -78,7 +79,7 @@ namespace _1.forms
 
             if (summa <= 0)
             {
-                MessageBox.Show("Р—Р°РєР°Р· РЅРµ СЃРѕРґРµСЂР¶РёС‚ РїРѕР·РёС†РёР№ РґР»СЏ РѕРїР»Р°С‚С‹");
+                MessageBox.Show("Заказ не содержит позиций для оплаты");
                 return;
             }
 
@@ -95,13 +96,13 @@ namespace _1.forms
                     new NpgsqlParameter("@zakaz", _zakazId)
                 );
 
-                MessageBox.Show("РћРїР»Р°С‚Р° СѓСЃРїРµС€РЅРѕ РїСЂРѕРІРµРґРµРЅР°!");
+                MessageBox.Show("Оплата успешно проведена!");
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("РћС€РёР±РєР° РѕРїР»Р°С‚С‹:\n" + ex.Message);
+                MessageBox.Show("Ошибка оплаты:\n" + ex.Message);
             }
         }
     }

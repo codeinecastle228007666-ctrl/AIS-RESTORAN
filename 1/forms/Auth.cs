@@ -1,4 +1,5 @@
-п»їusing _1.data;
+// Форма авторизации пользователя
+using _1.data;
 using Npgsql;
 using System;
 using System.Data;
@@ -6,6 +7,7 @@ using System.Windows.Forms;
 
 namespace _1.forms
 {
+    // Форма входа в систему. Проверяет логин и пароль через pgcrypto (bcrypt).
     public partial class Auth : Form
     {
         public Auth()
@@ -13,11 +15,13 @@ namespace _1.forms
             InitializeComponent();
         }
 
+        // Обработчик кнопки "Войти". Проверяет учётные данные и заполняет сессию.
         private void button1_Click(object sender, EventArgs e)
         {
             string login = textBoxLogin.Text;
             string password = textBoxPassword.Text;
 
+            // Запрос сверяет пароль через функцию crypt() модуля pgcrypto (bcrypt)
             string sql = @"
 SELECT 
 u.user_id,
@@ -36,15 +40,18 @@ AND u.password_hash = crypt(@p, u.password_hash)
                     new NpgsqlParameter("@p", password)
                 );
 
+                // Если запрос не вернул строк — логин/пароль неверны
                 if (dt.Rows.Count == 0)
                 {
-                    MessageBox.Show("РќРµРІРµСЂРЅС‹Р№ Р»РѕРіРёРЅ РёР»Рё РїР°СЂРѕР»СЊ");
+                    MessageBox.Show("Неверный логин или пароль");
+                    // Логируем неудачную попытку входа
                     Db.Execute(
 "INSERT INTO login_log(user_id, success) VALUES(NULL, false)"
 );
                     return;
                 }
 
+                // Заполняем статический класс Session данными текущего пользователя
                 Session.UserId = Convert.ToInt32(dt.Rows[0]["user_id"]);
                 Session.RoleId = Convert.ToInt32(dt.Rows[0]["role_id"]);
                 Session.RoleName = dt.Rows[0]["role_name"].ToString();
@@ -54,7 +61,7 @@ AND u.password_hash = crypt(@p, u.password_hash)
             }
             catch (Exception ex)
             {
-                MessageBox.Show("РћС€РёР±РєР° Р°РІС‚РѕСЂРёР·Р°С†РёРё:\n" + ex.Message);
+                MessageBox.Show("Ошибка авторизации:\n" + ex.Message);
             }
         }
     }

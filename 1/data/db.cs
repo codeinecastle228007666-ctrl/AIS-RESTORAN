@@ -1,23 +1,29 @@
-п»їusing System;
+// Слой доступа к данным: подключение и работа с PostgreSQL
+using System;
 using System.Data;
 using System.Windows.Forms;
 using Npgsql;
 
 namespace _1.data
 {
+    // Статический класс для работы с базой данных PostgreSQL. Управляет сессионным подключением и предоставляет методы выполнения SQL-запросов.
     public static class Db
     {
+        // Строка подключения к локальной БД
         private static string connectionString =
             "Host=localhost;Port=5432;Database=cursed_zxc_V2;Username=postgres;Password=1234";
 
+        // Единое сессионное подключение для всего приложения
         private static NpgsqlConnection _sessionConnection;
         private static readonly object _lock = new object();
 
+        // Создаёт новое подключение к БД (не сессионное).
         public static NpgsqlConnection GetConnection()
         {
             return new NpgsqlConnection(connectionString);
         }
 
+        // Устанавливает переменную сессии PostgreSQL app.user_id для аудита (используется в триггерах audit_log).
         private static void EnsureAppUserId(NpgsqlConnection conn)
         {
             if (_1.forms.Session.UserId > 0 && conn.State == ConnectionState.Open)
@@ -28,10 +34,11 @@ namespace _1.data
                     cmd.Parameters.AddWithValue("@id", _1.forms.Session.UserId.ToString());
                     cmd.ExecuteNonQuery();
                 }
-                catch { /* ignore if app.user_id already set or not available */ }
+                catch { /* Если переменная не установлена — игнорируем */ }
             }
         }
 
+        // Открывает сессионное подключение (потокобезопасно).
         public static void OpenSession()
         {
             lock (_lock)
@@ -48,6 +55,7 @@ namespace _1.data
             }
         }
 
+        // Закрывает и освобождает сессионное подключение (потокобезопасно).
         public static void CloseSession()
         {
             lock (_lock)
@@ -61,6 +69,7 @@ namespace _1.data
             }
         }
 
+        // Возвращает текущее сессионное подключение (открывает при необходимости).
         public static NpgsqlConnection GetSessionConnection()
         {
             if (_sessionConnection == null || _sessionConnection.State == ConnectionState.Closed)
@@ -70,20 +79,24 @@ namespace _1.data
             return _sessionConnection;
         }
 
+        // Проверяет, открыто ли сессионное подключение.
         public static bool IsSessionOpen()
         {
             return _sessionConnection != null && _sessionConnection.State == ConnectionState.Open;
         }
 
+        // Выполняет SELECT-запрос и возвращает результат в виде DataTable.
         public static DataTable GetData(string sql)
         {
             return GetData(sql, null);
         }
 
+        // Выполняет SELECT-запрос с параметрами и возвращает результат в виде DataTable.
         public static DataTable GetData(string sql, params NpgsqlParameter[] parameters)
         {
             try
             {
+                // Если есть открытая сессия — используем её
                 if (IsSessionOpen())
                 {
                     using var cmd = new NpgsqlCommand(sql, GetSessionConnection());
@@ -95,6 +108,7 @@ namespace _1.data
                     return table;
                 }
 
+                // Иначе создаём новое подключение
                 using var conn = GetConnection();
                 conn.Open();
                 EnsureAppUserId(conn);
@@ -108,15 +122,17 @@ namespace _1.data
             }
             catch (Exception ex)
             {
-                throw new Exception("РћС€РёР±РєР° Р±Р°Р·С‹ РґР°РЅРЅС‹С…:\n" + ex.Message, ex);
+                throw new Exception("Ошибка базы данных:\n" + ex.Message, ex);
             }
         }
 
+        // Выполняет SQL-запрос на изменение данных (INSERT/UPDATE/DELETE) без параметров.
         public static void ekzekuttranzakcii(string sql)
         {
             ekzekuttranzakcii(sql, null);
         }
 
+        // Выполняет SQL-запрос на изменение данных (INSERT/UPDATE/DELETE) с параметрами.
         public static void ekzekuttranzakcii(string sql, params NpgsqlParameter[] parameters)
         {
             try
@@ -144,10 +160,11 @@ namespace _1.data
             }
             catch (Exception ex)
             {
-                MessageBox.Show("РћС€РёР±РєР° РІС‹РїРѕР»РЅРµРЅРёСЏ Р·Р°РїСЂРѕСЃР°:\n" + ex.Message);
+                MessageBox.Show("Ошибка выполнения запроса:\n" + ex.Message);
             }
         }
 
+        // Псевдоним для ekzekuttranzakcii.
         public static void Execute(string sql, params NpgsqlParameter[] parameters)
         {
             ekzekuttranzakcii(sql, parameters);

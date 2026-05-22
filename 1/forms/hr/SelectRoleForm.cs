@@ -1,12 +1,15 @@
-п»їusing System;
+// Форма выбора роли для новой учётной записи
+using System;
 using System.Data;
 using System.Windows.Forms;
 using _1.data;
 
 namespace _1.forms
 {
+    // Форма выбора роли при создании учётной записи сотрудника.
     public partial class SelectRoleForm : Form
     {
+        // ID выбранной роли.
         public int SelectedRoleId { get; private set; } = -1;
 
         public SelectRoleForm()
@@ -15,6 +18,7 @@ namespace _1.forms
             LoadRoles();
         }
 
+        // Загрузка списка ролей из БД.
         private void LoadRoles()
         {
             string sql = "SELECT role_id, nazvanie FROM role ORDER BY nazvanie";
@@ -30,7 +34,7 @@ namespace _1.forms
         {
             if (comboBoxRole.SelectedValue == null || comboBoxRole.SelectedValue == DBNull.Value)
             {
-                MessageBox.Show("Р’С‹Р±РµСЂРёС‚Рµ СЂРѕР»СЊ.");
+                MessageBox.Show("Выберите роль.");
                 return;
             }
             SelectedRoleId = Convert.ToInt32(comboBoxRole.SelectedValue);

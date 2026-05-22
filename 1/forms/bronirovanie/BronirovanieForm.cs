@@ -1,4 +1,5 @@
-п»їusing System;
+// Форма управления бронированием столов
+using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
@@ -7,6 +8,7 @@ using _1.data;
 
 namespace _1.forms.bronirovanie
 {
+    // Форма бронирования столов: создание, удаление, изменение статуса, проверка занятости.
     public partial class BronirovanieForm : Form
     {
         public BronirovanieForm()
@@ -18,6 +20,7 @@ namespace _1.forms.bronirovanie
             LoadBron();
         }
 
+        // Загрузка списка клиентов в ComboBox.
         void LoadClients()
         {
             string sql = "SELECT client_id, fio FROM client";
@@ -27,6 +30,7 @@ namespace _1.forms.bronirovanie
             comboBox1.ValueMember = "client_id";
         }
 
+        // Загрузка списка столов в ComboBox.
         void LoadTables()
         {
             string sql = "SELECT stol_id, nomer FROM stol";
@@ -36,6 +40,7 @@ namespace _1.forms.bronirovanie
             comboBox2.ValueMember = "stol_id";
         }
 
+        // Загрузка статусов бронирования.
         void LoadStatus()
         {
             string sql = "SELECT status_broni_id, nazvanie FROM status_broni";
@@ -45,17 +50,18 @@ namespace _1.forms.bronirovanie
             comboBox3.ValueMember = "status_broni_id";
         }
 
+        // Загрузка всех бронирований в DataGridView.
         void LoadBron()
         {
             string sql = @"
                 SELECT
                     b.bronirovanie_id AS ""ID"",
                     b.status_broni_id AS ""StatusID"",
-                    c.fio AS ""РљР»РёРµРЅС‚"",
-                    s.nomer AS ""РќРѕРјРµСЂ СЃС‚РѕР»Р°"",
-                    b.data_broni AS ""Р”Р°С‚Р° Р±СЂРѕРЅРё"",
-                    b.kolvo_gostei AS ""РљРѕР»-РІРѕ РіРѕСЃС‚РµР№"",
-                    st.nazvanie AS ""РЎС‚Р°С‚СѓСЃ""
+                    c.fio AS ""Клиент"",
+                    s.nomer AS ""Номер стола"",
+                    b.data_broni AS ""Дата брони"",
+                    b.kolvo_gostei AS ""Кол-во гостей"",
+                    st.nazvanie AS ""Статус""
                 FROM bronirovanie b
                 JOIN client c ON b.client_id = c.client_id
                 JOIN stol s ON b.stol_id = s.stol_id
@@ -68,11 +74,12 @@ namespace _1.forms.bronirovanie
             UpdateStatusUI();
         }
 
+        // Создание нового бронирования с проверками вместимости и занятости.
         private void button1_Click(object sender, EventArgs e)
         {
             if (comboBox1.SelectedValue == null || comboBox2.SelectedValue == null || comboBox3.SelectedValue == null)
             {
-                MessageBox.Show("Р—Р°РїРѕР»РЅРёС‚Рµ РІСЃРµ РїРѕР»СЏ");
+                MessageBox.Show("Заполните все поля");
                 return;
             }
 
@@ -80,25 +87,27 @@ namespace _1.forms.bronirovanie
             int stol = Convert.ToInt32(comboBox2.SelectedValue);
             DateTime date = dateTimePicker1.Value;
             int guests = Convert.ToInt32(numericUpDown1.Value);
-            int status = 1;
+            int status = 1; // Новая бронь
 
             try
             {
                 var conn = Db.GetSessionConnection();
                 using var tr = conn.BeginTransaction();
 
+                // Проверка: достаточно ли мест на выбранном столе
                 int capacity = GetTableCapacity(stol, tr);
                 if (guests > capacity)
                 {
                     tr.Rollback();
-                    MessageBox.Show($"Р­С‚РѕС‚ СЃС‚РѕР» СЂР°СЃСЃС‡РёС‚Р°РЅ РјР°РєСЃРёРјСѓРј РЅР° {capacity} РіРѕСЃС‚РµР№.");
+                    MessageBox.Show($"Этот стол рассчитан максимум на {capacity} гостей.");
                     return;
                 }
 
+                // Проверка: не занят ли стол в это же время (брони и активные заказы)
                 if (TableIsBusy(stol, date, tr))
                 {
                     tr.Rollback();
-                    MessageBox.Show("Р­С‚РѕС‚ СЃС‚РѕР» СѓР¶Рµ Р·Р°Р±СЂРѕРЅРёСЂРѕРІР°РЅ РЅР° РІС‹Р±СЂР°РЅРЅРѕРµ РІСЂРµРјСЏ.");
+                    MessageBox.Show("Этот стол уже забронирован на выбранное время.");
                     return;
                 }
 
@@ -116,22 +125,23 @@ namespace _1.forms.bronirovanie
                 cmd.ExecuteNonQuery();
 
                 tr.Commit();
-                MessageBox.Show("Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ СѓСЃРїРµС€РЅРѕ СЃРѕР·РґР°РЅРѕ");
+                MessageBox.Show("Бронирование успешно создано");
                 LoadBron();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("РћС€РёР±РєР° СЃРѕР·РґР°РЅРёСЏ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёСЏ:\n" + ex.Message);
+                MessageBox.Show("Ошибка создания бронирования:\n" + ex.Message);
             }
         }
 
+        // Удаление выбранного бронирования.
         private void button2_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
 
             int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
 
-            if (MessageBox.Show("РЈРґР°Р»РёС‚СЊ Р±СЂРѕРЅСЊ?", "РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ",
+            if (MessageBox.Show("Удалить бронь?", "Подтверждение",
                 MessageBoxButtons.YesNo) == DialogResult.No)
                 return;
 
@@ -141,9 +151,13 @@ namespace _1.forms.bronirovanie
             LoadBron();
         }
 
+        // Проверяет, занят ли стол в указанное время (конфликт с бронями и активными заказами с окном 2 часа).
         bool TableIsBusy(int stol, DateTime date, NpgsqlTransaction tr)
         {
+            // Окно проверки: 2 часа
             DateTime end = date.AddHours(2);
+
+            // Проверка броней с активными статусами (не отменена/выполнена/просрочена)
             string sql = @"
                 SELECT COUNT(*)
                 FROM bronirovanie
@@ -161,6 +175,7 @@ namespace _1.forms.bronirovanie
 
             if (count > 0) return true;
 
+            // Проверка активных заказов на этот стол
             string sqlZakazi = @"
                 SELECT COUNT(*)
                 FROM zakazi z
@@ -179,6 +194,7 @@ namespace _1.forms.bronirovanie
             return countZakazi > 0;
         }
 
+        // Возвращает вместимость стола.
         int GetTableCapacity(int stol, NpgsqlTransaction tr)
         {
             string sql = "SELECT kolvo_mest FROM stol WHERE stol_id = @id";
@@ -194,6 +210,7 @@ namespace _1.forms.bronirovanie
             dateTimePicker1.ShowUpDown = true;
         }
 
+        // Открыть визуальный выбор стола.
         private void buttonSelectTable_Click(object sender, EventArgs e)
         {
             ZalForm zal = new ZalForm(dateTimePicker1.Value);
@@ -203,6 +220,7 @@ namespace _1.forms.bronirovanie
             }
         }
 
+        // Применить новый статус к выбранному бронированию.
         private void buttonApplyStatus_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
@@ -211,9 +229,10 @@ namespace _1.forms.bronirovanie
             int currentStatusId = GetCurrentStatusId(bronId);
             int newStatusId = Convert.ToInt32(comboBox3.SelectedValue);
 
+            // Проверка допустимости перехода статуса
             if (!IsTransitionAllowed(currentStatusId, newStatusId))
             {
-                MessageBox.Show("РќРµРґРѕРїСѓСЃС‚РёРјС‹Р№ РїРµСЂРµС…РѕРґ СЃС‚Р°С‚СѓСЃР°.");
+                MessageBox.Show("Недопустимый переход статуса.");
                 return;
             }
 
@@ -229,6 +248,7 @@ namespace _1.forms.bronirovanie
             LoadBron();
         }
 
+        // Получает текущий статус бронирования.
         private int GetCurrentStatusId(int bronId)
         {
             string sql = "SELECT status_broni_id FROM bronirovanie WHERE bronirovanie_id = @id";
@@ -236,21 +256,26 @@ namespace _1.forms.bronirovanie
             return dt.Rows.Count > 0 ? Convert.ToInt32(dt.Rows[0][0]) : 0;
         }
 
+        // Проверяет допустимость перехода статуса.
         private bool IsTransitionAllowed(int oldStatus, int newStatus)
         {
             if (oldStatus == newStatus) return false;
 
+            // Терминальные статусы: изменение невозможно
             if (oldStatus == 3 || oldStatus == 4 || oldStatus == 5)
                 return false;
 
+            // Нельзя вернуть в статус "Новая"
             if (newStatus == 1) return false;
 
+            // Допустимые переходы: 1->2, 1->3, 2->3, 2->4
             if (oldStatus == 1 && (newStatus == 2 || newStatus == 3)) return true;
             if (oldStatus == 2 && (newStatus == 3 || newStatus == 4)) return true;
 
             return false;
         }
 
+        // Обновляет состояние UI в зависимости от текущего статуса.
         private void UpdateStatusUI()
         {
             if (dataGridView1.CurrentRow == null)
@@ -266,7 +291,7 @@ namespace _1.forms.bronirovanie
             {
                 buttonApplyStatus.Enabled = false;
                 comboBox3.Enabled = false;
-                buttonApplyStatus.Text = "РЎС‚Р°С‚СѓСЃ РёР·РјРµРЅС‘РЅ РЅРµР»СЊР·СЏ";
+                buttonApplyStatus.Text = "Статус изменён нельзя";
                 return;
             }
 
@@ -274,9 +299,9 @@ namespace _1.forms.bronirovanie
             comboBox3.Enabled = true;
 
             if (currentStatusId == 1)
-                buttonApplyStatus.Text = "РџРѕРґС‚РІРµСЂРґРёС‚СЊ / РћС‚РјРµРЅРёС‚СЊ";
+                buttonApplyStatus.Text = "Подтвердить / Отменить";
             else
-                buttonApplyStatus.Text = "Р’С‹РїРѕР»РЅРёС‚СЊ / РћС‚РјРµРЅРёС‚СЊ";
+                buttonApplyStatus.Text = "Выполнить / Отменить";
         }
 
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
@@ -284,21 +309,22 @@ namespace _1.forms.bronirovanie
             UpdateStatusUI();
         }
 
+        // Цветовая маркировка статусов бронирования.
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dataGridView1.Columns[e.ColumnIndex].Name == "РЎС‚Р°С‚СѓСЃ")
+            if (dataGridView1.Columns[e.ColumnIndex].Name == "Статус")
             {
                 string status = e.Value?.ToString();
 
-                if (status == "РџРѕРґС‚РІРµСЂР¶РґРµРЅР°")
+                if (status == "Подтверждена")
                     e.CellStyle.BackColor = Color.LightGreen;
-                else if (status == "РћР¶РёРґР°РµС‚ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ")
+                else if (status == "Ожидает подтверждения")
                     e.CellStyle.BackColor = Color.Khaki;
-                else if (status == "РћС‚РјРµРЅРµРЅР°")
+                else if (status == "Отменена")
                     e.CellStyle.BackColor = Color.LightCoral;
-                else if (status == "Р’С‹РїРѕР»РЅРµРЅР°")
+                else if (status == "Выполнена")
                     e.CellStyle.BackColor = Color.LightBlue;
-                else if (status == "РџСЂРѕСЃСЂРѕС‡РµРЅР°")
+                else if (status == "Просрочена")
                     e.CellStyle.BackColor = Color.Gray;
             }
         }

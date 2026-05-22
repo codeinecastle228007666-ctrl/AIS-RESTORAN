@@ -1,4 +1,5 @@
-п»їusing _1.data;
+// Форма управления заказами (список, создание, смена статуса, оплата)
+using _1.data;
 using _1.forms;
 using _1.forms.zakazo;
 using System;
@@ -14,6 +15,7 @@ using System.Windows.Forms.VisualStyles;
 
 namespace _1
 {
+    // Главная форма модуля заказов: просмотр, создание, изменение статуса, оплата, просмотр состава.
     public partial class Zakazi : Form
     {
         public Zakazi()
@@ -23,13 +25,12 @@ namespace _1
             dataGridView1.CellFormatting += dataGridView1_CellFormatting;
         }
 
+        // Создание нового заказа.
         private void button1_Click(object sender, EventArgs e)
         {
             redzakazaform redForm = new redzakazaform();
             if (redForm.ShowDialog() == DialogResult.OK)
-            {
                 LoadZakazi(textBoxSearch.Text);
-            }
         }
 
         private void button2_Click(object sender, EventArgs e) { }
@@ -39,20 +40,21 @@ namespace _1
             LoadZakazi("");
         }
 
+        // Загрузка заказов с поиском по клиенту, сотруднику или ID.
         private void LoadZakazi(string search)
         {
             string sql = @"
                 SELECT 
                     z.zakaz_id AS ""ID"",
                     z.status_zakaza_id AS ""StatusID"",
-                    c.fio AS ""РљР»РёРµРЅС‚"",
-                    s.fio AS ""РЎРѕС‚СЂСѓРґРЅРёРє"",
-                    z.data_zakaza AS ""Р”Р°С‚Р° Р·Р°РєР°Р·Р°"",
-                    sz.nazvanie AS ""РЎС‚Р°С‚СѓСЃ""
-                    FROM zakazi z
-                    JOIN client c ON c.client_id = z.client_id
-                    JOIN sotrudniki s ON s.sotrudnik_id = z.sotrudnik_id
-                    JOIN status_zakaza sz ON sz.status_zakaza_id = z.status_zakaza_id
+                    c.fio AS ""Клиент"",
+                    s.fio AS ""Сотрудник"",
+                    z.data_zakaza AS ""Дата заказа"",
+                    sz.nazvanie AS ""Статус""
+                FROM zakazi z
+                JOIN client c ON c.client_id = z.client_id
+                JOIN sotrudniki s ON s.sotrudnik_id = z.sotrudnik_id
+                JOIN status_zakaza sz ON sz.status_zakaza_id = z.status_zakaza_id
             ";
 
             if (!string.IsNullOrWhiteSpace(search))
@@ -67,21 +69,16 @@ namespace _1
             sql += " ORDER BY z.data_zakaza DESC";
 
             if (!string.IsNullOrWhiteSpace(search))
-            {
                 dataGridView1.DataSource = Db.GetData(sql, new Npgsql.NpgsqlParameter("@search", $"%{search.ToLower()}%"));
-            }
             else
-            {
                 dataGridView1.DataSource = Db.GetData(sql);
-            }
+
             dataGridView1.Columns["StatusID"].Visible = false;
             dataGridView1.Columns["ID"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
             if (dataGridView1.Rows.Count > 0)
-            {
                 dataGridView1.Rows[0].Selected = true;
-            }
         }
 
         private void textBoxSearch_TextChanged(object sender, EventArgs e)
@@ -89,6 +86,7 @@ namespace _1
             LoadZakazi(textBoxSearch.Text);
         }
 
+        // Оплата выбранного заказа (доступно только для статуса "Готов").
         private void button4_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
@@ -96,11 +94,10 @@ namespace _1
             oplata oplataForm = new oplata(zakazId);
 
             if (oplataForm.ShowDialog() == DialogResult.OK)
-            {
                 LoadZakazi(textBoxSearch.Text);
-            }
         }
 
+        // Просмотр состава заказа.
         private void button5_click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
@@ -112,6 +109,7 @@ namespace _1
         private bool _loadingstatuses = false;
         private int _currentStatusId;
 
+        // Загрузка доступных статусов для перехода (фильтр по правилам).
         private void LoadAvailableStatuses(int currentStatusId)
         {
             _loadingstatuses = true;
@@ -141,6 +139,7 @@ namespace _1
             _loadingstatuses = false;
         }
 
+        // Проверка допустимости перехода статуса заказа.
         private bool IsTransitionAllowed(int oldStatus, int newStatus)
         {
             if (oldStatus == newStatus) return false;
@@ -168,6 +167,7 @@ namespace _1
             button6.Enabled = selectedStatusId != _currentStatusId;
         }
 
+        // Применить новый статус к заказу.
         private void button6_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
@@ -192,9 +192,10 @@ namespace _1
             }
         }
 
+        // Цветовая маркировка заказов по статусу.
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dataGridView1.Columns[e.ColumnIndex].Name != "РЎС‚Р°С‚СѓСЃ") return;
+            if (dataGridView1.Columns[e.ColumnIndex].Name != "Статус") return;
 
             var cellStatus = dataGridView1.Rows[e.RowIndex].Cells["StatusID"].Value;
             if (cellStatus == null || !int.TryParse(cellStatus.ToString(), out int status)) return;
@@ -215,6 +216,7 @@ namespace _1
             e.CellStyle.SelectionBackColor = back;
         }
 
+        // Обновление UI в зависимости от статуса заказа.
         private void UpdateUIByStatus(int statusId)
         {
             bool isFinal = statusId == 6 || statusId == 7;

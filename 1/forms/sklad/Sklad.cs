@@ -1,4 +1,5 @@
-п»їusing _1.data;
+// Форма учёта остатков на складе
+using _1.data;
 using _1.forms.sklad;
 using _1.zaprosi;
 using System;
@@ -13,6 +14,7 @@ using System.Windows.Forms;
 
 namespace _1.forms
 {
+    // Форма склада: просмотр остатков, поиск, контроль минимального уровня, приход товаров, журнал движений, заявки поставщикам.
     public partial class Sklad : Form
     {
         public Sklad()
@@ -20,14 +22,15 @@ namespace _1.forms
             InitializeComponent();
         }
 
+        // Загрузка остатков склада с возможностью фильтрации по названию.
         private void LoadSklad(string search = "")
         {
             string sql = @"
                 SELECT 
                     s.product_id AS ""ID"",
-                    p.nazvanie AS ""РџСЂРѕРґСѓРєС‚"",
-                    e.nazvanie AS ""Р•Рґ. РёР·Рј"",
-                    s.kolichestvo AS ""РћСЃС‚Р°С‚РѕРє""
+                    p.nazvanie AS ""Продукт"",
+                    e.nazvanie AS ""Ед. изм"",
+                    s.kolichestvo AS ""Остаток""
                 FROM sklad s
                 JOIN product p ON p.product_id = s.product_id
                 JOIN edinica_izmereniya e ON e.edinica_izmereniya_id = p.edinica_izmereniya_id
@@ -35,25 +38,20 @@ namespace _1.forms
             ";
 
             if (!string.IsNullOrWhiteSpace(search))
-            {
                 sql += " AND LOWER(p.nazvanie) LIKE @search";
-            }
 
             sql += " ORDER BY p.nazvanie";
 
             if (!string.IsNullOrWhiteSpace(search))
-            {
                 dataGridView1.DataSource = Db.GetData(sql, new Npgsql.NpgsqlParameter("@search", $"%{search.ToLower()}%"));
-            }
             else
-            {
                 dataGridView1.DataSource = Db.GetData(sql);
-            }
 
             dataGridView1.Columns["ID"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
+        // Проверка продуктов с нулевым остатком и вывод предупреждения.
         private void CheckLowStock()
         {
             string sql = @"
@@ -68,12 +66,12 @@ namespace _1.forms
             DataTable dt = Db.GetData(sql);
             if (dt.Rows.Count > 0)
             {
-                StringBuilder msg = new StringBuilder("Р’РЅРёРјР°РЅРёРµ! Р—Р°РєР°РЅС‡РёРІР°СЋС‚СЃСЏ СЃР»РµРґСѓСЋС‰РёРµ РїСЂРѕРґСѓРєС‚С‹:\n\n");
+                StringBuilder msg = new StringBuilder("Внимание! Заканчиваются следующие продукты:\n\n");
                 foreach (DataRow row in dt.Rows)
                 {
-                    msg.AppendLine($"вЂў {row["nazvanie"]} вЂ” {row["kolichestvo"]} {row["edinica_izmereniya_id"]}");
+                    msg.AppendLine($"• {row["nazvanie"]} — {row["kolichestvo"]} {row["edinica_izmereniya_id"]}");
                 }
-                MessageBox.Show(msg.ToString(), "РќРёР·РєРёРµ РѕСЃС‚Р°С‚РєРё", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(msg.ToString(), "Низкие остатки", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -83,37 +81,37 @@ namespace _1.forms
             CheckLowStock();
         }
 
+        // Подсветка продуктов с остатком ? 5 красным цветом.
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            if (dataGridView1.Columns[e.ColumnIndex].Name != "РћСЃС‚Р°С‚РѕРє") return;
+            if (dataGridView1.Columns[e.ColumnIndex].Name != "Остаток") return;
             if (e.Value == null) return;
 
             if (decimal.TryParse(e.Value.ToString(), out decimal ostatok))
             {
                 if (ostatok <= 5)
-                {
                     e.CellStyle.BackColor = Color.LightCoral;
-                }
             }
         }
 
         private void dataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e) { }
 
+        // Открыть форму прихода товаров.
         private void button1_Click(object sender, EventArgs e)
         {
             Prihod form = new Prihod();
             if (form.ShowDialog() == DialogResult.OK)
-            {
                 LoadSklad(textBoxSearch.Text);
-            }
         }
 
+        // Открыть журнал движений склада.
         private void button2_Click(object sender, EventArgs e)
         {
             SkladJournal form = new SkladJournal();
             form.ShowDialog();
         }
 
+        // Открыть форму заявок поставщикам.
         private void buttonZayavka_Click(object sender, EventArgs e)
         {
             ZayavkaPostavshiku form = new ZayavkaPostavshiku();

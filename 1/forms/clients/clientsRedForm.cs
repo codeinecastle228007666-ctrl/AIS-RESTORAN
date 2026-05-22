@@ -1,4 +1,5 @@
-п»їusing _1.data;
+// Форма добавления/редактирования клиента
+using _1.data;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -12,15 +13,16 @@ using System.Windows.Forms;
 
 namespace _1.forms.clients
 {
+    // Форма для создания или редактирования данных клиента.
     public partial class clientsRedForm : Form
     {
-        int clientId = -1;
+        int clientId = -1; // -1 = новый клиент
+
         public clientsRedForm()
         {
             InitializeComponent();
         }
 
-        
         public clientsRedForm(int id)
         {
             InitializeComponent();
@@ -28,6 +30,7 @@ namespace _1.forms.clients
             LoadClient();
         }
 
+        // Загрузка данных клиента для редактирования.
         void LoadClient()
         {
             string sql = @"
@@ -55,6 +58,7 @@ namespace _1.forms.clients
             }
         }
 
+        // Сохранение клиента (вставка или обновление).
         private void buttonSave_Click(object sender, EventArgs e)
         {
             string fio = textBoxFIO.Text;
@@ -62,39 +66,38 @@ namespace _1.forms.clients
 
             string sql;
 
-
+            // Валидация обязательных полей
             if (string.IsNullOrWhiteSpace(textBoxFIO.Text))
             {
-                MessageBox.Show("РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РІРІРµРґРёС‚Рµ Р¤РРћ РєР»РёРµРЅС‚Р°.");
+                MessageBox.Show("Пожалуйста, введите ФИО клиента.");
                 return;
             }
 
-
             if (!maskedTextBox1.MaskCompleted)
             {
-                MessageBox.Show("Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°");
+                MessageBox.Show("Введите номер телефона");
                 return;
             }
 
             if (clientId == -1)
             {
                 sql = @"
-        INSERT INTO client (fio, nomer_telefona)
-        VALUES (@fio, @phone)";
+                    INSERT INTO client (fio, nomer_telefona)
+                    VALUES (@fio, @phone)";
             }
             else
             {
                 sql = @"
-        UPDATE client
-        SET fio=@fio, nomer_telefona=@phone
-        WHERE client_id=@id";
+                    UPDATE client
+                    SET fio=@fio, nomer_telefona=@phone
+                    WHERE client_id=@id";
             }
 
             var parameters = new List<NpgsqlParameter>
-    {
-        new NpgsqlParameter("@fio", fio),
-        new NpgsqlParameter("@phone", phone)
-    };
+            {
+                new NpgsqlParameter("@fio", fio),
+                new NpgsqlParameter("@phone", phone)
+            };
 
             if (clientId != -1)
                 parameters.Add(new NpgsqlParameter("@id", clientId));
@@ -109,7 +112,5 @@ namespace _1.forms.clients
         {
             Close();
         }
-
-        
     }
 }

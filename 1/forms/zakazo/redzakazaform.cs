@@ -1,4 +1,5 @@
-п»їusing System;
+// Форма создания нового заказа
+using System;
 using System.Data;
 using System.Windows.Forms;
 using _1.data;
@@ -6,6 +7,7 @@ using Npgsql;
 
 namespace _1.forms
 {
+    // Форма создания заказа: выбор клиента, стола, сотрудника. Вызывает хранимую функцию sp_create_zakaz для создания заказа в БД.
     public partial class redzakazaform : Form
     {
         public redzakazaform()
@@ -21,9 +23,10 @@ namespace _1.forms
 
             dateTimePicker1.Value = DateTime.Now;
             comboBoxStatus.Enabled = false;
-            comboBoxStatus.Text = "РќРѕРІС‹Р№";
+            comboBoxStatus.Text = "Новый";
         }
 
+        // Заполнение ComboBox данными из SQL-запроса.
         private void LoadCombo(ComboBox cb, string valueMember, string displayMember, string sql)
         {
             DataTable dt = Db.GetData(sql);
@@ -32,13 +35,14 @@ namespace _1.forms
             cb.DataSource = dt;
         }
 
+        // Создание заказа через хранимую функцию sp_create_zakaz.
         private void button1_Click(object sender, EventArgs e)
         {
             if (comboBoxClient.SelectedItem is not DataRowView drvClient ||
                 comboBoxStol.SelectedItem is not DataRowView drvStol ||
                 comboBoxSotrudnik.SelectedItem is not DataRowView drvSotrudnik)
             {
-                MessageBox.Show("РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РІС‹Р±РµСЂРёС‚Рµ РєР»РёРµРЅС‚Р°, СЃС‚РѕР» Рё СЃРѕС‚СЂСѓРґРЅРёРєР°.");
+                MessageBox.Show("Пожалуйста, выберите клиента, стол и сотрудника.");
                 return;
             }
 
@@ -56,18 +60,18 @@ namespace _1.forms
 
                 if (dt.Rows.Count == 0)
                 {
-                    MessageBox.Show("Р—Р°РєР°Р· РЅРµ Р±С‹Р» СЃРѕР·РґР°РЅ.");
+                    MessageBox.Show("Заказ не был создан.");
                     return;
                 }
 
                 int newZakazId = Convert.ToInt32(dt.Rows[0]["p_zakaz_id"]);
-                MessageBox.Show($"Р—Р°РєР°Р· #{newZakazId} СѓСЃРїРµС€РЅРѕ СЃРѕР·РґР°РЅ");
+                MessageBox.Show($"Заказ #{newZakazId} успешно создан");
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("РћС€РёР±РєР° СЃРѕР·РґР°РЅРёСЏ Р·Р°РєР°Р·Р°:\n" + ex.Message);
+                MessageBox.Show("Ошибка создания заказа:\n" + ex.Message);
             }
         }
 

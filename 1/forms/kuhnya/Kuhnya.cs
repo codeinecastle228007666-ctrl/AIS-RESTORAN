@@ -1,3 +1,4 @@
+// Форма мониторинга заказов для кухни (с автообновлением и звуковым оповещением)
 using _1.data;
 using System;
 using System.Data;
@@ -7,9 +8,10 @@ using System.Windows.Forms;
 
 namespace _1.forms
 {
+    // Форма кухни: отображает активные заказы в реальном времени. Автообновление каждые 5 секунд, звуковой сигнал при новых заказах.
     public partial class Kuhnya : Form
     {
-        private System.Windows.Forms.Timer _timer;
+        private System.Windows.Forms.Timer _timer; // Таймер автообновления
         private int _lastOrderCount;
 
         public Kuhnya()
@@ -17,7 +19,7 @@ namespace _1.forms
             InitializeComponent();
 
             _timer = new System.Windows.Forms.Timer();
-            _timer.Interval = 5000;
+            _timer.Interval = 5000; // 5 секунд
             _timer.Tick += Timer_Tick;
         }
 
@@ -35,6 +37,7 @@ namespace _1.forms
             _timer.Dispose();
         }
 
+        // Срабатывает каждые 5 секунд. Если появились новые заказы — звуковой сигнал и мигание.
         private void Timer_Tick(object sender, EventArgs e)
         {
             int currentCount = GetCurrentOrderCount();
@@ -49,6 +52,7 @@ namespace _1.forms
             LoadOrders();
         }
 
+        // Возвращает количество активных заказов (статусы 2, 3, 4).
         private int GetCurrentOrderCount()
         {
             string sql = @"
@@ -58,12 +62,11 @@ namespace _1.forms
             ";
             var dt = Db.GetData(sql);
             if (dt.Rows.Count > 0 && dt.Rows[0][0] != DBNull.Value)
-            {
                 return Convert.ToInt32(dt.Rows[0][0]);
-            }
             return 0;
         }
 
+        // Мигание формы жёлтым цветом при появлении нового заказа.
         private void FlashForm()
         {
             this.BackColor = Color.Yellow;
@@ -85,6 +88,7 @@ namespace _1.forms
             flashTimer.Start();
         }
 
+        // Загрузка активных заказов (статусы: Новый, Готовится, Готов).
         private void LoadOrders()
         {
             string sql = @"
@@ -121,11 +125,11 @@ namespace _1.forms
 
         private void UpdateOrderCount()
         {
-            int count = dataGridView1.Rows.Count;
-            _lastOrderCount = count;
-            labelOrderCount.Text = $"Активных заказов: {count}";
+            _lastOrderCount = dataGridView1.Rows.Count;
+            labelOrderCount.Text = $"Активных заказов: {_lastOrderCount}";
         }
 
+        // Обновление текста и состояния кнопки в зависимости от статуса заказа.
         private void UpdateButtonState()
         {
             if (dataGridView1.CurrentRow == null)
@@ -157,6 +161,7 @@ namespace _1.forms
             }
         }
 
+        // Цветовая маркировка заказов: жёлтый — новый, голубой — готовится, зелёный — готов.
         private void dataGridView1_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if (dataGridView1.Columns[e.ColumnIndex].Name != "Статус") return;
@@ -181,6 +186,7 @@ namespace _1.forms
             UpdateButtonState();
         }
 
+        // Смена статуса заказа: Новый → Готовится → Готов.
         private void buttonMarkReady_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null)

@@ -1,4 +1,5 @@
-п»їusing System;
+// Форма выбора блюда для добавления в заказ
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,6 +12,7 @@ using _1.data;
 
 namespace _1.forms.zakazo
 {
+    // Форма выбора блюда и количества для добавления в заказ.
     public partial class dobavlenie_bludaForm : Form
     {
         public dobavlenie_bludaForm()
@@ -18,7 +20,8 @@ namespace _1.forms.zakazo
             InitializeComponent();
         }
 
-        private void dobavlenie_bludaForm_Load(object sender, EventArgs e) // Р—Р°РіСЂСѓР·РєР° Р±Р»СЋРґ РїСЂРё РѕС‚РєСЂС‹С‚РёРё С„РѕСЂРјС‹
+        // Загрузка списка блюд при открытии.
+        private void dobavlenie_bludaForm_Load(object sender, EventArgs e)
         {
             LoadBluda("");
             numericUpDown1.Minimum = 1;
@@ -26,38 +29,40 @@ namespace _1.forms.zakazo
             numericUpDown1.Value = 1;
         }
 
-        private void LoadBluda(string search) // Р—Р°РіСЂСѓР·РєР° Р±Р»СЋРґ РІ DataGridView СЃ СѓС‡РµС‚РѕРј РїРѕРёСЃРєРѕРІРѕРіРѕ Р·Р°РїСЂРѕСЃР°
+        // Загрузка блюд с фильтром по названию.
+        private void LoadBluda(string search)
         {
             string sql = $@"
-            SELECT
-            bludo_id AS ""ID"",
-            nazvanie AS ""РќР°Р·РІР°РЅРёРµ"", 
-            cena AS ""Р¦РµРЅР°""
-            FROM bludo
-            WHERE LOWER (nazvanie) LIKE LOWER ('%{search}%')
-            ORDER BY nazvanie
+                SELECT
+                bludo_id AS ""ID"",
+                nazvanie AS ""Название"", 
+                cena AS ""Цена""
+                FROM bludo
+                WHERE LOWER (nazvanie) LIKE LOWER ('%{search}%')
+                ORDER BY nazvanie
             ";
             dataGridView1.DataSource = Db.GetData(sql);
             dataGridView1.Columns["ID"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e) // РџРѕРёСЃРє Р±Р»СЋРґ РїСЂРё РІРІРѕРґРµ С‚РµРєСЃС‚Р°
+        // Поиск при вводе текста.
+        private void textBox1_TextChanged(object sender, EventArgs e)
         {
             LoadBluda(textBox1.Text);
         }
 
-        private void button1_Click(object sender, EventArgs e) // РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РІС‹Р±РѕСЂР° Р±Р»СЋРґР° Рё РµРіРѕ РєРѕР»РёС‡РµСЃС‚РІР°
+        // Подтверждение выбора блюда.
+        private void button1_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentCell == null) return; // РџСЂРѕРІРµСЂРєР° РЅР° РЅР°Р»РёС‡РёРµ РІС‹Р±СЂР°РЅРЅРѕР№ СЏС‡РµР№РєРё
-            
+            if (dataGridView1.CurrentCell == null) return;
+
             SelectedBludoId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
-            cena = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["Р¦РµРЅР°"].Value);
+            cena = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["Цена"].Value);
             kolichestvo = (int)numericUpDown1.Value;
 
-            this.DialogResult = DialogResult.OK; 
-            this.Close(); 
-
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         public int SelectedBludoId { get; private set; }

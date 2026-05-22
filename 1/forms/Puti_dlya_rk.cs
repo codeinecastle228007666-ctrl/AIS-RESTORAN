@@ -1,10 +1,13 @@
-п»їusing System;
+// Поиск утилит PostgreSQL (pg_dump, pg_restore, psql) на диске
+using System;
 using System.IO;
 
 namespace _1.forms
 {
+    // Предоставляет методы для поиска исполняемых файлов утилит PostgreSQL.
     internal class Puti_dlya_rk
     {
+        // Возвращает путь к pg_dump.exe.
         public static string GetPgDump()
         {
             string[] possible =
@@ -19,9 +22,10 @@ namespace _1.forms
                 if (File.Exists(p))
                     return p;
 
-            throw new Exception("pg_dump РЅРµ РЅР°Р№РґРµРЅ.");
+            throw new Exception("pg_dump не найден.");
         }
 
+        // Возвращает путь к pg_restore.exe.
         public static string GetPgRestore()
         {
             string[] possible =
@@ -36,9 +40,10 @@ namespace _1.forms
                 if (File.Exists(p))
                     return p;
 
-            throw new Exception("pg_restore РЅРµ РЅР°Р№РґРµРЅ.");
+            throw new Exception("pg_restore не найден.");
         }
 
+        // Возвращает путь к psql.exe.
         public static string GetPsql()
         {
             string[] possible =
@@ -53,7 +58,7 @@ namespace _1.forms
                 if (File.Exists(p))
                     return p;
 
-            throw new Exception("psql РЅРµ РЅР°Р№РґРµРЅ.");
+            throw new Exception("psql не найден.");
         }
     }
 }

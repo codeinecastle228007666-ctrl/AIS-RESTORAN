@@ -1,4 +1,5 @@
-п»їusing _1.data;
+// Форма прихода товаров на склад
+using _1.data;
 using Npgsql;
 using System;
 using System.Globalization;
@@ -6,6 +7,7 @@ using System.Windows.Forms;
 
 namespace _1.forms.sklad
 {
+    // Форма для оприходования товаров на склад от поставщика. Вызывает хранимую процедуру prihod_producta и записывает движение.
     public partial class Prihod : Form
     {
         public Prihod()
@@ -29,54 +31,57 @@ namespace _1.forms.sklad
             comboBox1.ValueMember = "product_id";
         }
 
+        // Проведение прихода: вызов процедуры и запись в журнал движений.
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
                 if (comboBox1.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Р’С‹Р±РµСЂРёС‚Рµ РїСЂРѕРґСѓРєС‚");
+                    MessageBox.Show("Выберите продукт");
                     return;
                 }
 
                 if (comboBox2.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Р’С‹Р±РµСЂРёС‚Рµ РїРѕСЃС‚Р°РІС‰РёРєР°");
+                    MessageBox.Show("Выберите поставщика");
                     return;
                 }
 
                 if (comboBox1.SelectedValue == null || comboBox1.SelectedValue == DBNull.Value)
                 {
-                    MessageBox.Show("РћС€РёР±РєР°: РЅРµ СѓРґР°Р»РѕСЃСЊ РїРѕР»СѓС‡РёС‚СЊ ID РїСЂРѕРґСѓРєС‚Р°");
+                    MessageBox.Show("Ошибка: не удалось получить ID продукта");
                     return;
                 }
 
                 if (comboBox2.SelectedValue == null || comboBox2.SelectedValue == DBNull.Value)
                 {
-                    MessageBox.Show("РћС€РёР±РєР°: РЅРµ СѓРґР°Р»РѕСЃСЊ РїРѕР»СѓС‡РёС‚СЊ ID РїРѕСЃС‚Р°РІС‰РёРєР°");
+                    MessageBox.Show("Ошибка: не удалось получить ID поставщика");
                     return;
                 }
 
                 int productId = Convert.ToInt32(comboBox1.SelectedValue);
                 int postavId = Convert.ToInt32(comboBox2.SelectedValue);
 
+                // Парсинг с русской локалью (запятая как разделитель)
                 CultureInfo ruCulture = new CultureInfo("ru-RU");
 
                 if (!decimal.TryParse(textBox1.Text, NumberStyles.Any, ruCulture, out decimal kolvo) || kolvo <= 0)
                 {
-                    MessageBox.Show("РљРѕР»РёС‡РµСЃС‚РІРѕ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0");
+                    MessageBox.Show("Количество должно быть больше 0");
                     return;
                 }
 
                 if (!decimal.TryParse(textBox2.Text, NumberStyles.Any, ruCulture, out decimal cena) || cena <= 0)
                 {
-                    MessageBox.Show("Р¦РµРЅР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0");
+                    MessageBox.Show("Цена должна быть больше 0");
                     return;
                 }
 
                 kolvo = Math.Round(kolvo, 3);
                 cena = Math.Round(cena, 2);
 
+                // CALL хранимой процедуры + INSERT в журнал движений
                 string sql = @"
                     CALL prihod_producta(@p_product_id, @p_kolichestvo);
                     INSERT INTO sklad_dvizhenie (product_id, zakaz_id, tip, kolichestvo, postavschik_id, cena, data_dvizheniya)
@@ -92,12 +97,12 @@ namespace _1.forms.sklad
                     new NpgsqlParameter("@cena", NpgsqlTypes.NpgsqlDbType.Numeric) { Value = cena }
                 );
 
-                MessageBox.Show($"РџСЂРёС…РѕРґ СЃРѕС…СЂР°РЅС‘РЅ!\n\nРўРѕРІР°СЂ: {comboBox1.Text}\nРљРѕР»РёС‡РµСЃС‚РІРѕ: {kolvo:0.000}\nР¦РµРЅР°: {cena:0.00}", "РЈСЃРїРµС…");
+                MessageBox.Show($"Приход сохранён!\n\nТовар: {comboBox1.Text}\nКоличество: {kolvo:0.000}\nЦена: {cena:0.00}", "Успех");
                 this.DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"РћС€РёР±РєР°: {ex.Message}", "РћС€РёР±РєР°");
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка");
             }
         }
 
@@ -109,6 +114,7 @@ namespace _1.forms.sklad
             textBox2.KeyPress += numeric_KeyPress;
         }
 
+        // Ограничение ввода: только цифры и запятая.
         private void numeric_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox box = sender as TextBox;
@@ -121,9 +127,7 @@ namespace _1.forms.sklad
             }
 
             if (e.KeyChar == ',' && box.Text.Contains(","))
-            {
                 e.Handled = true;
-            }
         }
 
         private void textBox1_Leave(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-п»їusing System;
+// Форма просмотра и редактирования меню
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,6 +12,7 @@ using _1.data;
 
 namespace _1.forms.Menu
 {
+    // Справочник меню: просмотр блюд, поиск, добавление, редактирование, удаление.
     public partial class MenuForm : Form
     {
         public MenuForm()
@@ -23,14 +25,15 @@ namespace _1.forms.Menu
             LoadMenu("");
         }
 
+        // Загрузка блюд с фильтром по названию.
         void LoadMenu(string search)
         {
             string sql = $@"
                 SELECT b.bludo_id AS ""ID"",
-                b.nazvanie AS ""РќР°Р·РІР°РЅРёРµ"",
-                km.nazvanie AS ""РљР°С‚РµРіРѕСЂРёСЏ"",
-                b.cena AS ""Р¦РµРЅР°"",
-                b.opisanie AS ""РћРїРёСЃР°РЅРёРµ""
+                b.nazvanie AS ""Название"",
+                km.nazvanie AS ""Категория"",
+                b.cena AS ""Цена"",
+                b.opisanie AS ""Описание""
                 FROM bludo b
                 JOIN kategoriya_menu km ON b.kategoriya_id = km.kategoriya_id
                 WHERE LOWER(b.nazvanie) LIKE LOWER('%{search}%')
@@ -51,9 +54,7 @@ namespace _1.forms.Menu
         {
             BludoEditForm editForm = new BludoEditForm();
             if (editForm.ShowDialog() == DialogResult.OK)
-            {
                 LoadMenu("");
-            }
         }
 
         private void buttonRed_Click(object sender, EventArgs e)
@@ -64,16 +65,15 @@ namespace _1.forms.Menu
 
             BludoEditForm editForm = new BludoEditForm(id);
             if (editForm.ShowDialog() == DialogResult.OK)
-            {
                 LoadMenu("");
-            }
         }
 
+        // Удаление блюда вместе с его составом.
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
 
-            if (MessageBox.Show("Р’С‹ СѓРІРµСЂРµРЅС‹, С‡С‚Рѕ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ СЌС‚Рѕ Р±Р»СЋРґРѕ?", "РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ", MessageBoxButtons.YesNo) == DialogResult.No) return;
+            if (MessageBox.Show("Вы уверены, что хотите удалить это блюдо?", "Подтверждение", MessageBoxButtons.YesNo) == DialogResult.No) return;
 
             int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells[0].Value);
 
@@ -84,7 +84,6 @@ namespace _1.forms.Menu
             Db.ekzekuttranzakcii(sql2, new Npgsql.NpgsqlParameter("@id", id));
 
             LoadMenu("");
-
         }
     }
 }

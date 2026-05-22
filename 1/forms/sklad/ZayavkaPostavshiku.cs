@@ -1,4 +1,5 @@
-п»їusing System;
+// Форма заявок поставщикам (создание, просмотр, удаление)
+using System;
 using System.Data;
 using System.Drawing;
 using System.Text;
@@ -7,6 +8,7 @@ using _1.data;
 
 namespace _1.forms.sklad
 {
+    // Форма для создания и управления заявками поставщикам. Заявки хранятся в виде текстовых файлов в папке zayavki/.
     public partial class ZayavkaPostavshiku : Form
     {
         public ZayavkaPostavshiku()
@@ -39,6 +41,7 @@ namespace _1.forms.sklad
             comboBoxProduct.SelectedIndex = -1;
         }
 
+        // Загрузка списка заявок из текстовых файлов в папке zayavki/.
         private void LoadZayavki()
         {
             string path = Application.StartupPath + "\\zayavki\\";
@@ -46,11 +49,11 @@ namespace _1.forms.sklad
             {
                 var files = System.IO.Directory.GetFiles(path, "*.txt");
                 DataTable dt = new DataTable();
-                dt.Columns.Add("Р”Р°С‚Р°");
-                dt.Columns.Add("РџРѕСЃС‚Р°РІС‰РёРє");
-                dt.Columns.Add("РўРѕРІР°СЂ");
-                dt.Columns.Add("РљРѕР»РёС‡РµСЃС‚РІРѕ");
-                dt.Columns.Add("РЎС‚Р°С‚СѓСЃ");
+                dt.Columns.Add("Дата");
+                dt.Columns.Add("Поставщик");
+                dt.Columns.Add("Товар");
+                dt.Columns.Add("Количество");
+                dt.Columns.Add("Статус");
 
                 foreach (var file in files)
                 {
@@ -58,11 +61,11 @@ namespace _1.forms.sklad
                     if (lines.Length >= 5)
                     {
                         DataRow row = dt.NewRow();
-                        row["Р”Р°С‚Р°"] = lines[0].Replace("Р”Р°С‚Р°: ", "");
-                        row["РџРѕСЃС‚Р°РІС‰РёРє"] = lines[2].Replace("РџРѕСЃС‚Р°РІС‰РёРє: ", "");
-                        row["РўРѕРІР°СЂ"] = lines[3].Replace("РўРѕРІР°СЂ: ", "");
-                        row["РљРѕР»РёС‡РµСЃС‚РІРѕ"] = lines[4].Replace("РљРѕР»РёС‡РµСЃС‚РІРѕ: ", "");
-                        row["РЎС‚Р°С‚СѓСЃ"] = lines[5].Replace("РЎС‚Р°С‚СѓСЃ: ", "");
+                        row["Дата"] = lines[0].Replace("Дата: ", "");
+                        row["Поставщик"] = lines[2].Replace("Поставщик: ", "");
+                        row["Товар"] = lines[3].Replace("Товар: ", "");
+                        row["Количество"] = lines[4].Replace("Количество: ", "");
+                        row["Статус"] = lines[5].Replace("Статус: ", "");
                         dt.Rows.Add(row);
                     }
                 }
@@ -71,32 +74,33 @@ namespace _1.forms.sklad
             }
         }
 
+        // Создание новой заявки и сохранение в текстовый файл.
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             try
             {
                 if (comboBoxPostavshik.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Р’С‹Р±РµСЂРёС‚Рµ РїРѕСЃС‚Р°РІС‰РёРєР°");
+                    MessageBox.Show("Выберите поставщика");
                     return;
                 }
 
                 if (comboBoxProduct.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Р’С‹Р±РµСЂРёС‚Рµ РїСЂРѕРґСѓРєС‚");
+                    MessageBox.Show("Выберите продукт");
                     return;
                 }
 
                 if (!decimal.TryParse(textBoxKolichestvo.Text, out decimal kolvo) || kolvo <= 0)
                 {
-                    MessageBox.Show("Р’РІРµРґРёС‚Рµ РєРѕСЂСЂРµРєС‚РЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ");
+                    MessageBox.Show("Введите корректное количество");
                     return;
                 }
 
                 string postavshik = comboBoxPostavshik.Text;
                 string product = comboBoxProduct.Text;
                 string data = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-                string status = "РќРѕРІР°СЏ";
+                string status = "Новая";
 
                 string dir = Application.StartupPath + "\\zayavki\\";
                 if (!System.IO.Directory.Exists(dir))
@@ -105,20 +109,20 @@ namespace _1.forms.sklad
                 string fileName = $"{DateTime.Now:yyyyMMdd_HHmmss}_{postavshik}_{product}.txt";
                 string filePath = dir + fileName;
 
-                string content = $@"Р”Р°С‚Р°: {data}
-РќРѕРјРµСЂ: {DateTime.Now:yyyyMMddHHmmss}
-РџРѕСЃС‚Р°РІС‰РёРє: {postavshik}
-РўРѕРІР°СЂ: {product}
-РљРѕР»РёС‡РµСЃС‚РІРѕ: {kolvo:0.000}
-РЎС‚Р°С‚СѓСЃ: {status}
+                string content = $@"Дата: {data}
+Номер: {DateTime.Now:yyyyMMddHHmmss}
+Поставщик: {postavshik}
+Товар: {product}
+Количество: {kolvo:0.000}
+Статус: {status}
 
-РџРѕСЃС‚Р°РІС‰РёРє: _______     РџРѕР»СѓС‡Р°С‚РµР»СЊ: ________
-Р”Р°С‚Р° СЃРѕР·РґР°РЅРёСЏ: {DateTime.Now:dd.MM.yyyy HH:mm:ss}";
+Поставщик: _______     Получатель: ________
+Дата создания: {DateTime.Now:dd.MM.yyyy HH:mm:ss}";
 
                 System.IO.File.WriteAllText(filePath, content, Encoding.UTF8);
 
-                MessageBox.Show($"Р—Р°СЏРІРєР° СЃРѕР·РґР°РЅР°!\n\nРџРѕСЃС‚Р°РІС‰РёРє: {postavshik}\nРўРѕРІР°СЂ: {product}\nРљРѕР»РёС‡РµСЃС‚РІРѕ: {kolvo:0.000}",
-                    "РЈСЃРїРµС…", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Заявка создана!\n\nПоставщик: {postavshik}\nТовар: {product}\nКоличество: {kolvo:0.000}",
+                    "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 comboBoxPostavshik.SelectedIndex = -1;
                 comboBoxProduct.SelectedIndex = -1;
@@ -127,21 +131,22 @@ namespace _1.forms.sklad
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"РћС€РёР±РєР°: {ex.Message}", "РћС€РёР±РєР°", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
+        // Открыть файл заявки в Блокноте.
         private void buttonOpen_Click(object sender, EventArgs e)
         {
             if (dataGridViewZayavki.CurrentRow == null)
             {
-                MessageBox.Show("Р’С‹Р±РµСЂРёС‚Рµ Р·Р°СЏРІРєСѓ");
+                MessageBox.Show("Выберите заявку");
                 return;
             }
 
-            string date = dataGridViewZayavki.CurrentRow.Cells["Р”Р°С‚Р°"].Value.ToString();
-            string postavshik = dataGridViewZayavki.CurrentRow.Cells["РџРѕСЃС‚Р°РІС‰РёРє"].Value.ToString();
-            string product = dataGridViewZayavki.CurrentRow.Cells["РўРѕРІР°СЂ"].Value.ToString();
+            string date = dataGridViewZayavki.CurrentRow.Cells["Дата"].Value.ToString();
+            string postavshik = dataGridViewZayavki.CurrentRow.Cells["Поставщик"].Value.ToString();
+            string product = dataGridViewZayavki.CurrentRow.Cells["Товар"].Value.ToString();
 
             string dir = Application.StartupPath + "\\zayavki\\";
             if (System.IO.Directory.Exists(dir))
@@ -157,22 +162,23 @@ namespace _1.forms.sklad
                     }
                 }
             }
-            MessageBox.Show("Р¤Р°Р№Р» Р·Р°СЏРІРєРё РЅРµ РЅР°Р№РґРµРЅ");
+            MessageBox.Show("Файл заявки не найден");
         }
 
+        // Удаление файла заявки.
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (dataGridViewZayavki.CurrentRow == null)
             {
-                MessageBox.Show("Р’С‹Р±РµСЂРёС‚Рµ Р·Р°СЏРІРєСѓ");
+                MessageBox.Show("Выберите заявку");
                 return;
             }
 
-            string date = dataGridViewZayavki.CurrentRow.Cells["Р”Р°С‚Р°"].Value.ToString();
-            string postavshik = dataGridViewZayavki.CurrentRow.Cells["РџРѕСЃС‚Р°РІС‰РёРє"].Value.ToString();
-            string product = dataGridViewZayavki.CurrentRow.Cells["РўРѕРІР°СЂ"].Value.ToString();
+            string date = dataGridViewZayavki.CurrentRow.Cells["Дата"].Value.ToString();
+            string postavshik = dataGridViewZayavki.CurrentRow.Cells["Поставщик"].Value.ToString();
+            string product = dataGridViewZayavki.CurrentRow.Cells["Товар"].Value.ToString();
 
-            if (MessageBox.Show($"РЈРґР°Р»РёС‚СЊ Р·Р°СЏРІРєСѓ РѕС‚ {date}?", "РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ",
+            if (MessageBox.Show($"Удалить заявку от {date}?", "Подтверждение",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 string dir = Application.StartupPath + "\\zayavki\\";
@@ -185,7 +191,7 @@ namespace _1.forms.sklad
                         if (content.Contains(date) && content.Contains(postavshik) && content.Contains(product))
                         {
                             System.IO.File.Delete(file);
-                            MessageBox.Show("Р—Р°СЏРІРєР° СѓРґР°Р»РµРЅР°");
+                            MessageBox.Show("Заявка удалена");
                             LoadZayavki();
                             return;
                         }

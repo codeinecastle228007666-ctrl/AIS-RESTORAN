@@ -81,9 +81,9 @@
             // 
             // button2
             // 
-            button2.Location = new Point(659, 11);
+            button2.Location = new Point(815, 11);
             button2.Name = "button2";
-            button2.Size = new Size(125, 55);
+            button2.Size = new Size(110, 55);
             button2.TabIndex = 7;
             button2.Text = "Экспорт в Excel";
             button2.UseVisualStyleBackColor = true;
@@ -94,14 +94,14 @@
             comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(340, 28);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(173, 22);
+            comboBox1.Size = new Size(350, 22);
             comboBox1.TabIndex = 6;
             // 
             // button1
             // 
-            button1.Location = new Point(519, 11);
+            button1.Location = new Point(700, 11);
             button1.Name = "button1";
-            button1.Size = new Size(125, 55);
+            button1.Size = new Size(110, 55);
             button1.TabIndex = 5;
             button1.Text = "Выполнить запрос";
             button1.UseVisualStyleBackColor = true;
@@ -181,10 +181,10 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(950, 450);
             Controls.Add(tabControl1);
             Name = "Fin";
-            Text = "Финансовые запросы";
+            Text = "Запросы и отчёты";
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();

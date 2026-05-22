@@ -1,4 +1,5 @@
-п»їusing _1.data;
+// Форма журнала движений склада (приход/расход)
+using _1.data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,6 +12,7 @@ using System.Windows.Forms;
 
 namespace _1.forms.sklad
 {
+    // Журнал движений склада. Отображает все приходы (IN) и расходы (OUT) продуктов.
     public partial class SkladJournal : Form
     {
         public SkladJournal()
@@ -21,17 +23,17 @@ namespace _1.forms.sklad
         private void SkladJournal_Load(object sender, EventArgs e)
         {
             string sql = @"
-        SELECT
-            d.dvizhenie_id AS ""ID"",
-            p.nazvanie AS ""РџСЂРѕРґСѓРєС‚"",
-            d.tip AS ""РўРёРї"",
-            d.kolichestvo AS ""РљРѕР»РёС‡РµСЃС‚РІРѕ"",
-            d.zakaz_id AS ""Р—Р°РєР°Р·"",
-            d.data_dvizheniya AS ""Р”Р°С‚Р°""
-        FROM sklad_dvizhenie d
-        JOIN product p ON p.product_id = d.product_id
-        ORDER BY d.data_dvizheniya DESC
-    ";
+                SELECT
+                    d.dvizhenie_id AS ""ID"",
+                    p.nazvanie AS ""Продукт"",
+                    d.tip AS ""Тип"",
+                    d.kolichestvo AS ""Количество"",
+                    d.zakaz_id AS ""Заказ"",
+                    d.data_dvizheniya AS ""Дата""
+                FROM sklad_dvizhenie d
+                JOIN product p ON p.product_id = d.product_id
+                ORDER BY d.data_dvizheniya DESC
+            ";
 
             dataGridView1.DataSource = Db.GetData(sql);
             dataGridView1.Columns["ID"].Visible = false;

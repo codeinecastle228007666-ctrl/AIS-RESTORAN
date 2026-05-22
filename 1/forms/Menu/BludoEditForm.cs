@@ -1,4 +1,5 @@
-п»їusing System;
+// Форма добавления/редактирования блюда
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,9 +12,11 @@ using _1.data;
 
 namespace _1.forms.Menu
 {
+    // Форма создания или редактирования блюда, а также управления его составом.
     public partial class BludoEditForm : Form
     {
-        int bludoId = -1;
+        int bludoId = -1; // -1 = новое блюдо
+
         public BludoEditForm()
         {
             InitializeComponent();
@@ -32,6 +35,7 @@ namespace _1.forms.Menu
                 LoadBludo();
         }
 
+        // Загрузка категорий меню.
         void LoadKategoriyaMenu()
         {
             string sql = "SELECT kategoriya_id, nazvanie FROM kategoriya_menu ORDER BY nazvanie";
@@ -41,12 +45,13 @@ namespace _1.forms.Menu
             comboBoxKategoriya.ValueMember = "kategoriya_id";
         }
 
+        // Загрузка данных блюда для редактирования.
         void LoadBludo()
         {
             string sql = @"
-            SELECT *
-            FROM bludo
-            WHERE bludo_id = @id";
+                SELECT *
+                FROM bludo
+                WHERE bludo_id = @id";
 
             var table = Db.GetData(sql, new Npgsql.NpgsqlParameter("@id", bludoId));
             if (table.Rows.Count == 0) return;
@@ -58,6 +63,7 @@ namespace _1.forms.Menu
             comboBoxKategoriya.SelectedValue = row["kategoriya_id"];
         }
 
+        // Сохранение блюда (вставка с RETURNING или обновление).
         private void buttonSave_Click(object sender, EventArgs e)
         {
             string name = textBoxName.Text;
@@ -66,45 +72,41 @@ namespace _1.forms.Menu
             string opisanie = textBoxOpisanie.Text;
 
             var parameters = new List<Npgsql.NpgsqlParameter>()
-    {
-        new Npgsql.NpgsqlParameter("@n", name),
-        new Npgsql.NpgsqlParameter("@c", cena),
-        new Npgsql.NpgsqlParameter("@k", kategoriya),
-        new Npgsql.NpgsqlParameter("@o", opisanie)
-    };
-
-            string sql;
+            {
+                new Npgsql.NpgsqlParameter("@n", name),
+                new Npgsql.NpgsqlParameter("@c", cena),
+                new Npgsql.NpgsqlParameter("@k", kategoriya),
+                new Npgsql.NpgsqlParameter("@o", opisanie)
+            };
 
             if (bludoId == -1)
             {
-                sql = @"
-        INSERT INTO bludo
-        (nazvanie, cena, kategoriya_id, opisanie)
-        VALUES
-        (@n, @c, @k, @o)
-        RETURNING bludo_id
-        ";
-
+                // Добавление: RETURNING bludo_id чтобы сразу получить ID
+                string sql = @"
+                    INSERT INTO bludo
+                    (nazvanie, cena, kategoriya_id, opisanie)
+                    VALUES
+                    (@n, @c, @k, @o)
+                    RETURNING bludo_id
+                ";
                 var dt = Db.GetData(sql, parameters.ToArray());
                 bludoId = Convert.ToInt32(dt.Rows[0][0]);
             }
             else
             {
-                sql = @"
-        UPDATE bludo
-        SET nazvanie=@n,
-            cena=@c,
-            kategoriya_id=@k,
-            opisanie=@o
-        WHERE bludo_id=@id
-        ";
-
+                string sql = @"
+                    UPDATE bludo
+                    SET nazvanie=@n,
+                        cena=@c,
+                        kategoriya_id=@k,
+                        opisanie=@o
+                    WHERE bludo_id=@id
+                ";
                 parameters.Add(new Npgsql.NpgsqlParameter("@id", bludoId));
-
                 Db.ekzekuttranzakcii(sql, parameters.ToArray());
             }
 
-            MessageBox.Show("Р‘Р»СЋРґРѕ СЃРѕС…СЂР°РЅРµРЅРѕ");
+            MessageBox.Show("Блюдо сохранено");
         }
 
         private void buttonCancel_Click(object sender, EventArgs e)
@@ -112,17 +114,16 @@ namespace _1.forms.Menu
             Close();
         }
 
+        // Открыть форму управления составом блюда (ингредиентами).
         private void button3_Click(object sender, EventArgs e)
         {
             if (bludoId == -1)
             {
-                MessageBox.Show("РЎРЅР°С‡Р°Р»Р° СЃРѕС…СЂР°РЅРёС‚Рµ Р±Р»СЋРґРѕ, С‡С‚РѕР±С‹ РґРѕР±Р°РІРёС‚СЊ РёРЅРіСЂРµРґРёРµРЅС‚С‹.");
+                MessageBox.Show("Сначала сохраните блюдо, чтобы добавить ингредиенты.");
                 return;
             }
             SostavBludaForm sostavBludaForm = new SostavBludaForm(bludoId);
             sostavBludaForm.ShowDialog();
         }
     }
-
-
 }
