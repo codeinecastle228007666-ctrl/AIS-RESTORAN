@@ -1,4 +1,4 @@
-// Форма прихода товаров на склад
+// Р¤РѕСЂРјР° РѕРїСЂРёС…РѕРґРѕРІР°РЅРёСЏ С‚РѕРІР°СЂР° РЅР° СЃРєР»Р°Рґ
 using _1.data;
 using Npgsql;
 using System;
@@ -7,7 +7,8 @@ using System.Windows.Forms;
 
 namespace _1.forms.sklad
 {
-    // Форма для оприходования товаров на склад от поставщика. Вызывает хранимую процедуру prihod_producta и записывает движение.
+    // Р¤РѕСЂРјР° РґР»СЏ РѕРїСЂРёС…РѕРґРѕРІР°РЅРёСЏ С‚РѕРІР°СЂР° РЅР° СЃРєР»Р°Рґ РѕС‚ РїРѕСЃС‚Р°РІС‰РёРєР°. Р’С‹Р·С‹РІР°РµС‚ РїСЂРѕС†РµРґСѓСЂСѓ prihod_producta Рё Р·Р°РїРёСЃС‹РІР°РµС‚ РґРІРёР¶РµРЅРёРµ.
+    // РџРѕР»СЏ: С‚РѕРІР°СЂ (comboBox1), РїРѕСЃС‚Р°РІС‰РёРє (comboBox2), РєРѕР»РёС‡РµСЃС‚РІРѕ (textBox1), С†РµРЅР° (textBox2)
     public partial class Prihod : Form
     {
         public Prihod()
@@ -31,57 +32,59 @@ namespace _1.forms.sklad
             comboBox1.ValueMember = "product_id";
         }
 
-        // Проведение прихода: вызов процедуры и запись в журнал движений.
+        // РћРїСЂРёС…РѕРґРѕРІР°РЅРёРµ С‚РѕРІР°СЂР°: РїСЂРѕРІРµСЂРєР° РґР°РЅРЅС‹С… Рё РІСЃС‚Р°РІРєР° РІ С‚Р°Р±Р»РёС†С‹.
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
                 if (comboBox1.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Выберите продукт");
+                    MessageBox.Show("Р’С‹Р±РµСЂРёС‚Рµ С‚РѕРІР°СЂ");
                     return;
                 }
 
                 if (comboBox2.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Выберите поставщика");
+                    MessageBox.Show("Р’С‹Р±РµСЂРёС‚Рµ РїРѕСЃС‚Р°РІС‰РёРєР°");
                     return;
                 }
 
                 if (comboBox1.SelectedValue == null || comboBox1.SelectedValue == DBNull.Value)
                 {
-                    MessageBox.Show("Ошибка: не удалось получить ID продукта");
+                    MessageBox.Show("РћС€РёР±РєР°: РЅРµ СѓРґР°Р»РѕСЃСЊ РїРѕР»СѓС‡РёС‚СЊ ID С‚РѕРІР°СЂР°");
                     return;
                 }
 
                 if (comboBox2.SelectedValue == null || comboBox2.SelectedValue == DBNull.Value)
                 {
-                    MessageBox.Show("Ошибка: не удалось получить ID поставщика");
+                    MessageBox.Show("РћС€РёР±РєР°: РЅРµ СѓРґР°Р»РѕСЃСЊ РїРѕР»СѓС‡РёС‚СЊ ID РїРѕСЃС‚Р°РІС‰РёРєР°");
                     return;
                 }
 
                 int productId = Convert.ToInt32(comboBox1.SelectedValue);
                 int postavId = Convert.ToInt32(comboBox2.SelectedValue);
 
-                // Парсинг с русской локалью (запятая как разделитель)
+                // Р Р°Р±РѕС‚Р° СЃ СЂСѓСЃСЃРєРѕР№ РєСѓР»СЊС‚СѓСЂРѕР№ (Р·Р°РїСЏС‚Р°СЏ РєР°Рє СЂР°Р·РґРµР»РёС‚РµР»СЊ)
                 CultureInfo ruCulture = new CultureInfo("ru-RU");
 
                 if (!decimal.TryParse(textBox1.Text, NumberStyles.Any, ruCulture, out decimal kolvo) || kolvo <= 0)
                 {
-                    MessageBox.Show("Количество должно быть больше 0");
+                    MessageBox.Show("РљРѕР»РёС‡РµСЃС‚РІРѕ РґРѕР»Р¶РЅРѕ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0");
                     return;
                 }
 
                 if (!decimal.TryParse(textBox2.Text, NumberStyles.Any, ruCulture, out decimal cena) || cena <= 0)
                 {
-                    MessageBox.Show("Цена должна быть больше 0");
+                    MessageBox.Show("Р¦РµРЅР° РґРѕР»Р¶РЅР° Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ 0");
                     return;
                 }
 
                 kolvo = Math.Round(kolvo, 3);
                 cena = Math.Round(cena, 2);
 
-                // CALL хранимой процедуры + INSERT в журнал движений
+                // CALL РїСЂРѕС†РµРґСѓСЂС‹ prihod_producta + INSERT РІ Р¶СѓСЂРЅР°Р» РґРІРёР¶РµРЅРёСЏ.
+                // Р’РЎР• Р·РЅР°С‡РµРЅРёСЏ РїРµСЂРµРґР°СЋС‚СЃСЏ С‡РµСЂРµР· NpgsqlParameter вЂ” Р·Р°С‰РёС‚Р° РѕС‚ SQL-РёРЅСЉРµРєС†РёР№.
+                // NpgsqlDbType.Numeric СѓРєР°Р·Р°РЅ СЏРІРЅРѕ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ С‚РѕС‡РЅРѕСЃС‚Рё Decimal.
                 string sql = @"
                     CALL prihod_producta(@p_product_id, @p_kolichestvo);
                     INSERT INTO sklad_dvizhenie (product_id, zakaz_id, tip, kolichestvo, postavschik_id, cena, data_dvizheniya)
@@ -97,12 +100,12 @@ namespace _1.forms.sklad
                     new NpgsqlParameter("@cena", NpgsqlTypes.NpgsqlDbType.Numeric) { Value = cena }
                 );
 
-                MessageBox.Show($"Приход сохранён!\n\nТовар: {comboBox1.Text}\nКоличество: {kolvo:0.000}\nЦена: {cena:0.00}", "Успех");
+                MessageBox.Show($"РўРѕРІР°СЂ РѕРїСЂРёС…РѕРґРѕРІР°РЅ!\n\nРўРѕРІР°СЂ: {comboBox1.Text}\nРљРѕР»РёС‡РµСЃС‚РІРѕ: {kolvo:0.000}\nР¦РµРЅР°: {cena:0.00}", "РЈСЃРїРµС…");
                 this.DialogResult = DialogResult.OK;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка");
+                MessageBox.Show($"РћС€РёР±РєР°: {ex.Message}", "РћС€РёР±РєР°");
             }
         }
 
@@ -114,7 +117,7 @@ namespace _1.forms.sklad
             textBox2.KeyPress += numeric_KeyPress;
         }
 
-        // Ограничение ввода: только цифры и запятая.
+        // Р’Р°Р»РёРґР°С†РёСЏ РІРІРѕРґР°: С‚РѕР»СЊРєРѕ С†РёС„СЂС‹ Рё Р·Р°РїСЏС‚Р°СЏ.
         private void numeric_KeyPress(object sender, KeyPressEventArgs e)
         {
             TextBox box = sender as TextBox;

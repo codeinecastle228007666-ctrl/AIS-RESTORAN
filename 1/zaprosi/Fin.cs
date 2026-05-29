@@ -115,6 +115,11 @@ namespace _1.zaprosi
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (dateTimePicker1.Value > dateTimePicker2.Value)
+            {
+                MessageBox.Show("Дата «От» не может быть позже даты «До»", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             switch (comboBox1.SelectedIndex)
             {
                 case 0: Q_AllOrdersWithClients(); break;
@@ -143,6 +148,10 @@ namespace _1.zaprosi
         }
 
         // ================ ПРОСТЫЕ ЗАПРОСЫ ================
+        // Все запросы фильтруются по дате через параметры @d1/@d2 (dateTimePicker1/2).
+        // Параметры передаются как NpgsqlParameter — сервер сам приводит тип, защита от инъекций.
+        // Запросы без параметров (Q_AllDishesWithCategories, Q_ClientsOrderCount и др.)
+        // не содержат пользовательского ввода, поэтому безопасны без параметризации.
 
         // 1. Список всех заказов с клиентами и статусами
         private void Q_AllOrdersWithClients()
@@ -350,6 +359,7 @@ namespace _1.zaprosi
         }
 
         // 6. Заказы с суммой выше среднего чека
+        // Подзапрос (SELECT AVG) вычисляется на сервере, без дополнительного запроса из C#.
         private void Q_OrdersAboveAvgCheck()
         {
             dataGridView1.DataSource = Db.GetData(@"
@@ -389,6 +399,8 @@ namespace _1.zaprosi
         }
 
         // ================ ФИНАНСОВЫЕ (из оригинального Fin.cs) ================
+        // Все финансовые запросы используют BETWEEN @d1 AND @d2 для фильтра по дате.
+        // Параметры дат — NpgsqlParameter с типом DateTime (автоконверсия в PostgreSQL timestamp).
 
         private void Totals()
         {
@@ -531,7 +543,7 @@ namespace _1.zaprosi
 
         private void ExportToExcel()
         {
-            if (dataGridView1.DataSource == null)
+            if (dataGridView1.DataSource == null || dataGridView1.Rows.Count == 0)
             {
                 MessageBox.Show("Нет данных для экспорта.");
                 return;

@@ -1,4 +1,4 @@
-// Форма просмотра и редактирования состава заказа
+// Р¤РѕСЂРјР° РїСЂРѕСЃРјРѕС‚СЂР° Рё СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ СЃРѕСЃС‚Р°РІР° Р·Р°РєР°Р·Р°
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,7 @@ using _1.forms.zakazo;
 
 namespace _1.forms.zakazo
 {
-    // Форма просмотра и редактирования состава заказа (добавление/удаление блюд). Редактирование недоступно после оплаты.
+    // Р¤РѕСЂРјР° РїСЂРѕСЃРјРѕС‚СЂР° Рё СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ СЃРѕСЃС‚Р°РІР° Р·Р°РєР°Р·Р° (РґРѕР±Р°РІР»РµРЅРёРµ/СѓРґР°Р»РµРЅРёРµ Р±Р»СЋРґ). Р‘Р»РѕРєРёСЂСѓРµС‚СЃСЏ РїРѕСЃР»Рµ РѕРїР»Р°С‚С‹ Р·Р°РєР°Р·Р°.
     public partial class zakazi_itemsForm : Form
     {
         private int _zakaziId;
@@ -26,7 +26,7 @@ namespace _1.forms.zakazo
         private bool _oplacheno = false;
         private void zakazi_itemsForm_Load(object sender, EventArgs e)
         {
-            // Проверяем, оплачен ли заказ
+            // РџСЂРѕРІРµСЂРєР°, РѕРїР»Р°С‡РµРЅ Р»Рё Р·Р°РєР°Р·
             string checksql = @"
                 SELECT COUNT(*) 
                 FROM oplata 
@@ -38,23 +38,23 @@ namespace _1.forms.zakazo
 
             if (_oplacheno)
             {
-                MessageBox.Show("Этот заказ уже оплачен! Редактирование состава заказа невозможно.");
+                MessageBox.Show("Р—Р°РєР°Р· СѓР¶Рµ РѕРїР»Р°С‡РµРЅ! Р РµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ СЃРѕСЃС‚Р°РІР° РЅРµРґРѕСЃС‚СѓРїРЅРѕ.");
                 button1.Enabled = false;
                 button2.Enabled = false;
             }
             LoadItems();
         }
 
-        // Загрузка состава заказа: блюда, количество, цена, сумма.
+        // Р—Р°РіСЂСѓР·РєР° СЃРѕСЃС‚Р°РІР° Р·Р°РєР°Р·Р°: Р±Р»СЋРґРѕ, РєРѕР»РёС‡РµСЃС‚РІРѕ, С†РµРЅР°, СЃСѓРјРјР°.
         private void LoadItems()
         {
             string sql = @"
                 SELECT 
                     sz.sostav_id AS ""ID"",
-                    b.nazvanie AS ""Блюдо"",
-                    sz.kolichestvo AS ""Количество"",
-                    sz.cena AS ""Цена"",
-                    (sz.kolichestvo * sz.cena) AS ""Сумма"" 
+                    b.nazvanie AS ""Р‘Р»СЋРґРѕ"",
+                    sz.kolichestvo AS ""РљРѕР»РёС‡РµСЃС‚РІРѕ"",
+                    sz.cena AS ""Р¦РµРЅР°"",
+                    (sz.kolichestvo * sz.cena) AS ""РЎСѓРјРјР°"" 
                 FROM sostav_zakaza sz
                 JOIN bludo b ON b.bludo_id = sz.bludo_id
                 WHERE sz.zakaz_id = @zakaz
@@ -64,7 +64,7 @@ namespace _1.forms.zakazo
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        // Добавление блюда в заказ.
+        // Р”РѕР±Р°РІР»РµРЅРёРµ Р±Р»СЋРґР° РІ Р·Р°РєР°Р·.
         private void button1_Click(object sender, EventArgs e)
         {
             if (_oplacheno) return;
@@ -80,29 +80,47 @@ namespace _1.forms.zakazo
                     (@zakaz, @bludo, @kolvo, @cena);
                 ";
 
-                Db.ekzekuttranzakcii(sql,
-                    new Npgsql.NpgsqlParameter("@zakaz", _zakaziId),
-                    new Npgsql.NpgsqlParameter("@bludo", form.SelectedBludoId),
-                    new Npgsql.NpgsqlParameter("@kolvo", form.kolichestvo),
-                    new Npgsql.NpgsqlParameter("@cena", form.cena)
-                );
-
-                LoadItems();
+                try
+                {
+                    Db.ekzekuttranzakcii(sql,
+                        new Npgsql.NpgsqlParameter("@zakaz", _zakaziId),
+                        new Npgsql.NpgsqlParameter("@bludo", form.SelectedBludoId),
+                        new Npgsql.NpgsqlParameter("@kolvo", form.kolichestvo),
+                        new Npgsql.NpgsqlParameter("@cena", form.cena)
+                    );
+                    LoadItems();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("РћС€РёР±РєР° РґРѕР±Р°РІР»РµРЅРёСЏ Р±Р»СЋРґР°:\n" + ex.Message);
+                }
             }
         }
 
-        // Удаление блюда из заказа.
+        // РЈРґР°Р»РµРЅРёРµ Р±Р»СЋРґР° РёР· Р·Р°РєР°Р·Р°.
         private void button2_Click(object sender, EventArgs e)
         {
             if (_oplacheno) return;
             if (dataGridView1.CurrentRow == null) return;
+
+            string dishName = dataGridView1.CurrentRow.Cells["Р‘Р»СЋРґРѕ"].Value?.ToString() ?? "";
+            if (MessageBox.Show($"РЈРґР°Р»РёС‚СЊ Р±Р»СЋРґРѕ \"{dishName}\" РёР· Р·Р°РєР°Р·Р°?", "РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ",
+                MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
             int sostavZakazaId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
             string sql = @"
                 DELETE FROM sostav_zakaza
                 WHERE sostav_id = @id
             ";
-            Db.ekzekuttranzakcii(sql, new Npgsql.NpgsqlParameter("@id", sostavZakazaId));
-            LoadItems();
+            try
+            {
+                Db.ekzekuttranzakcii(sql, new Npgsql.NpgsqlParameter("@id", sostavZakazaId));
+                LoadItems();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("РћС€РёР±РєР° СѓРґР°Р»РµРЅРёСЏ Р±Р»СЋРґР°:\n" + ex.Message);
+            }
         }
     }
 }

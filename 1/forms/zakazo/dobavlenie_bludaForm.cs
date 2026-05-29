@@ -1,4 +1,4 @@
-// Форма выбора блюда для добавления в заказ
+// Р¤РѕСЂРјР° РІС‹Р±РѕСЂР° Р±Р»СЋРґР° РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ РІ Р·Р°РєР°Р·
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,10 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using _1.data;
+using Npgsql;
 
 namespace _1.forms.zakazo
 {
-    // Форма выбора блюда и количества для добавления в заказ.
+    // Р¤РѕСЂРјР° РІС‹Р±РѕСЂР° Р±Р»СЋРґР° СЃ РїСЂРѕРІРµСЂРєРѕР№ РѕСЃС‚Р°С‚РєРѕРІ РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ РІ Р·Р°РєР°Р·.
     public partial class dobavlenie_bludaForm : Form
     {
         public dobavlenie_bludaForm()
@@ -20,7 +21,7 @@ namespace _1.forms.zakazo
             InitializeComponent();
         }
 
-        // Загрузка списка блюд при открытии.
+        // Р—Р°РіСЂСѓР·РєР° СЃРїРёСЃРєР° Р±Р»СЋРґ РїСЂРё РѕС‚РєСЂС‹С‚РёРё.
         private void dobavlenie_bludaForm_Load(object sender, EventArgs e)
         {
             LoadBluda("");
@@ -29,37 +30,75 @@ namespace _1.forms.zakazo
             numericUpDown1.Value = 1;
         }
 
-        // Загрузка блюд с фильтром по названию.
+        // Р—Р°РіСЂСѓР·РєР° Р±Р»СЋРґ СЃ С„РёР»СЊС‚СЂР°С†РёРµР№ РїРѕ РїРѕРёСЃРєСѓ.
         private void LoadBluda(string search)
         {
-            string sql = $@"
+            string sql = @"
                 SELECT
                 bludo_id AS ""ID"",
-                nazvanie AS ""Название"", 
-                cena AS ""Цена""
+                nazvanie AS ""РќР°Р·РІР°РЅРёРµ"", 
+                cena AS ""Р¦РµРЅР°""
                 FROM bludo
-                WHERE LOWER (nazvanie) LIKE LOWER ('%{search}%')
+                WHERE LOWER (nazvanie) LIKE LOWER (@search)
                 ORDER BY nazvanie
             ";
-            dataGridView1.DataSource = Db.GetData(sql);
+            dataGridView1.DataSource = Db.GetData(sql, new Npgsql.NpgsqlParameter("@search", $"%{search}%"));
             dataGridView1.Columns["ID"].Visible = false;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
-        // Поиск при вводе текста.
+        // РџРѕРёСЃРє РїСЂРё РІРІРѕРґРµ С‚РµРєСЃС‚Р°.
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             LoadBluda(textBox1.Text);
         }
 
-        // Подтверждение выбора блюда.
+        // РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ РёРЅРіСЂРµРґРёРµРЅС‚РѕРІ РЅР° СЃРєР»Р°РґРµ РґР»СЏ РІС‹Р±СЂР°РЅРЅРѕРіРѕ Р±Р»СЋРґР°.
+        private bool CheckStock(int bludoId, int quantity)
+        {
+            string sql = @"
+                SELECT p.nazvanie AS product_name,
+                       (s.kolichestvo / NULLIF(sb.kolichestvo * @kolvo, 0)) AS porciy_mozhno,
+                       s.kolichestvo AS ostatok,
+                       sb.kolichestvo AS trebuetsya_na_porciyu
+                FROM sostav_bluda sb
+                JOIN product p ON p.product_id = sb.product_id
+                JOIN sklad s ON s.product_id = sb.product_id
+                WHERE sb.bludo_id = @bludoId
+                  AND s.kolichestvo < sb.kolichestvo * @kolvo
+            ";
+            var dt = Db.GetData(sql,
+                new Npgsql.NpgsqlParameter("@bludoId", bludoId),
+                new Npgsql.NpgsqlParameter("@kolvo", quantity));
+
+            if (dt.Rows.Count > 0)
+            {
+                StringBuilder msg = new StringBuilder("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РёРЅРіСЂРµРґРёРµРЅС‚РѕРІ РґР»СЏ РїСЂРёРіРѕС‚РѕРІР»РµРЅРёСЏ Р±Р»СЋРґР°!\n\n");
+                foreach (DataRow row in dt.Rows)
+                {
+                    decimal ostatok = Convert.ToDecimal(row["ostatok"]);
+                    decimal trebuetsya = Convert.ToDecimal(row["trebuetsya_na_porciyu"]) * quantity;
+                    msg.AppendLine($"- {row["product_name"]}: РѕСЃС‚Р°С‚РѕРє {ostatok}, С‚СЂРµР±СѓРµС‚СЃСЏ {trebuetsya}");
+                }
+                MessageBox.Show(msg.ToString(), "РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ РїСЂРѕРґСѓРєС‚РѕРІ", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            return true;
+        }
+
+        // РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ РІС‹Р±РѕСЂР° Р±Р»СЋРґР°.
         private void button1_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentCell == null) return;
+            if (dataGridView1.CurrentRow == null) return;
 
-            SelectedBludoId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
-            cena = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["Цена"].Value);
-            kolichestvo = (int)numericUpDown1.Value;
+            int bludoId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
+            int kolvo = (int)numericUpDown1.Value;
+
+            if (!CheckStock(bludoId, kolvo)) return;
+
+            SelectedBludoId = bludoId;
+            cena = Convert.ToDecimal(dataGridView1.CurrentRow.Cells["Р¦РµРЅР°"].Value);
+            kolichestvo = kolvo;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

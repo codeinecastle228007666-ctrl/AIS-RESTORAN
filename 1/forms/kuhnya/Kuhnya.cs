@@ -9,6 +9,7 @@ using System.Windows.Forms;
 namespace _1.forms
 {
     // Форма кухни: отображает активные заказы в реальном времени. Автообновление каждые 5 секунд, звуковой сигнал при новых заказах.
+    // Статусы: 2-Принят, 3-Готовится, 4-Готов
     public partial class Kuhnya : Form
     {
         private System.Windows.Forms.Timer _timer; // Таймер автообновления
@@ -187,6 +188,7 @@ namespace _1.forms
         }
 
         // Смена статуса заказа: Новый → Готовится → Готов.
+        // SQL UPDATE через NpgsqlParameter — защита от инъекций.
         private void buttonMarkReady_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null)
@@ -217,6 +219,17 @@ namespace _1.forms
                 return;
             }
 
+            // Проверка допустимости перехода по общим правилам
+            if (!IsKitchenTransitionAllowed(statusId, newStatus))
+            {
+                MessageBox.Show("Недопустимый переход статуса");
+                return;
+            }
+
+            if (MessageBox.Show($"Изменить статус заказа #{zakazId} на \"{actionText}\"?",
+                "Подтверждение", MessageBoxButtons.YesNo) == DialogResult.No)
+                return;
+
             string sql = "UPDATE zakazi SET status_zakaza_id = @status WHERE zakaz_id = @id";
 
             try
@@ -233,6 +246,15 @@ namespace _1.forms
             {
                 MessageBox.Show("Ошибка изменения статуса:\n" + ex.Message);
             }
+        }
+
+        // Общие правила переходов статусов (синхронизировано с Zakazi.IsTransitionAllowed).
+        private bool IsKitchenTransitionAllowed(int oldStatus, int newStatus)
+        {
+            if (oldStatus == newStatus) return false;
+            return
+                (oldStatus == 2 && (newStatus == 3 || newStatus == 7)) ||
+                (oldStatus == 3 && newStatus == 4);
         }
 
         private void buttonRefresh_Click(object sender, EventArgs e)

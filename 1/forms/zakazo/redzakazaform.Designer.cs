@@ -40,6 +40,7 @@
             label3 = new Label();
             label4 = new Label();
             label5 = new Label();
+            buttonSelectTable = new Button();
             SuspendLayout();
             // 
             // comboBoxClient
@@ -152,11 +153,22 @@
             label5.TabIndex = 11;
             label5.Text = "Дата заказа";
             // 
+            // buttonSelectTable
+            // 
+            buttonSelectTable.Location = new Point(357, 102);
+            buttonSelectTable.Name = "buttonSelectTable";
+            buttonSelectTable.Size = new Size(84, 41);
+            buttonSelectTable.TabIndex = 12;
+            buttonSelectTable.Text = "Выбрать стол";
+            buttonSelectTable.UseVisualStyleBackColor = true;
+            buttonSelectTable.Click += buttonSelectTable_Click;
+            // 
             // redzakazaform
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(buttonSelectTable);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label3);
@@ -190,5 +202,6 @@
         private Label label3;
         private Label label4;
         private Label label5;
+        private Button buttonSelectTable;
     }
 }

@@ -139,3 +139,4 @@ Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.Selec
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.HelpForm.resources
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.SalaryForm.resources
 Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\obj\Debug\net8.0-windows\_1.forms.Kuhnya.resources
+Z:\Users\yasuo\Desktop\graaaaaaaaaaa\1\1\bin\Debug\net8.0-windows\QRCoder.dll

@@ -1,4 +1,4 @@
-// Форма расчёта и экспорта заработной платы сотрудника
+// Р¤РѕСЂРјР° СЂР°СЃС‡С‘С‚Р° Рё РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ Р·Р°СЂР°Р±РѕС‚РЅРѕР№ РїР»Р°С‚С‹ СЃРѕС‚СЂСѓРґРЅРёРєР°
 using _1.data;
 using Npgsql;
 using OfficeOpenXml;
@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace _1.forms
 {
-    // Форма расчёта зарплаты сотрудника по окладу, отработанным дням, премиям и удержаниям. Поддерживает экспорт в Excel.
+    // Р¤РѕСЂРјР° СЂР°СЃС‡С‘С‚Р° Р·Р°СЂРїР»Р°С‚С‹ СЃРѕС‚СЂСѓРґРЅРёРєР° Р·Р° РїРµСЂРёРѕРґ, СѓС‡РёС‚С‹РІР°РµС‚ РѕРєР»Р°Рґ, РїСЂРµРјРёРё Рё СѓРґРµСЂР¶Р°РЅРёСЏ. Р­РєСЃРїРѕСЂС‚РёСЂСѓРµС‚ РґР°РЅРЅС‹Рµ РІ Excel.
     public partial class SalaryForm : Form
     {
         private int _sotrudnikId;
@@ -31,9 +31,9 @@ namespace _1.forms
             _sotrudnikId = sotrudnikId;
             _fio = fio;
             _dolzhnost = dolzhnost;
-            labelEmployee.Text = $"Сотрудник: {fio}\nДолжность: {dolzhnost}";
+            labelEmployee.Text = $"РЎРѕС‚СЂСѓРґРЅРёРє: {fio}\nР”РѕР»Р¶РЅРѕСЃС‚СЊ: {dolzhnost}";
 
-            // Период по умолчанию — текущий месяц
+            // РњРµСЃСЏС† РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ вЂ” С‚РµРєСѓС‰РёР№
             DateTime now = DateTime.Now;
             _periodStart = new DateTime(now.Year, now.Month, 1);
             _periodEnd = _periodStart.AddMonths(1).AddDays(-1);
@@ -43,7 +43,8 @@ namespace _1.forms
             LoadOklad();
         }
 
-        // Загрузка оклада сотрудника из БД (через join с таблицей должностей).
+        // РџРѕР»СѓС‡РµРЅРёРµ РѕРєР»Р°РґР° РёР· Р‘Р” (С‡РµСЂРµР· join СЃ С‚Р°Р±Р»РёС†РµР№ РґРѕР»Р¶РЅРѕСЃС‚РµР№).
+        // РџР°СЂР°РјРµС‚СЂ @id РёР·РѕР»РёСЂСѓРµС‚ РїРѕР»Рµ WHERE вЂ” Р·Р°С‰РёС‚Р° РѕС‚ SQL-РёРЅСЉРµРєС†РёР№, РєСЌС€РёСЂРѕРІР°РЅРёРµ РїР»Р°РЅРѕРІ Р·Р°РїСЂРѕСЃРѕРІ.
         private void LoadOklad()
         {
             string sql = @"
@@ -56,21 +57,21 @@ namespace _1.forms
             if (dt.Rows.Count > 0)
             {
                 _oklad = Convert.ToDecimal(dt.Rows[0]["oklad"]);
-                labelOklad.Text = $"Оклад: {_oklad:N2} руб.";
+                labelOklad.Text = $"РћРєР»Р°Рґ: {_oklad:N2} СЂСѓР±.";
             }
             else
             {
                 _oklad = 0;
-                labelOklad.Text = "Оклад не найден";
+                labelOklad.Text = "РћРєР»Р°Рґ РЅРµ РЅР°Р№РґРµРЅ";
             }
         }
 
-        // Расчёт зарплаты: base = оклад / 21 * дни + премия - удержания.
+        // Р Р°СЃС‡С‘С‚ Р·Р°СЂРїР»Р°С‚С‹: base = РѕРєР»Р°Рґ / 21 * РґРЅРё + РїСЂРµРјРёСЏ - СѓРґРµСЂР¶Р°РЅРёСЏ.
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
             if (!int.TryParse(textBoxDays.Text, out int days) || days < 0 || days > 31)
             {
-                MessageBox.Show("Введите корректное количество рабочих дней (0–31)");
+                MessageBox.Show("Р’РІРµРґРёС‚Рµ РєРѕСЂСЂРµРєС‚РЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЂР°Р±РѕС‡РёС… РґРЅРµР№ (0-31)");
                 return;
             }
             decimal premium = 0;
@@ -78,7 +79,7 @@ namespace _1.forms
             decimal.TryParse(textBoxPremium.Text, out premium);
             decimal.TryParse(textBoxDeductions.Text, out deductions);
 
-            int normDays = 21; // Норма рабочих дней в месяце (фиксировано)
+            int normDays = 21; // РЅРѕСЂРјР° СЂР°Р±РѕС‡РёС… РґРЅРµР№ РІ РјРµСЃСЏС†Рµ (СѓСЃР»РѕРІРЅРѕ)
             decimal baseSalary = _oklad / normDays * days;
             decimal total = baseSalary + premium - deductions;
             if (total < 0) total = 0;
@@ -90,7 +91,7 @@ namespace _1.forms
             _periodStart = dateTimePickerStart.Value.Date;
             _periodEnd = dateTimePickerEnd.Value.Date;
 
-            labelResult.Text = $"Сумма на руки: {total:N2} руб.";
+            labelResult.Text = $"РС‚РѕРіРѕ Рє РІС‹РґР°С‡Рµ: {total:N2} СЂСѓР±.";
             labelResult.Visible = true;
             buttonExport.Enabled = true;
         }
@@ -100,19 +101,19 @@ namespace _1.forms
             ExportToExcel();
         }
 
-        // Экспорт расчёта зарплаты в Excel через библиотеку EPPlus.
+        // Р’С‹РіСЂСѓР·РєР° СЂР°СЃС‡С‘С‚Р° Р·Р°СЂРїР»Р°С‚С‹ РІ Excel С‡РµСЂРµР· Р±РёР±Р»РёРѕС‚РµРєСѓ EPPlus.
         private void ExportToExcel()
         {
-            if (_daysWorked == 0 && _total == 0)
+            if (_daysWorked == 0 || _total == 0)
             {
-                MessageBox.Show("Сначала выполните расчёт.");
+                MessageBox.Show("РЎРЅР°С‡Р°Р»Р° РІС‹РїРѕР»РЅРёС‚Рµ СЂР°СЃС‡С‘С‚.");
                 return;
             }
 
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
                 sfd.Filter = "Excel files (*.xlsx)|*.xlsx";
-                sfd.FileName = $"Зарплата_{_fio.Replace(" ", "_")}_{_periodStart:yyyyMM}.xlsx";
+                sfd.FileName = $"Р—Р°СЂРїР»Р°С‚Р°_{_fio.Replace(" ", "_")}_{_periodStart:yyyyMM}.xlsx";
 
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
@@ -121,42 +122,42 @@ namespace _1.forms
                         ExcelPackage.License.SetNonCommercialPersonal("Student Project");
                         using (var package = new ExcelPackage())
                         {
-                            var ws = package.Workbook.Worksheets.Add("Расчёт зарплаты");
+                            var ws = package.Workbook.Worksheets.Add("Р Р°СЃС‡С‘С‚ Р·Р°СЂРїР»Р°С‚С‹");
 
-                            // Заголовок
+                            // Р—Р°РіРѕР»РѕРІРѕРє
                             ws.Cells[1, 1, 1, 3].Merge = true;
-                            ws.Cells[1, 1].Value = "РАСЧЁТ ЗАРАБОТНОЙ ПЛАТЫ";
+                            ws.Cells[1, 1].Value = "Р РђРЎР§РЃРў Р—РђР РђР‘РћРўРќРћР™ РџР›РђРўР«";
                             ws.Cells[1, 1].Style.Font.Bold = true;
                             ws.Cells[1, 1].Style.Font.Size = 14;
                             ws.Cells[1, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
-                            // Информация о сотруднике
-                            ws.Cells[3, 1].Value = "Сотрудник:";
+                            // РЎРѕС‚СЂСѓРґРЅРёРє Рё РїРµСЂРёРѕРґ
+                            ws.Cells[3, 1].Value = "РЎРѕС‚СЂСѓРґРЅРёРє:";
                             ws.Cells[3, 2].Value = _fio;
-                            ws.Cells[4, 1].Value = "Должность:";
+                            ws.Cells[4, 1].Value = "Р”РѕР»Р¶РЅРѕСЃС‚СЊ:";
                             ws.Cells[4, 2].Value = _dolzhnost;
-                            ws.Cells[5, 1].Value = "Период:";
-                            ws.Cells[5, 2].Value = $"{_periodStart:dd.MM.yyyy} – {_periodEnd:dd.MM.yyyy}";
+                            ws.Cells[5, 1].Value = "РџРµСЂРёРѕРґ:";
+                            ws.Cells[5, 2].Value = $"{_periodStart:dd.MM.yyyy} - {_periodEnd:dd.MM.yyyy}";
                             ws.Cells[5, 2].Style.Numberformat.Format = "dd.MM.yyyy";
 
-                            // Таблица расчётных данных
-                            ws.Cells[7, 1].Value = "Показатель";
-                            ws.Cells[7, 2].Value = "Значение";
+                            // РўР°Р±Р»РёС†Р° СЂР°СЃС‡С‘С‚РЅС‹С… РґР°РЅРЅС‹С…
+                            ws.Cells[7, 1].Value = "РџРѕРєР°Р·Р°С‚РµР»СЊ";
+                            ws.Cells[7, 2].Value = "Р—РЅР°С‡РµРЅРёРµ";
                             ws.Cells[7, 1, 7, 2].Style.Font.Bold = true;
 
-                            ws.Cells[8, 1].Value = "Оклад (руб.)";
+                            ws.Cells[8, 1].Value = "РћРєР»Р°Рґ (СЂСѓР±.)";
                             ws.Cells[8, 2].Value = _oklad;
-                            ws.Cells[9, 1].Value = "Норма дней";
+                            ws.Cells[9, 1].Value = "РќРѕСЂРјР° РґРЅРµР№";
                             ws.Cells[9, 2].Value = 21;
-                            ws.Cells[10, 1].Value = "Отработано дней";
+                            ws.Cells[10, 1].Value = "РћС‚СЂР°Р±РѕС‚Р°РЅРѕ РґРЅРµР№";
                             ws.Cells[10, 2].Value = _daysWorked;
-                            ws.Cells[11, 1].Value = "Базовая ЗП";
+                            ws.Cells[11, 1].Value = "РќР°С‡РёСЃР»РµРЅРѕ";
                             ws.Cells[11, 2].Value = _oklad / 21 * _daysWorked;
-                            ws.Cells[12, 1].Value = "Премия";
+                            ws.Cells[12, 1].Value = "РџСЂРµРјРёСЏ";
                             ws.Cells[12, 2].Value = _premium;
-                            ws.Cells[13, 1].Value = "Удержания";
+                            ws.Cells[13, 1].Value = "РЈРґРµСЂР¶Р°РЅРёСЏ";
                             ws.Cells[13, 2].Value = _deductions;
-                            ws.Cells[14, 1].Value = "ИТОГО К ВЫДАЧЕ";
+                            ws.Cells[14, 1].Value = "РС‚РѕРіРѕ Рє РІС‹РґР°С‡Рµ";
                             ws.Cells[14, 2].Value = _total;
                             ws.Cells[14, 1, 14, 2].Style.Font.Bold = true;
 
@@ -169,11 +170,11 @@ namespace _1.forms
 
                             File.WriteAllBytes(sfd.FileName, package.GetAsByteArray());
                         }
-                        MessageBox.Show("Экспорт успешно завершён!", "Готово", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Р¤Р°Р№Р» СѓСЃРїРµС€РЅРѕ СЃРѕС…СЂР°РЅС‘РЅ!", "РЈСЃРїРµС…", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Ошибка при экспорте: " + ex.Message);
+                        MessageBox.Show("РћС€РёР±РєР° РїСЂРё СЌРєСЃРїРѕСЂС‚Рµ: " + ex.Message);
                     }
                 }
             }

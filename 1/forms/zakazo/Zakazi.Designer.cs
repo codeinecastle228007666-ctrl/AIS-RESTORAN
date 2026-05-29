@@ -32,7 +32,6 @@
             textBoxSearch = new TextBox();
             labelSearch = new Label();
             button1 = new Button();
-            button2 = new Button();
             button4 = new Button();
             button5 = new Button();
             comboBox1 = new ComboBox();
@@ -78,17 +77,6 @@
             button1.Text = "Добавить";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
-            // 
-            // button2
-            // 
-            button2.Location = new Point(520, 369);
-            button2.Name = "button2";
-            button2.Size = new Size(112, 39);
-            button2.TabIndex = 2;
-            button2.Text = "Изменить";
-            button2.UseVisualStyleBackColor = true;
-            button2.Visible = false;
-            button2.Click += button2_Click;
             // 
             // button4
             // 
@@ -150,7 +138,6 @@
             Controls.Add(comboBox1);
             Controls.Add(button5);
             Controls.Add(button4);
-            Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
             Name = "Zakazi";
@@ -165,7 +152,6 @@
 
         private DataGridView dataGridView1;
         private Button button1;
-        private Button button2;
         private Button button4;
         private Button button5;
         private ComboBox comboBox1;

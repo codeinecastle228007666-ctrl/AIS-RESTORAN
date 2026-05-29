@@ -1,13 +1,13 @@
-// Поиск утилит PostgreSQL (pg_dump, pg_restore, psql) на диске
+// РљР»Р°СЃСЃ РїСѓС‚РµР№ PostgreSQL (pg_dump, pg_restore, psql) РЅР° РґРёСЃРєРµ
 using System;
 using System.IO;
 
 namespace _1.forms
 {
-    // Предоставляет методы для поиска исполняемых файлов утилит PostgreSQL.
+    // РЎС‚Р°С‚РёС‡РµСЃРєРёР№ РєР»Р°СЃСЃ РґР»СЏ РїРѕРёСЃРєР° РёСЃРїРѕР»РЅСЏРµРјС‹С… С„Р°Р№Р»РѕРІ PostgreSQL.
     internal class Puti_dlya_rk
     {
-        // Возвращает путь к pg_dump.exe.
+        // Р’РѕР·РІСЂР°С‰Р°РµС‚ РїСѓС‚СЊ Рє pg_dump.exe.
         public static string GetPgDump()
         {
             string[] possible =
@@ -22,10 +22,10 @@ namespace _1.forms
                 if (File.Exists(p))
                     return p;
 
-            throw new Exception("pg_dump не найден.");
+            throw new Exception("pg_dump РЅРµ РЅР°Р№РґРµРЅ.");
         }
 
-        // Возвращает путь к pg_restore.exe.
+        // Р’РѕР·РІСЂР°С‰Р°РµС‚ РїСѓС‚СЊ Рє pg_restore.exe.
         public static string GetPgRestore()
         {
             string[] possible =
@@ -40,10 +40,10 @@ namespace _1.forms
                 if (File.Exists(p))
                     return p;
 
-            throw new Exception("pg_restore не найден.");
+            throw new Exception("pg_restore РЅРµ РЅР°Р№РґРµРЅ.");
         }
 
-        // Возвращает путь к psql.exe.
+        // Р’РѕР·РІСЂР°С‰Р°РµС‚ РїСѓС‚СЊ Рє psql.exe.
         public static string GetPsql()
         {
             string[] possible =
@@ -58,7 +58,7 @@ namespace _1.forms
                 if (File.Exists(p))
                     return p;
 
-            throw new Exception("psql не найден.");
+            throw new Exception("psql РЅРµ РЅР°Р№РґРµРЅ.");
         }
     }
 }

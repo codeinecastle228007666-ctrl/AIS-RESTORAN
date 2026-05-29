@@ -34,6 +34,8 @@
             textBox1 = new TextBox();
             button1 = new Button();
             button2 = new Button();
+            pictureBoxQR = new PictureBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxQR).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -63,6 +65,7 @@
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(168, 22);
             comboBox1.TabIndex = 2;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // textBox1
             // 
@@ -90,12 +93,25 @@
             button2.TabIndex = 5;
             button2.Text = "Отменить";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += (s, e) => { DialogResult = DialogResult.Cancel; Close(); };
+            // 
+            // pictureBoxQR
+            // 
+            pictureBoxQR.BackColor = Color.White;
+            pictureBoxQR.Location = new Point(125, 225);
+            pictureBoxQR.Name = "pictureBoxQR";
+            pictureBoxQR.Size = new Size(200, 200);
+            pictureBoxQR.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBoxQR.TabIndex = 6;
+            pictureBoxQR.TabStop = false;
+            pictureBoxQR.Visible = false;
             // 
             // oplata
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(445, 224);
+            ClientSize = new Size(445, 440);
+            Controls.Add(pictureBoxQR);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(textBox1);
@@ -105,6 +121,7 @@
             Name = "oplata";
             Text = "Оплата";
             Load += oplata_Load;
+            ((System.ComponentModel.ISupportInitialize)pictureBoxQR).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -117,5 +134,6 @@
         private TextBox textBox1;
         private Button button1;
         private Button button2;
+        private PictureBox pictureBoxQR;
     }
 }

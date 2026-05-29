@@ -1,4 +1,4 @@
-// Главная навигационная форма с ролевым доступом
+// Р“Р»Р°РІРЅР°СЏ РЅР°РІРёРіР°С†РёРѕРЅРЅР°СЏ С„РѕСЂРјР° РїСЂРёР»РѕР¶РµРЅРёСЏ
 using _1.forms;
 using _1.forms.bronirovanie;
 using _1.forms.Menu;
@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace _1
 {
-    // Главное окно приложения. Содержит кнопки для перехода ко всем модулям.
+    // Р“Р»Р°РІРЅРѕРµ РјРµРЅСЋ РїСЂРёР»РѕР¶РµРЅРёСЏ. РЎРѕРґРµСЂР¶РёС‚ РєРЅРѕРїРєРё РґР»СЏ РїРµСЂРµС…РѕРґР° РєРѕ РІСЃРµРј С„РѕСЂРјР°Рј.
     public partial class Main : Form
     {
         private int roleId;
@@ -21,7 +21,7 @@ namespace _1
             userId = user;
         }
 
-        // Кнопка "Заказы".
+        // РљРЅРѕРїРєР° "Р—Р°РєР°Р·С‹".
         private void button1_Click(object sender, EventArgs e)
         {
             try
@@ -31,11 +31,11 @@ namespace _1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+                MessageBox.Show("РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂРјС‹:\n" + ex.Message);
             }
         }
 
-        // Кнопка "Склад".
+        // РљРЅРѕРїРєР° "РЎРєР»Р°Рґ".
         private void button3_Click(object sender, EventArgs e)
         {
             try
@@ -45,11 +45,11 @@ namespace _1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+                MessageBox.Show("РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂРјС‹:\n" + ex.Message);
             }
         }
 
-        // Кнопка "Отчёты".
+        // РљРЅРѕРїРєР° "Р¤РёРЅР°РЅСЃС‹".
         private void button4_Click(object sender, EventArgs e)
         {
             try
@@ -59,11 +59,11 @@ namespace _1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+                MessageBox.Show("РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂРјС‹:\n" + ex.Message);
             }
         }
 
-        // Кнопка "Бронирование".
+        // РљРЅРѕРїРєР° "Р‘СЂРѕРЅРёСЂРѕРІР°РЅРёРµ".
         private void button5_Click(object sender, EventArgs e)
         {
             try
@@ -73,11 +73,11 @@ namespace _1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+                MessageBox.Show("РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂРјС‹:\n" + ex.Message);
             }
         }
 
-        // Кнопка "Клиенты".
+        // РљРЅРѕРїРєР° "РљР»РёРµРЅС‚С‹".
         private void button2_Click(object sender, EventArgs e)
         {
             try
@@ -87,11 +87,11 @@ namespace _1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+                MessageBox.Show("РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂРјС‹:\n" + ex.Message);
             }
         }
 
-        // Кнопка "Меню".
+        // РљРЅРѕРїРєР° "РњРµРЅСЋ".
         private void button6_Click(object sender, EventArgs e)
         {
             try
@@ -101,26 +101,26 @@ namespace _1
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка открытия формы:\n" + ex.Message);
+                MessageBox.Show("РћС€РёР±РєР° РѕС‚РєСЂС‹С‚РёСЏ С„РѕСЂРјС‹:\n" + ex.Message);
             }
         }
 
-        // Загрузка формы. Настройка доступа в зависимости от роли пользователя.
+        // Р—Р°РіСЂСѓР·РєР° С„РѕСЂРјС‹. РќР°СЃС‚СЂРѕР№РєР° РґРѕСЃС‚СѓРїР° РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ СЂРѕР»Рё РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ.
         private void Main_Load(object sender, EventArgs e)
         {
             labelRole.Text = Session.RoleName;
 
-            // Роль 1 - Официант: скрыть отчёты, склад, бэкап, сотрудники, кухня
+            // Р РѕР»СЊ 1 - РћС„РёС†РёР°РЅС‚: С‚РѕР»СЊРєРѕ Р·Р°РєР°Р·С‹, РјРµРЅСЋ, Р·Р°Р»С‹, Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ, РїРѕРјРѕС‰СЊ
             if (Session.RoleId == 1)
             {
-                button4.Enabled = false; // отчёты
-                button3.Enabled = false; // склад
+                button4.Enabled = false; // Р¤РёРЅР°РЅСЃС‹
+                button3.Enabled = false; // РЎРєР»Р°Рґ
                 button7.Enabled = false; // backup
-                button8.Enabled = false; // сотрудники
-                button10.Enabled = false; // кухня
+                button8.Enabled = false; // РЎРѕС‚СЂСѓРґРЅРёРєРё
+                button10.Enabled = false; // РљСѓС…РЅСЏ
             }
 
-            // Роль 2 - Повар: скрыть почти всё
+            // Р РѕР»СЊ 2 - РџРѕРІР°СЂ: С‚РѕР»СЊРєРѕ РєСѓС…РЅСЏ Р‘Р”
             if (Session.RoleId == 2)
             {
                 button1.Enabled = false;
@@ -132,7 +132,7 @@ namespace _1
                 button6.Enabled = false;
             }
 
-            // Роль 3 - Шеф-повар: скрыть отчёты, клиенты, бронь, бэкап, сотрудники
+            // Р РѕР»СЊ 3 - РђРґРјРёРЅ-Р·Р°Р»: С‚РѕР»СЊРєРѕ Р·Р°РєР°Р·С‹, РєР»РёРµРЅС‚С‹, РјРµРЅСЋ, Р·Р°Р»С‹, Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ
             if (Session.RoleId == 3)
             {
                 button4.Enabled = false;
@@ -142,10 +142,10 @@ namespace _1
                 button8.Enabled = false;
             }
 
-            // Роль 4 - Руководитель: все кнопки доступны
+            // Р РѕР»СЊ 4 - РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ: РІСЃРµ СЂР°Р·РґРµР»С‹ РґРѕСЃС‚СѓРїРЅС‹
         }
 
-        // При закрытии проверка подтверждения (кроме случая после restore).
+        // РџСЂРё Р·Р°РєСЂС‹С‚РёРё РїСЂРѕРІРµСЂРєР° РЅР°РјРµСЂРµРЅРёСЏ (РєСЂРѕРјРµ СЃР»СѓС‡Р°СЏ РїРѕСЃР»Рµ restore).
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (_isRestarting)
@@ -155,8 +155,8 @@ namespace _1
             }
 
             if (MessageBox.Show(
-                "Вы уверены, что хотите выйти?",
-                "Выход",
+                "Р’С‹ СѓРІРµСЂРµРЅС‹, С‡С‚Рѕ С…РѕС‚РёС‚Рµ РІС‹Р№С‚Рё?",
+                "Р’С‹С…РѕРґ",
                 MessageBoxButtons.YesNo
             ) == DialogResult.No)
             {
@@ -166,7 +166,7 @@ namespace _1
 
         private bool _isRestarting = false;
 
-        // Открыть форму резервного копирования/восстановления БД.
+        // РћС‚РєСЂС‹С‚РёРµ С„РѕСЂРјС‹ СЃРѕР·РґР°РЅРёСЏ СЂРµР·РµСЂРІРЅРѕР№ РєРѕРїРёРё/РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ Р‘Р”.
         private void button7_Click(object sender, EventArgs e)
         {
             dumpRestoreForm = new DumpRestore();
@@ -177,13 +177,13 @@ namespace _1
             dumpRestoreForm = null;
         }
 
-        // Обработчик завершения восстановления: предлагает перезапустить приложение.
+        // РћР±СЂР°Р±РѕС‚С‡РёРє Р·Р°РІРµСЂС€РµРЅРёСЏ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ: РїРµСЂРµР·Р°РїСѓСЃРє РїСЂРёР»РѕР¶РµРЅРёСЏ РїРѕСЃР»Рµ СЂРµСЃС‚РѕСЂР°.
         private void DumpRestoreForm_OnRestoreCompleted()
         {
             var exitResult = MessageBox.Show(
-                "База данных восстановлена. Требуется перезапуск приложения.\n\n" +
-                "Сохранить несохранённые данные перед выходом?",
-                "Перезапуск приложения",
+                "Р‘Р°Р·Р° РґР°РЅРЅС‹С… РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅР°. РџСЂРёР»РѕР¶РµРЅРёРµ Р±СѓРґРµС‚ РїРµСЂРµР·Р°РїСѓС‰РµРЅРѕ.\n\n" +
+                "Р–РµР»Р°РµС‚Рµ СЃРѕС…СЂР°РЅРёС‚СЊ С‚РµРєСѓС‰РёРµ РґР°РЅРЅС‹Рµ РїРµСЂРµРґ РІС‹С…РѕРґРѕРј?",
+                "РџРµСЂРµР·Р°РїСѓСЃРє РїСЂРёР»РѕР¶РµРЅРёСЏ",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -195,32 +195,32 @@ namespace _1
             _isRestarting = true;
 
             MessageBox.Show(
-                "Приложение будет перезапущено.\n\nНажмите OK для продолжения.",
-                "Перезапуск",
+                "РџСЂРёР»РѕР¶РµРЅРёРµ Р±СѓРґРµС‚ РїРµСЂРµР·Р°РїСѓС‰РµРЅРѕ.\n\nРќР°Р¶РјРёС‚Рµ OK РґР»СЏ РїСЂРѕРґРѕР»Р¶РµРЅРёСЏ.",
+                "РџРµСЂРµР·Р°РїСѓСЃРє",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
 
             RestartApplication();
         }
 
-        // Сохранить данные перед перезапуском (заглушка).
+        // РЎРѕС…СЂР°РЅРµРЅРёРµ С‚РµРєСѓС‰РёС… РґР°РЅРЅС‹С… РїСЂРёР»РѕР¶РµРЅРёСЏ (Р·Р°РіР»СѓС€РєР°).
         private void SaveAllData()
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("Данные сохранены перед перезапуском");
+                System.Diagnostics.Debug.WriteLine("РќР°С‡Р°Р»Рѕ СЃРѕС…СЂР°РЅРµРЅРёСЏ РґР°РЅРЅС‹С… РїСЂРёР»РѕР¶РµРЅРёСЏ");
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    $"Ошибка при сохранении данных: {ex.Message}",
-                    "Ошибка сохранения",
+                    $"РћС€РёР±РєР° РїСЂРё СЃРѕС…СЂР°РЅРµРЅРёРё РґР°РЅРЅС‹С…: {ex.Message}",
+                    "РћС€РёР±РєР° СЃРѕС…СЂР°РЅРµРЅРёСЏ",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
             }
         }
 
-        // Автоматический перезапуск приложения через запуск нового процесса.
+        // РџРµСЂРµР·Р°РїСѓСЃРє РїСЂРёР»РѕР¶РµРЅРёСЏ С‡РµСЂРµР· Р·Р°РїСѓСЃРє РЅРѕРІРѕРіРѕ РїСЂРѕС†РµСЃСЃР°.
         private void RestartApplication()
         {
             try
@@ -243,29 +243,29 @@ namespace _1
                 _isRestarting = false;
 
                 MessageBox.Show(
-                    "Не удалось автоматически перезапустить приложение.\n" +
-                    $"Ошибка: {ex.Message}\n\n" +
-                    "Пожалуйста, перезапустите приложение вручную.",
-                    "Ошибка перезапуска",
+                    "РќРµ СѓРґР°Р»РѕСЃСЊ РїРµСЂРµР·Р°РїСѓСЃС‚РёС‚СЊ РїСЂРёР»РѕР¶РµРЅРёРµ.\n" +
+                    $"РћС€РёР±РєР°: {ex.Message}\n\n" +
+                    "РџРѕР¶Р°Р»СѓР№СЃС‚Р°, РїРµСЂРµР·Р°РїСѓСЃС‚РёС‚Рµ РїСЂРёР»РѕР¶РµРЅРёРµ РІСЂСѓС‡РЅСѓСЋ.",
+                    "РћС€РёР±РєР° РїРµСЂРµР·Р°РїСѓСЃРєР°",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning);
             }
         }
 
-        // Кнопка "Сотрудники".
+        // РљРЅРѕРїРєР° "РЎРѕС‚СЂСѓРґРЅРёРєРё".
         private void button8_Click(object sender, EventArgs e)
         {
             SotrudnikiForm form = new SotrudnikiForm();
             form.ShowDialog();
         }
 
-        // Открыть справку.
+        // Р’С‹Р·РѕРІ СЃРїСЂР°РІРєРё.
         private void button9_Click(object sender, EventArgs e)
         {
             new HelpForm().ShowDialog();
         }
 
-        // Кнопка "Кухня".
+        // РљРЅРѕРїРєР° "РљСѓС…РЅСЏ".
         private void button10_Click(object sender, EventArgs e)
         {
             new Kuhnya().ShowDialog();

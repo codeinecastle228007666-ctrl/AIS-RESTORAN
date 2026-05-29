@@ -1,4 +1,4 @@
-// Форма списка сотрудников (CRUD + создание учётных записей + зарплата)
+п»ї// РљР»Р°СЃСЃ СѓРїСЂР°РІР»РµРЅРёСЏ СЃРѕС‚СЂСѓРґРЅРёРєР°РјРё (CRUD + СЃРѕР·РґР°РЅРёРµ СѓС‡С‘С‚РЅС‹С… Р·Р°РїРёСЃРµР№ + Р·Р°СЂРїР»Р°С‚Р°)
 using _1.data;
 using Npgsql;
 using System;
@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace _1.forms
 {
-    // Справочник сотрудников: просмотр, добавление, редактирование, удаление, создание учётных записей и расчёт зарплаты.
+    // РЈРїСЂР°РІР»РµРЅРёРµ СЃРѕС‚СЂСѓРґРЅРёРєР°РјРё: РїСЂРѕСЃРјРѕС‚СЂ, РґРѕР±Р°РІР»РµРЅРёРµ, СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ, СѓРґР°Р»РµРЅРёРµ, СЃРѕР·РґР°РЅРёРµ СѓС‡С‘С‚РЅС‹С… Р·Р°РїРёСЃРµР№ Рё СЂР°СЃС‡С‘С‚ Р·Р°СЂРїР»Р°С‚С‹.
     public partial class SotrudnikiForm : Form
     {
         public SotrudnikiForm()
@@ -17,18 +17,18 @@ namespace _1.forms
             LoadSotrudniki();
         }
 
-        // Загрузка списка сотрудников с должностью из БД.
+        // Р—Р°РіСЂСѓР·РєР° СЃРїРёСЃРєР° СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ СЃ РёРЅС„РѕСЂРјР°С†РёРµР№ РёР· Р‘Р”.
         private void LoadSotrudniki()
         {
             string sql = @"
                 SELECT 
                     s.sotrudnik_id AS ""ID"",
-                    s.fio AS ""ФИО"",
-                    d.nazvanie AS ""Должность"",
-                    s.nomer_telefona AS ""Телефон"",
+                    s.fio AS ""Р¤РРћ"",
+                    d.nazvanie AS ""Р”РѕР»Р¶РЅРѕСЃС‚СЊ"",
+                    s.nomer_telefona AS ""РўРµР»РµС„РѕРЅ"",
                     s.email AS ""Email"",
-                    s.adres AS ""Адрес"",
-                    s.data_rojdeniya AS ""Дата рождения""
+                    s.adres AS ""РђРґСЂРµСЃ"",
+                    s.data_rojdeniya AS ""Р”Р°С‚Р° СЂРѕР¶РґРµРЅРёСЏ""
                 FROM sotrudniki s
                 JOIN dolzhnost d ON s.dolzhnost_id = d.dolzhnost_id
                 ORDER BY s.fio
@@ -57,7 +57,7 @@ namespace _1.forms
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null) return;
-            if (MessageBox.Show("Удалить сотрудника?", "Подтверждение",
+            if (MessageBox.Show("РЈРґР°Р»РёС‚СЊ СЃРѕС‚СЂСѓРґРЅРёРєР°?", "РџРѕРґС‚РІРµСЂР¶РґРµРЅРёРµ",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
                 return;
             int id = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
@@ -66,21 +66,21 @@ namespace _1.forms
             LoadSotrudniki();
         }
 
-        // Транслитерация кириллицы в латиницу (для генерации логина).
+        // РўСЂР°РЅСЃР»РёС‚РµСЂР°С†РёСЏ РєРёСЂРёР»Р»РёС†С‹ РІ Р»Р°С‚РёРЅРёС†Сѓ (РґР»СЏ РіРµРЅРµСЂР°С†РёРё Р»РѕРіРёРЅР°).
         private string Transliterate(string text)
         {
             var translitMap = new Dictionary<char, string>
             {
-                {'А',"A"}, {'Б',"B"}, {'В',"V"}, {'Г',"G"}, {'Д',"D"}, {'Е',"E"}, {'Ё',"E"},
-                {'Ж',"Zh"}, {'З',"Z"}, {'И',"I"}, {'Й',"I"}, {'К',"K"}, {'Л',"L"}, {'М',"M"},
-                {'Н',"N"}, {'О',"O"}, {'П',"P"}, {'Р',"R"}, {'С',"S"}, {'Т',"T"}, {'У',"U"},
-                {'Ф',"F"}, {'Х',"Kh"}, {'Ц',"Ts"}, {'Ч',"Ch"}, {'Ш',"Sh"}, {'Щ',"Sch"},
-                {'Ъ',""}, {'Ы',"Y"}, {'Ь',""}, {'Э',"E"}, {'Ю',"Yu"}, {'Я',"Ya"},
-                {'а',"a"}, {'б',"b"}, {'в',"v"}, {'г',"g"}, {'д',"d"}, {'е',"e"}, {'ё',"e"},
-                {'ж',"zh"}, {'з',"z"}, {'и',"i"}, {'й',"i"}, {'к',"k"}, {'л',"l"}, {'м',"m"},
-                {'н',"n"}, {'о',"o"}, {'п',"p"}, {'р',"r"}, {'с',"s"}, {'т',"t"}, {'у',"u"},
-                {'ф',"f"}, {'х',"kh"}, {'ц',"ts"}, {'ч',"ch"}, {'ш',"sh"}, {'щ',"sch"},
-                {'ъ',""}, {'ы',"y"}, {'ь',""}, {'э',"e"}, {'ю',"yu"}, {'я',"ya"}
+                {'Рђ',"A"}, {'Р‘',"B"}, {'Р’',"V"}, {'Р“',"G"}, {'Р”',"D"}, {'Р•',"E"}, {'РЃ',"E"},
+                {'Р–',"Zh"}, {'Р—',"Z"}, {'Р',"I"}, {'Р™',"I"}, {'Рљ',"K"}, {'Р›',"L"}, {'Рњ',"M"},
+                {'Рќ',"N"}, {'Рћ',"O"}, {'Рџ',"P"}, {'Р ',"R"}, {'РЎ',"S"}, {'Рў',"T"}, {'РЈ',"U"},
+                {'Р¤',"F"}, {'РҐ',"Kh"}, {'Р¦',"Ts"}, {'Р§',"Ch"}, {'РЁ',"Sh"}, {'Р©',"Sch"},
+                {'РЄ',""}, {'Р«',"Y"}, {'Р¬',""}, {'Р­',"E"}, {'Р®',"Yu"}, {'РЇ',"Ya"},
+                {'Р°',"a"}, {'Р±',"b"}, {'РІ',"v"}, {'Рі',"g"}, {'Рґ',"d"}, {'Рµ',"e"}, {'С‘',"e"},
+                {'Р¶',"zh"}, {'Р·',"z"}, {'Рё',"i"}, {'Р№',"i"}, {'Рє',"k"}, {'Р»',"l"}, {'Рј',"m"},
+                {'РЅ',"n"}, {'Рѕ',"o"}, {'Рї',"p"}, {'СЂ',"r"}, {'СЃ',"s"}, {'С‚',"t"}, {'Сѓ',"u"},
+                {'С„',"f"}, {'С…',"kh"}, {'С†',"ts"}, {'С‡',"ch"}, {'С€',"sh"}, {'С‰',"sch"},
+                {'СЉ',""}, {'С‹',"y"}, {'СЊ',""}, {'СЌ',"e"}, {'СЋ',"yu"}, {'СЏ',"ya"}
             };
             StringBuilder sb = new StringBuilder();
             foreach (char c in text)
@@ -91,7 +91,7 @@ namespace _1.forms
             return sb.ToString();
         }
 
-        // Генерация логина из ФИО: первая буква имени + фамилия (латиница).
+        // Р“РµРЅРµСЂР°С†РёСЏ Р»РѕРіРёРЅР° РёР· Р¤РРћ: РїРµСЂРІР°СЏ Р±СѓРєРІР° РёРјРµРЅРё + С„Р°РјРёР»РёСЏ (С‚СЂР°РЅСЃР»РёС‚).
         private string GenerateLogin(string fio)
         {
             string[] parts = fio.Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -106,26 +106,25 @@ namespace _1.forms
             return "user";
         }
 
-        // Генерация случайного пароля из 8 символов.
+        // Р“РµРЅРµСЂР°С†РёСЏ СЃР»СѓС‡Р°Р№РЅРѕРіРѕ РїР°СЂРѕР»СЏ РёР· 8 СЃРёРјРІРѕР»РѕРІ.
         private string GeneratePassword()
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            var random = new Random();
             return new string(Enumerable.Repeat(chars, 8)
-                .Select(s => s[random.Next(s.Length)]).ToArray());
+                .Select(s => s[Random.Shared.Next(s.Length)]).ToArray());
         }
 
-        // Создание учётной записи для выбранного сотрудника.
+        // РЎРѕР·РґР°РЅРёРµ СѓС‡С‘С‚РЅРѕР№ Р·Р°РїРёСЃРё РґР»СЏ РІС‹Р±СЂР°РЅРЅРѕРіРѕ СЃРѕС‚СЂСѓРґРЅРёРєР°.
         private void buttonCreateUser_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Выберите сотрудника.");
+                MessageBox.Show("Р’С‹Р±РµСЂРёС‚Рµ СЃРѕС‚СЂСѓРґРЅРёРєР°.");
                 return;
             }
 
             int sotrudnikId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
-            string fio = dataGridView1.CurrentRow.Cells["ФИО"].Value.ToString();
+            string fio = dataGridView1.CurrentRow.Cells["Р¤РРћ"].Value.ToString();
 
             var roleForm = new SelectRoleForm();
             if (roleForm.ShowDialog() != DialogResult.OK)
@@ -135,11 +134,13 @@ namespace _1.forms
             string login = GenerateLogin(fio);
             string password = GeneratePassword();
 
-            // Хеширование пароля с помощью pgcrypto (bcrypt, cost factor 6)
+            // РҐРµС€РёСЂРѕРІР°РЅРёРµ РїР°СЂРѕР»СЏ С‡РµСЂРµР· pgcrypto (bcrypt, cost factor 6).
+            // @p вЂ” РїР°СЂР°РјРµС‚СЂ, РїР°СЂРѕР»СЊ РЅРµ РїРѕРїР°РґР°РµС‚ РІ SQL-СЃС‚СЂРѕРєСѓ.
             string hashSql = "SELECT crypt(@p, gen_salt('bf', 6))";
             DataTable hashDt = Db.GetData(hashSql, new NpgsqlParameter("@p", password));
             string passwordHash = hashDt.Rows[0][0].ToString();
 
+            // INSERT РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ: РІСЃРµ С‚СЂРё РїРѕР»СЏ С‡РµСЂРµР· NpgsqlParameter (Р·Р°С‰РёС‚Р° РёРЅСЉРµРєС†РёР№).
             string insertSql = "INSERT INTO users (login, password_hash, role_id) VALUES (@login, @hash, @role)";
             try
             {
@@ -147,26 +148,26 @@ namespace _1.forms
                     new NpgsqlParameter("@login", login),
                     new NpgsqlParameter("@hash", passwordHash),
                     new NpgsqlParameter("@role", roleId));
-                MessageBox.Show($"Учётная запись создана.\nЛогин: {login}\nПароль: {password}\n\nСохраните пароль!");
+                MessageBox.Show($"РЈС‡С‘С‚РЅР°СЏ Р·Р°РїРёСЃСЊ СЃРѕР·РґР°РЅР°.\nР›РѕРіРёРЅ: {login}\nРџР°СЂРѕР»СЊ: {password}\nРЎРѕС…СЂР°РЅРёС‚Рµ РґР°РЅРЅС‹Рµ!");
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка: " + ex.Message);
+                MessageBox.Show("РћС€РёР±РєР°: " + ex.Message);
             }
         }
 
-        // Открыть форму расчёта зарплаты для выбранного сотрудника.
+        // РћС‚РєСЂС‹С‚РёРµ С„РѕСЂРјС‹ Р·Р°СЂРїР»Р°С‚С‹ РґР»СЏ РІС‹Р±СЂР°РЅРЅРѕРіРѕ СЃРѕС‚СЂСѓРґРЅРёРєР°.
         private void buttonSalary_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null)
             {
-                MessageBox.Show("Выберите сотрудника.");
+                MessageBox.Show("Р’С‹Р±РµСЂРёС‚Рµ СЃРѕС‚СЂСѓРґРЅРёРєР°.");
                 return;
             }
 
             int sotrudnikId = Convert.ToInt32(dataGridView1.CurrentRow.Cells["ID"].Value);
-            string fio = dataGridView1.CurrentRow.Cells["ФИО"].Value.ToString();
-            string dolzhnost = dataGridView1.CurrentRow.Cells["Должность"].Value.ToString();
+            string fio = dataGridView1.CurrentRow.Cells["Р¤РРћ"].Value.ToString();
+            string dolzhnost = dataGridView1.CurrentRow.Cells["Р”РѕР»Р¶РЅРѕСЃС‚СЊ"].Value.ToString();
 
             var form = new SalaryForm(sotrudnikId, fio, dolzhnost);
             form.ShowDialog();
