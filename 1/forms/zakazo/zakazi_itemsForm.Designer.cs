@@ -31,6 +31,7 @@
             dataGridView1 = new DataGridView();
             button1 = new Button();
             button2 = new Button();
+            buttonSave = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -63,11 +64,22 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // buttonSave
+            // 
+            buttonSave.Location = new Point(504, 347);
+            buttonSave.Name = "buttonSave";
+            buttonSave.Size = new Size(150, 70);
+            buttonSave.TabIndex = 3;
+            buttonSave.Text = "Сохранить состав";
+            buttonSave.UseVisualStyleBackColor = true;
+            buttonSave.Click += buttonSave_Click;
+            // 
             // zakazi_itemsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(buttonSave);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(dataGridView1);
@@ -83,5 +95,6 @@
         private DataGridView dataGridView1;
         private Button button1;
         private Button button2;
+        private Button buttonSave;
     }
 }

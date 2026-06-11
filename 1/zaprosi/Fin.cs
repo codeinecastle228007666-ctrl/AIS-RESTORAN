@@ -81,7 +81,8 @@ namespace _1.zaprosi
             return null;
         }
 
-        // Popup-диалог выбора заказа из таблицы (№, Дата, Клиент, Статус)
+        // Popup-диалог выбора заказа из таблицы (№, Дата, Клиент, Статус).
+        // Фильтруется по выбранному диапазону дат (dateTimePicker1/2) для единообразия с другими отчётами.
         private int? SelectOrder()
         {
             DataTable dt = Db.GetData(@"
@@ -89,7 +90,10 @@ namespace _1.zaprosi
                 FROM zakazi z
                 JOIN client c ON c.client_id = z.client_id
                 JOIN status_zakaza s ON s.status_zakaza_id = z.status_zakaza_id
-                ORDER BY z.data_zakaza DESC");
+                WHERE z.data_zakaza BETWEEN @d1 AND @d2
+                ORDER BY z.data_zakaza DESC",
+                new NpgsqlParameter("@d1", dateTimePicker1.Value),
+                new NpgsqlParameter("@d2", dateTimePicker2.Value));
             if (dt.Rows.Count == 0) { MessageBox.Show("Нет заказов в базе.", "Ошибка"); return null; }
             using (var form = new Form { Text = "Выбор заказа", Size = new Size(650, 400), StartPosition = FormStartPosition.CenterParent })
             {

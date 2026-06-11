@@ -2,15 +2,8 @@
 {
     partial class Auth
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,10 +15,6 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             label1 = new Label();
@@ -33,6 +22,7 @@
             textBoxLogin = new TextBox();
             textBoxPassword = new TextBox();
             button1 = new Button();
+            checkBoxShowPassword = new CheckBox();
             SuspendLayout();
             // 
             // label1
@@ -72,6 +62,16 @@
             textBoxPassword.Size = new Size(126, 23);
             textBoxPassword.TabIndex = 3;
             // 
+            // checkBoxShowPassword
+            // 
+            checkBoxShowPassword.AutoSize = true;
+            checkBoxShowPassword.Location = new Point(215, 69);
+            checkBoxShowPassword.Name = "checkBoxShowPassword";
+            checkBoxShowPassword.Size = new Size(15, 14);
+            checkBoxShowPassword.TabIndex = 5;
+            checkBoxShowPassword.UseVisualStyleBackColor = true;
+            checkBoxShowPassword.CheckedChanged += checkBoxShowPassword_CheckedChanged;
+            // 
             // button1
             // 
             button1.Location = new Point(45, 109);
@@ -86,7 +86,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 14F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(223, 150);
+            ClientSize = new Size(243, 150);
+            Controls.Add(checkBoxShowPassword);
             Controls.Add(button1);
             Controls.Add(textBoxPassword);
             Controls.Add(textBoxLogin);
@@ -106,5 +107,6 @@
         private TextBox textBoxLogin;
         private TextBox textBoxPassword;
         private Button button1;
+        private CheckBox checkBoxShowPassword;
     }
 }

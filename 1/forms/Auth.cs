@@ -15,6 +15,12 @@ namespace _1.forms
             InitializeComponent();
         }
 
+        // Показать/скрыть пароль.
+        private void checkBoxShowPassword_CheckedChanged(object sender, EventArgs e)
+        {
+            textBoxPassword.PasswordChar = checkBoxShowPassword.Checked ? '\0' : '*';
+        }
+
         // Обработчик кнопки "Войти". Выполняет проверку логина и заполняет сессию.
         private void button1_Click(object sender, EventArgs e)
         {

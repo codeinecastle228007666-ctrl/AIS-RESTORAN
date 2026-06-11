@@ -122,5 +122,12 @@ namespace _1.forms.zakazo
                 MessageBox.Show("Ошибка удаления блюда:\n" + ex.Message);
             }
         }
+
+        // Сохранить и закрыть.
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
     }
 }

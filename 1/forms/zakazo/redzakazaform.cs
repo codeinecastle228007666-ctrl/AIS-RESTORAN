@@ -4,6 +4,7 @@ using System.Data;
 using System.Windows.Forms;
 using _1.data;
 using _1.forms.bronirovanie;
+using _1.forms.zakazo;
 using Npgsql;
 
 namespace _1.forms
@@ -76,6 +77,13 @@ namespace _1.forms
                 }
 
                 int newZakazId = Convert.ToInt32(dt.Rows[0]["p_zakaz_id"]);
+
+                // После создания заказа сразу открыть форму добавления блюд
+                using (var itemsForm = new zakazi_itemsForm(newZakazId))
+                {
+                    itemsForm.ShowDialog();
+                }
+
                 MessageBox.Show($"Заказ #{newZakazId} успешно создан");
                 this.DialogResult = DialogResult.OK;
                 this.Close();
