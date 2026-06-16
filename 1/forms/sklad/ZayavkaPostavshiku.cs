@@ -9,10 +9,13 @@ using OfficeOpenXml.Style;
 
 namespace _1.forms.sklad
 {
+    // Форма создания заявки поставщику. Генерирует Excel-файл с таблицей продуктов.
     public partial class ZayavkaPostavshiku : Form
     {
+        // Папка на рабочем столе, куда сохраняются все заявки
         private static readonly string OutputDir = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "заявки");
+        // Таблица с продуктами из БД (ID, название, цена, единица измерения)
         private DataTable _productsTable;
 
         public ZayavkaPostavshiku()
@@ -20,17 +23,19 @@ namespace _1.forms.sklad
             InitializeComponent();
         }
 
+        // При загрузке формы загружаем все справочники и настраиваем таблицу
         private void ZayavkaPostavshiku_Load(object sender, EventArgs e)
         {
-            LoadPostavshiki();
-            LoadProducts();
-            SetupItemsGrid();
-            LoadCompanyInfo();
-            LoadZayavkiList();
+            LoadPostavshiki();          // список поставщиков
+            LoadProducts();             // список продуктов
+            SetupItemsGrid();           // настройка колонок таблицы товаров
+            LoadCompanyInfo();          // информация о ресторане (от кого)
+            LoadZayavkiList();          // список уже созданных заявок
             textBoxDate.Text = DateTime.Now.ToString("dd.MM.yyyy");
-            textBoxNomer.Text = DateTime.Now.ToString("yyyyMMddHHmmss");
+            textBoxNomer.Text = DateTime.Now.ToString("yyyyMMddHHmmss"); // номер = дата+время
         }
 
+        // Загружаем название, адрес и телефон ресторана из таблицы restoran
         private void LoadCompanyInfo()
         {
             string sql = "SELECT nazvanie, adress, nomer_telefona FROM restoran ORDER BY restoran_id LIMIT 1";
@@ -46,6 +51,7 @@ namespace _1.forms.sklad
 
         private DataTable _postavshikiTable;
 
+        // Загрузка списка поставщиков в выпадающий список
         private void LoadPostavshiki()
         {
             string sql = "SELECT postavschik_id, nazvanie, adres FROM postavschik ORDER BY nazvanie";
@@ -56,6 +62,7 @@ namespace _1.forms.sklad
             comboBoxPostavshik.SelectedIndex = -1;
         }
 
+        // Когда выбрали поставщика — показываем его адрес в текстовом поле
         private void comboBoxPostavshik_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (comboBoxPostavshik.SelectedIndex >= 0)
@@ -69,6 +76,7 @@ namespace _1.forms.sklad
             }
         }
 
+        // Загрузка всех продуктов с их единицами измерения
         private void LoadProducts()
         {
             string sql = @"
@@ -79,10 +87,12 @@ namespace _1.forms.sklad
             _productsTable = Db.GetData(sql);
         }
 
+        // Настройка колонок таблицы для ввода продуктов в заявку
         private void SetupItemsGrid()
         {
             dataGridViewItems.Columns.Clear();
 
+            // Колонка с выпадающим списком продуктов (ComboBox)
             DataGridViewComboBoxColumn colProduct = new DataGridViewComboBoxColumn();
             colProduct.HeaderText = "Продукт";
             colProduct.Name = "product";
@@ -92,6 +102,7 @@ namespace _1.forms.sklad
             colProduct.Width = 180;
             dataGridViewItems.Columns.Add(colProduct);
 
+            // Единица измерения (заполняется автоматически)
             DataGridViewTextBoxColumn colUnit = new DataGridViewTextBoxColumn();
             colUnit.HeaderText = "Ед. изм.";
             colUnit.Name = "unit";
@@ -99,12 +110,14 @@ namespace _1.forms.sklad
             colUnit.Width = 60;
             dataGridViewItems.Columns.Add(colUnit);
 
+            // Количество товара (вводит пользователь)
             DataGridViewTextBoxColumn colQty = new DataGridViewTextBoxColumn();
             colQty.HeaderText = "Количество";
             colQty.Name = "qty";
             colQty.Width = 80;
             dataGridViewItems.Columns.Add(colQty);
 
+            // Цена за единицу (берётся из БД, не редактируется)
             DataGridViewTextBoxColumn colPrice = new DataGridViewTextBoxColumn();
             colPrice.HeaderText = "Цена";
             colPrice.Name = "price";
@@ -112,6 +125,7 @@ namespace _1.forms.sklad
             colPrice.Width = 70;
             dataGridViewItems.Columns.Add(colPrice);
 
+            // Сумма = количество * цена, вычисляется автоматически
             DataGridViewTextBoxColumn colTotal = new DataGridViewTextBoxColumn();
             colTotal.HeaderText = "Сумма";
             colTotal.Name = "total";
@@ -119,16 +133,19 @@ namespace _1.forms.sklad
             colTotal.Width = 80;
             dataGridViewItems.Columns.Add(colTotal);
 
+            // Подписываемся на события изменения ячеек
             dataGridViewItems.CellValueChanged += DataGridViewItems_CellValueChanged;
             dataGridViewItems.EditingControlShowing += DataGridViewItems_EditingControlShowing;
         }
 
+        // Когда пользователь меняет продукт или количество — пересчитываем цену и сумму
         private void DataGridViewItems_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
             DataGridViewRow row = dataGridViewItems.Rows[e.RowIndex];
             if (row.IsNewRow) return;
 
+            // Если изменили продукт — подставляем его цену и единицу измерения
             if (e.ColumnIndex == dataGridViewItems.Columns["product"].Index)
             {
                 if (row.Cells["product"].Value != null &&
@@ -143,12 +160,14 @@ namespace _1.forms.sklad
                 }
                 RecalcRow(row);
             }
+            // Если изменили количество — просто пересчитываем сумму
             else if (e.ColumnIndex == dataGridViewItems.Columns["qty"].Index)
             {
                 RecalcRow(row);
             }
         }
 
+        // Перехватываем ввод в ячейку количества, чтобы разрешить только цифры и запятую
         private void DataGridViewItems_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             if (dataGridViewItems.CurrentCell.ColumnIndex == dataGridViewItems.Columns["qty"].Index
@@ -168,10 +187,12 @@ namespace _1.forms.sklad
             }
         }
 
+        // Пересчёт суммы в строке: цена * количество
         private void RecalcRow(DataGridViewRow row)
         {
             if (row.Cells["price"].Value != null && row.Cells["qty"].Value != null)
             {
+                // Заменяем точку на запятую, чтобы корректно распарсить русскую культуру
                 string qtyText = row.Cells["qty"].Value.ToString().Replace('.', ',');
                 decimal price = Convert.ToDecimal(row.Cells["price"].Value);
                 if (decimal.TryParse(qtyText, out decimal qty))
@@ -181,25 +202,30 @@ namespace _1.forms.sklad
             }
         }
 
+        // Добавить пустую строку в таблицу товаров
         private void buttonAddRow_Click(object sender, EventArgs e)
         {
             dataGridViewItems.Rows.Add();
         }
 
+        // Удалить выбранную строку из таблицы (кроме новой пустой)
         private void buttonRemoveRow_Click(object sender, EventArgs e)
         {
             if (dataGridViewItems.CurrentRow != null && !dataGridViewItems.CurrentRow.IsNewRow)
                 dataGridViewItems.Rows.RemoveAt(dataGridViewItems.CurrentRow.Index);
         }
 
+        // Создание заявки: сбор данных из формы и вызов GenerateExcel
         private void buttonCreate_Click(object sender, EventArgs e)
         {
+            // Проверяем, что поставщик выбран
             if (comboBoxPostavshik.SelectedIndex == -1)
             {
                 MessageBox.Show("Выберите поставщика");
                 return;
             }
 
+            // Проверяем, есть ли хотя бы одна строка с товаром
             bool hasData = false;
             foreach (DataGridViewRow row in dataGridViewItems.Rows)
             {
@@ -217,12 +243,14 @@ namespace _1.forms.sklad
                 return;
             }
 
+            // Собираем все данные из формы
             string supplier = comboBoxPostavshik.Text;
             string nomer = textBoxNomer.Text;
             string date = textBoxDate.Text;
             string otKogo = textBoxOtKogo.Text;
             string bodyText = textBoxBody.Text;
 
+            // Создаём таблицу с колонками для Excel
             DataTable itemsDt = new DataTable();
             itemsDt.Columns.Add("№", typeof(int));
             itemsDt.Columns.Add("Наименование");
@@ -235,6 +263,7 @@ namespace _1.forms.sklad
             decimal totalSum = 0;
             int num = 1;
 
+            // Проходим по всем строкам таблицы и собираем данные
             foreach (DataGridViewRow row in dataGridViewItems.Rows)
             {
                 if (row.IsNewRow || row.Cells["product"].Value == null) continue;
@@ -261,18 +290,23 @@ namespace _1.forms.sklad
                 return;
             }
 
+            // Генерируем Excel-файл
             GenerateExcel(supplier, nomer, date, otKogo, bodyText, itemsDt, totalQty, totalSum);
         }
 
+        // Формирование Excel-файла заявки через библиотеку EPPlus
         private void GenerateExcel(string supplier, string nomer, string date,
             string otKogo, string bodyText, DataTable items,
             decimal totalQty, decimal totalSum)
         {
+            // Лицензия для некоммерческого использования (EPPlus требует)
             ExcelPackage.License.SetNonCommercialPersonal("Student Project");
             using (var package = new ExcelPackage())
             {
+                // Создаём лист с названием "Заявка"
                 ExcelWorksheet ws = package.Workbook.Worksheets.Add("Заявка");
 
+                // Шапка документа: кому, от кого, дата
                 ws.Cells[1, 1].Value = $"Кому: {supplier}";
                 ws.Cells[1, 1].Style.Font.Size = 12;
                 ws.Cells[2, 1].Value = "Директору _________________________________";
@@ -283,9 +317,11 @@ namespace _1.forms.sklad
                 ws.Cells[7, 1].Style.Font.Size = 14;
                 ws.Cells[7, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
+                // Текст заявки (тело) — многострочное поле, которое пользователь редактирует
                 ws.Cells[9, 1].Value = bodyText;
                 ws.Cells[9, 1, 9, 6].Merge = true;
 
+                // Таблица с товарами
                 int headerRow = 11;
                 ws.Cells[headerRow, 1].Value = "№";
                 ws.Cells[headerRow, 2].Value = "Наименование";
@@ -294,6 +330,7 @@ namespace _1.forms.sklad
                 ws.Cells[headerRow, 5].Value = "Цена за 1 ед., руб.";
                 ws.Cells[headerRow, 6].Value = "Общая стоимость, руб.";
 
+                // Оформляем шапку таблицы: жирный шрифт, центрирование, рамки
                 using (var rng = ws.Cells[headerRow, 1, headerRow, 6])
                 {
                     rng.Style.Font.Bold = true;
@@ -303,8 +340,8 @@ namespace _1.forms.sklad
                 }
 
                 int row = headerRow + 1;
-                int startRow = row;
 
+                // Заполняем строки товарами из таблицы
                 foreach (DataRow dr in items.Rows)
                 {
                     ws.Cells[row, 1].Value = dr["№"];
@@ -323,6 +360,7 @@ namespace _1.forms.sklad
                     row++;
                 }
 
+                // Строка с итогами: общее количество и общая сумма
                 int totalRow = row;
                 ws.Cells[totalRow, 1].Value = "ИТОГО:";
                 ws.Cells[totalRow, 1, totalRow, 3].Merge = true;
@@ -338,17 +376,20 @@ namespace _1.forms.sklad
                     rng.Style.Border.BorderAround(ExcelBorderStyle.Thin);
                 }
 
+                // Подпись директора
                 row += 2;
                 ws.Cells[row, 1].Value = $"Директор _________________________________";
                 row++;
                 ws.Cells[row, 1].Value = $"М.П.                                   (подпись)";
 
+                // Настройка шрифта и ширины колонок
                 ws.Cells[1, 1, totalRow, 6].Style.Font.Name = "Times New Roman";
                 ws.Cells.AutoFitColumns();
                 ws.Column(2).Width = 40;
                 ws.Column(5).Width = 18;
                 ws.Column(6).Width = 22;
 
+                // Сохраняем файл в папку "заявки" на рабочем столе
                 Directory.CreateDirectory(OutputDir);
                 string fileName = $"Заявка_№{nomer}.xlsx";
                 string filePath = Path.Combine(OutputDir, fileName);
@@ -357,12 +398,14 @@ namespace _1.forms.sklad
                 MessageBox.Show($"Заявка создана:\n{fileName}", "Успех",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                // Открываем созданный файл в Excel
                 System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                 {
                     FileName = filePath,
                     UseShellExecute = true
                 });
 
+                // Очищаем форму для следующей заявки
                 dataGridViewItems.Rows.Clear();
                 comboBoxPostavshik.SelectedIndex = -1;
                 textBoxNomer.Text = DateTime.Now.ToString("yyyyMMddHHmmss");
@@ -370,6 +413,7 @@ namespace _1.forms.sklad
             }
         }
 
+        // Загрузка списка уже созданных заявок из папки
         private void LoadZayavkiList()
         {
             DataTable dt = new DataTable();
@@ -377,6 +421,7 @@ namespace _1.forms.sklad
             dt.Columns.Add("Дата");
             dt.Columns.Add("Файл");
 
+            // Если папки нет — показываем пустой список
             if (!Directory.Exists(OutputDir))
             {
                 dataGridViewZayavki.DataSource = dt;
@@ -384,6 +429,7 @@ namespace _1.forms.sklad
                 return;
             }
 
+            // Сканируем все файлы в папке, сортируем от новых к старым
             int num = 1;
             foreach (string file in Directory.GetFiles(OutputDir, "Заявка_№*.xlsx")
                 .OrderByDescending(f => f))
@@ -400,6 +446,7 @@ namespace _1.forms.sklad
             dataGridViewZayavki.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
+        // Открыть выбранную заявку в Excel
         private void buttonOpen_Click(object sender, EventArgs e)
         {
             if (dataGridViewZayavki.CurrentRow == null)
@@ -426,6 +473,7 @@ namespace _1.forms.sklad
             }
         }
 
+        // Удалить выбранную заявку (файл с диска)
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (dataGridViewZayavki.CurrentRow == null)

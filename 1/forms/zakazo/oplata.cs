@@ -10,17 +10,21 @@ using QRCoder;
 
 namespace _1.forms
 {
+    // Форма оплаты заказа. Показывает сумму, способ оплаты, генерирует чек и QR-код.
     public partial class oplata : Form
     {
         private int _zakazId;
+
         public oplata(int zakazId)
         {
             InitializeComponent();
-            _zakazId = zakazId;
+            _zakazId = zakazId; // запоминаем ID заказа, который будем оплачивать
         }
 
+        // При загрузке проверяем, не оплачен ли уже заказ, и показываем данные
         private void oplata_Load(object sender, EventArgs e)
         {
+            // Проверяем, есть ли уже оплата в таблице oplata для этого заказа
             string checksql = "SELECT COUNT(*) FROM oplata WHERE zakaz_id = @zakaz";
             try
             {
@@ -33,6 +37,7 @@ namespace _1.forms
                     return;
                 }
 
+                // Если оплата уже была — закрываем форму
                 if (Convert.ToInt32(checkTable.Rows[0][0]) > 0)
                 {
                     MessageBox.Show("Заказ уже оплачен!");
@@ -46,15 +51,17 @@ namespace _1.forms
                 MessageBox.Show("Ошибка проверки данных:\n" + ex.Message);
             }
 
+            // Загружаем способы оплаты из БД (наличные, карта, QR и т.д.)
             string sql = "SELECT sposob_oplati_id, nazvanie FROM sposob_oplati";
             comboBox1.DataSource = Db.GetData(sql);
             comboBox1.DisplayMember = "nazvanie";
             comboBox1.ValueMember = "sposob_oplati_id";
 
-            LoadSumma();
-            ShowQrIfNeeded();
+            LoadSumma();          // показываем общую сумму заказа
+            ShowQrIfNeeded();     // если выбран QR-способ — генерируем код
         }
 
+        // Загружаем сумму: складываем количество * цену по всем позициям заказа
         private void LoadSumma()
         {
             string sql = "SELECT SUM(kolichestvo * cena) FROM sostav_zakaza WHERE zakaz_id = @zakaz";
@@ -66,11 +73,13 @@ namespace _1.forms
                 textBox1.Text = "0";
         }
 
+        // Когда меняем способ оплаты — проверяем, надо ли показать QR-код
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ShowQrIfNeeded();
         }
 
+        // Если выбран способ оплаты с QR (СБП, QR-код), то генерируем и показываем QR-код
         private void ShowQrIfNeeded()
         {
             if (comboBox1.SelectedItem is DataRowView drv &&
@@ -78,12 +87,14 @@ namespace _1.forms
                 int.TryParse(comboBox1.SelectedValue.ToString(), out int _))
             {
                 string name = drv["nazvanie"].ToString();
+                // Проверяем, содержит ли название способа оплаты слова QR, код или СБП
                 bool isQr = name.IndexOf("QR", StringComparison.OrdinalIgnoreCase) >= 0 ||
                             name.IndexOf("код", StringComparison.OrdinalIgnoreCase) >= 0 ||
                             name.IndexOf("СБП", StringComparison.OrdinalIgnoreCase) >= 0;
 
                 if (isQr && decimal.TryParse(textBox1.Text, out decimal summa) && summa > 0)
                 {
+                    // Формируем ссылку для QR-кода (в реальном проекте тут был бы URL платёжного шлюза)
                     string qrData = $"RestaurantPayment|Order:{_zakazId}|Amount:{summa:F2}|http://pay.example.com/order/{_zakazId}";
                     GenerateQrCode(qrData);
                     pictureBoxQR.Visible = true;
@@ -93,6 +104,7 @@ namespace _1.forms
             pictureBoxQR.Visible = false;
         }
 
+        // Генерация QR-кода через библиотеку QRCoder
         private void GenerateQrCode(string data)
         {
             using (var qrGenerator = new QRCodeGenerator())
@@ -103,22 +115,23 @@ namespace _1.forms
                     var bitmap = qrCode.GetGraphic(20);
                     var old = pictureBoxQR.Image;
                     pictureBoxQR.Image = bitmap;
-                    old?.Dispose();
+                    old?.Dispose(); // освобождаем старую картинку, чтобы не было утечки памяти
                 }
             }
         }
 
-        // Генерация чека в txt.
+        // Генерация чека в txt-файл, сохранение на рабочий стол в папку cheki.
         private void GenerateReceipt(decimal summa, string sposobOplati)
         {
             try
             {
+                // Папка на рабочем столе: cheki
                 string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 string dir = Path.Combine(desktop, "cheki");
-                Directory.CreateDirectory(dir);
+                Directory.CreateDirectory(dir); // создаём, если нет
                 string filePath = Path.Combine(dir, $"check_{_zakazId}_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
 
-                // Данные заказа: клиент, официант, стол, дата, позиции
+                // Загружаем информацию о заказе: кто клиент, какой официант, за каким столом, когда был создан
                 DataTable orderInfo = Db.GetData(@"
                     SELECT c.fio AS client, s.fio AS sotrudnik, st.nomer AS stol, z.data_zakaza AS data
                     FROM zakazi z
@@ -128,6 +141,7 @@ namespace _1.forms
                     WHERE z.zakaz_id = @id",
                     new NpgsqlParameter("@id", _zakazId));
 
+                // Загружаем список блюд в заказе: название, количество, цена, сумма по позиции
                 DataTable items = Db.GetData(@"
                     SELECT b.nazvanie, sz.kolichestvo, sz.cena, (sz.kolichestvo * sz.cena) AS summa
                     FROM sostav_zakaza sz
@@ -135,6 +149,7 @@ namespace _1.forms
                     WHERE sz.zakaz_id = @id",
                     new NpgsqlParameter("@id", _zakazId));
 
+                // Формируем текстовый чек с рамками из символов псевдографики
                 var sb = new StringBuilder();
                 sb.AppendLine("═══════════════════════════════════════════");
                 sb.AppendLine("            АИС \"РЕСТОРАН\"");
@@ -155,6 +170,7 @@ namespace _1.forms
                 sb.AppendLine($"{"Блюдо",-30} {"Кол",5} {"Цена",8} {"Сумма",8}");
                 sb.AppendLine("───────────────────────────────────────────");
 
+                // Перебираем все блюда и добавляем их в чек (обрезаем длинные названия)
                 foreach (DataRow item in items.Rows)
                 {
                     string name = item["nazvanie"].ToString();
@@ -171,6 +187,7 @@ namespace _1.forms
                 sb.AppendLine($"             {DateTime.Now:dd.MM.yyyy HH:mm:ss}");
                 sb.AppendLine("         Спасибо за посещение!");
 
+                // Сохраняем файл в кодировке UTF-8 и открываем в блокноте
                 File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
                 System.Diagnostics.Process.Start("notepad.exe", filePath);
             }
@@ -180,13 +197,16 @@ namespace _1.forms
             }
         }
 
+        // Обрезает строку до max символов, вместо последнего ставит многоточие
         private static string Truncate(string s, int max)
         {
             return s.Length <= max ? s : s[..(max - 1)] + "…";
         }
 
+        // Кнопка «Оплатить»: проверяет данные, повторно проверяет оплату, вызывает хранимую процедуру
         private void button1_Click(object sender, EventArgs e)
         {
+            // Проверяем, выбран ли способ оплаты
             if (comboBox1.SelectedValue == null)
             {
                 MessageBox.Show("Выберите способ оплаты");
@@ -196,16 +216,19 @@ namespace _1.forms
             int sposobOplatiId = Convert.ToInt32(comboBox1.SelectedValue);
             decimal summa = Convert.ToDecimal(textBox1.Text);
 
+            // Сумма должна быть положительной
             if (summa <= 0)
             {
                 MessageBox.Show("Сумма не позволяет провести оплату");
                 return;
             }
 
+            // Спрашиваем подтверждение у пользователя
             if (MessageBox.Show($"Провести оплату заказа #{_zakazId} на сумму {summa:F2}?",
                 "Подтверждение оплаты", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
 
+            // Повторная проверка — вдруг заказ уже успели оплатить в другой вкладке
             string recheckSql = "SELECT COUNT(*) FROM oplata WHERE zakaz_id = @zakaz";
             var recheckTable = Db.GetData(recheckSql, new NpgsqlParameter("@zakaz", _zakazId));
             if (recheckTable.Rows.Count > 0 && Convert.ToInt32(recheckTable.Rows[0][0]) > 0)
@@ -216,6 +239,7 @@ namespace _1.forms
                 return;
             }
 
+            // Вызываем хранимую процедуру оплаты и обновляем статус заказа на 5 (оплачен)
             string sql = @"
                 CALL sp_make_oplata(@p_zakaz_id, @p_sposob_oplati_id);
                 UPDATE zakazi SET status_zakaza_id = 5 WHERE zakaz_id = @zakaz;
@@ -223,13 +247,14 @@ namespace _1.forms
 
             try
             {
+                // Запускаем всё в одной транзакции через вспомогательный метод
                 Db.ekzekuttranzakcii(sql,
                     new NpgsqlParameter("@p_zakaz_id", _zakazId),
                     new NpgsqlParameter("@p_sposob_oplati_id", sposobOplatiId),
                     new NpgsqlParameter("@zakaz", _zakazId)
                 );
 
-                // Генерация чека после успешной оплаты
+                // После успешной оплаты генерируем чек и открываем его
                 string sposobName = comboBox1.Text;
                 GenerateReceipt(summa, sposobName);
 
