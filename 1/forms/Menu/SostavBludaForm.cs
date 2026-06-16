@@ -48,9 +48,11 @@ namespace _1.forms.Menu
             string sql = @"
                 SELECT sb.sostav_bluda_id AS ""ID"",
                 p.nazvanie AS ""Продукт"",
+                e.nazvanie AS ""Ед. изм."",
                 sb.kolichestvo AS ""Количество""
                 FROM sostav_bluda sb
                 JOIN product p ON sb.product_id = p.product_id
+                JOIN edinica_izmereniya e ON p.edinica_izmereniya_id = e.edinica_izmereniya_id
                 WHERE sb.bludo_id = @id
                 ORDER BY p.nazvanie
             ";

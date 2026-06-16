@@ -1,7 +1,8 @@
-// Форма оплаты заказа
 using System;
 using System.Data;
 using System.Drawing;
+using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using _1.data;
 using Npgsql;
@@ -9,9 +10,6 @@ using QRCoder;
 
 namespace _1.forms
 {
-    // Форма проведения оплаты по заказу. Проверяет, не оплачен ли уже заказ, отображает сумму, вызывает процедуру sp_make_oplata.
-    // Двойная проверка оплаты (при загрузке + перед списанием) — защита от двойного списания (TOCTOU).
-    // Все SQL-запросы с параметрами (NpgsqlParameter) — защита от инъекций.
     public partial class oplata : Form
     {
         private int _zakazId;
@@ -23,7 +21,6 @@ namespace _1.forms
 
         private void oplata_Load(object sender, EventArgs e)
         {
-            // Проверка: не оплачен ли уже заказ (@zakaz — параметр, не строка в SQL)
             string checksql = "SELECT COUNT(*) FROM oplata WHERE zakaz_id = @zakaz";
             try
             {
@@ -58,7 +55,6 @@ namespace _1.forms
             ShowQrIfNeeded();
         }
 
-        // Расчёт суммы заказа (суммирование позиций в заказе).
         private void LoadSumma()
         {
             string sql = "SELECT SUM(kolichestvo * cena) FROM sostav_zakaza WHERE zakaz_id = @zakaz";
@@ -70,13 +66,11 @@ namespace _1.forms
                 textBox1.Text = "0";
         }
 
-        // Обработчик смены способа оплаты — перерисовка QR.
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             ShowQrIfNeeded();
         }
 
-        // Определяет, нужно ли показать QR-код (по названию способа оплаты), и генерирует/прячет его.
         private void ShowQrIfNeeded()
         {
             if (comboBox1.SelectedItem is DataRowView drv &&
@@ -99,7 +93,6 @@ namespace _1.forms
             pictureBoxQR.Visible = false;
         }
 
-        // Генерация QR-кода из переданной строки.
         private void GenerateQrCode(string data)
         {
             using (var qrGenerator = new QRCodeGenerator())
@@ -115,7 +108,83 @@ namespace _1.forms
             }
         }
 
-        // Проведение оплаты: вызов процедуры и смена статуса.
+        // Генерация чека в txt.
+        private void GenerateReceipt(decimal summa, string sposobOplati)
+        {
+            try
+            {
+                string desktop = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string dir = Path.Combine(desktop, "cheki");
+                Directory.CreateDirectory(dir);
+                string filePath = Path.Combine(dir, $"check_{_zakazId}_{DateTime.Now:yyyyMMdd_HHmmss}.txt");
+
+                // Данные заказа: клиент, официант, стол, дата, позиции
+                DataTable orderInfo = Db.GetData(@"
+                    SELECT c.fio AS client, s.fio AS sotrudnik, st.nomer AS stol, z.data_zakaza AS data
+                    FROM zakazi z
+                    JOIN client c ON c.client_id = z.client_id
+                    JOIN sotrudniki s ON s.sotrudnik_id = z.sotrudnik_id
+                    JOIN stol st ON st.stol_id = z.stol_id
+                    WHERE z.zakaz_id = @id",
+                    new NpgsqlParameter("@id", _zakazId));
+
+                DataTable items = Db.GetData(@"
+                    SELECT b.nazvanie, sz.kolichestvo, sz.cena, (sz.kolichestvo * sz.cena) AS summa
+                    FROM sostav_zakaza sz
+                    JOIN bludo b ON b.bludo_id = sz.bludo_id
+                    WHERE sz.zakaz_id = @id",
+                    new NpgsqlParameter("@id", _zakazId));
+
+                var sb = new StringBuilder();
+                sb.AppendLine("═══════════════════════════════════════════");
+                sb.AppendLine("            АИС \"РЕСТОРАН\"");
+                sb.AppendLine("           КАССОВЫЙ ЧЕК");
+                sb.AppendLine("═══════════════════════════════════════════");
+
+                if (orderInfo.Rows.Count > 0)
+                {
+                    var row = orderInfo.Rows[0];
+                    sb.AppendLine($"Заказ №: {_zakazId}");
+                    sb.AppendLine($"Дата: {Convert.ToDateTime(row["data"]):dd.MM.yyyy HH:mm}");
+                    sb.AppendLine($"Клиент: {row["client"]}");
+                    sb.AppendLine($"Официант: {row["sotrudnik"]}");
+                    sb.AppendLine($"Стол: {row["stol"]}");
+                }
+
+                sb.AppendLine("───────────────────────────────────────────");
+                sb.AppendLine($"{"Блюдо",-30} {"Кол",5} {"Цена",8} {"Сумма",8}");
+                sb.AppendLine("───────────────────────────────────────────");
+
+                foreach (DataRow item in items.Rows)
+                {
+                    string name = item["nazvanie"].ToString();
+                    int kol = Convert.ToInt32(item["kolichestvo"]);
+                    decimal price = Convert.ToDecimal(item["cena"]);
+                    decimal total = Convert.ToDecimal(item["summa"]);
+                    sb.AppendLine($"{Truncate(name, 28),-30} {kol,5} {price,8:F2} {total,8:F2}");
+                }
+
+                sb.AppendLine("───────────────────────────────────────────");
+                sb.AppendLine($"{"ИТОГО:",-43} {summa,8:F2}");
+                sb.AppendLine($"Способ оплаты: {sposobOplati}");
+                sb.AppendLine("═══════════════════════════════════════════");
+                sb.AppendLine($"             {DateTime.Now:dd.MM.yyyy HH:mm:ss}");
+                sb.AppendLine("         Спасибо за посещение!");
+
+                File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
+                System.Diagnostics.Process.Start("notepad.exe", filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка сохранения чека:\n" + ex.Message);
+            }
+        }
+
+        private static string Truncate(string s, int max)
+        {
+            return s.Length <= max ? s : s[..(max - 1)] + "…";
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
             if (comboBox1.SelectedValue == null)
@@ -137,7 +206,6 @@ namespace _1.forms
                 "Подтверждение оплаты", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
                 return;
 
-            // Перепроверка: не оплачен ли уже заказ (TOCTOU защита)
             string recheckSql = "SELECT COUNT(*) FROM oplata WHERE zakaz_id = @zakaz";
             var recheckTable = Db.GetData(recheckSql, new NpgsqlParameter("@zakaz", _zakazId));
             if (recheckTable.Rows.Count > 0 && Convert.ToInt32(recheckTable.Rows[0][0]) > 0)
@@ -148,8 +216,6 @@ namespace _1.forms
                 return;
             }
 
-            // Вызов хранимой процедуры sp_make_oplata + смена статуса заказа на "Оплачен" (5).
-            // Все три параметра — NpgsqlParameter (защита от инъекций, серверный парсинг типов).
             string sql = @"
                 CALL sp_make_oplata(@p_zakaz_id, @p_sposob_oplati_id);
                 UPDATE zakazi SET status_zakaza_id = 5 WHERE zakaz_id = @zakaz;
@@ -162,6 +228,10 @@ namespace _1.forms
                     new NpgsqlParameter("@p_sposob_oplati_id", sposobOplatiId),
                     new NpgsqlParameter("@zakaz", _zakazId)
                 );
+
+                // Генерация чека после успешной оплаты
+                string sposobName = comboBox1.Text;
+                GenerateReceipt(summa, sposobName);
 
                 MessageBox.Show("Оплата успешно проведена!");
                 this.DialogResult = DialogResult.OK;
