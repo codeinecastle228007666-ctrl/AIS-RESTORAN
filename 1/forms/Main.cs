@@ -4,6 +4,7 @@ using _1.forms.bronirovanie;
 using _1.forms.Menu;
 using _1.zaprosi;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace _1
 {
@@ -19,6 +20,7 @@ namespace _1
             InitializeComponent();
             roleId = role;
             userId = user;
+            try { this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath); } catch { }
         }
 
         // Кнопка "Заказы".

@@ -3,6 +3,7 @@ using _1.data;
 using Npgsql;
 using System;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace _1.forms
@@ -13,6 +14,7 @@ namespace _1.forms
         public Auth()
         {
             InitializeComponent();
+            try { this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath); } catch { }
         }
 
         // Показать/скрыть пароль.
