@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -30,28 +31,28 @@ namespace _1.forms
             if (dialog.ShowDialog() != DialogResult.OK)
                 return;
 
+            // Ищем pg_dump на UI-потоке (чтобы диалог выбора мог показаться)
+            string pgDumpPath;
             try
             {
-                string pgDumpPath = Puti_dlya_rk.GetPgDump();
+                pgDumpPath = Puti_dlya_rk.GetPgDump();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка: " + ex.Message);
+                return;
+            }
 
+            try
+            {
                 // pg_dump в пользовательском формате (-F c) с блобами (-b)
-                ProcessStartInfo psi = new ProcessStartInfo();
-                psi.FileName = pgDumpPath;
-                psi.Arguments = $"-h localhost -p 5432 -U {user} -F c -b -v -f \"{dialog.FileName}\" {dbName}";
-                psi.UseShellExecute = false;
-                psi.CreateNoWindow = true;
-                psi.RedirectStandardError = true;
-                psi.RedirectStandardOutput = true;
-                psi.EnvironmentVariables["PGPASSWORD"] = password;
+                var output = RunProcess(pgDumpPath,
+                    $"-h localhost -p 5432 -U {user} -F c -b -v -f \"{dialog.FileName}\" {dbName}",
+                    password, 60000);
 
-                Process process = Process.Start(psi);
-                process.WaitForExit();
-
-                string error = process.StandardError.ReadToEnd();
-
-                if (process.ExitCode != 0)
+                if (output.ExitCode != 0)
                 {
-                    MessageBox.Show("Ошибка создания резервной копии:\n" + error);
+                    MessageBox.Show("Ошибка создания резервной копии:\n" + output.Error);
                     return;
                 }
 
@@ -84,14 +85,28 @@ namespace _1.forms
             if (result != DialogResult.Yes)
                 return;
 
+            // Ищем утилиты на UI-потоке — чтобы BrowseForExe мог показать диалог
+            string pgRestorePath, psqlPath;
+            try
+            {
+                pgRestorePath = Puti_dlya_rk.GetPgRestore();
+                psqlPath = Puti_dlya_rk.GetPsql();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка: " + ex.Message);
+                return;
+            }
+
             try
             {
                 Cursor = Cursors.WaitCursor;
                 progressBar1.Visible = true;
                 labelStatus.Text = "Подготовка к восстановлению...";
 
-                // Запускаем фоновое восстановление, чтобы UI не завис
-                bool restoreSuccess = await Task.Run(() => RestoreDatabase(dialog.FileName));
+                // Запускаем фоновое восстановление (только работу с процессами, без UI-диалогов)
+                bool restoreSuccess = await Task.Run(() =>
+                    RestoreDatabase(dialog.FileName, pgRestorePath, psqlPath));
 
                 if (restoreSuccess)
                 {
@@ -144,23 +159,18 @@ namespace _1.forms
         public event Action OnRestoreCompleted;
 
         // Основной метод восстановления: завершение сессий, удаление/создание БД, pg_restore.
-        private bool RestoreDatabase(string backupFile)
+        // Все пути к утилитам уже найдены на UI-потоке — здесь только работа с процессами.
+        private bool RestoreDatabase(string backupFile, string pgRestorePath, string psqlPath)
         {
             try
             {
-                string pgRestorePath = Puti_dlya_rk.GetPgRestore();
-                string psqlPath = Puti_dlya_rk.GetPsql();
-
-                if (!File.Exists(pgRestorePath))
-                    throw new Exception($"pg_restore не найден по пути: {pgRestorePath}");
-                if (!File.Exists(psqlPath))
-                    throw new Exception($"psql не найден по пути: {psqlPath}");
-
                 this.Invoke(new Action(() => labelStatus.Text = "Завершение активных сессий..."));
 
                 // Шаг 1: Принудительное завершение всех подключений к БД
-                string terminateCommand = $"SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '{dbName}' AND pid <> pg_backend_pid();";
-                ExecutePsqlCommand(terminateCommand);
+                string terminateSql = $"SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '{dbName}' AND pid <> pg_backend_pid();";
+                var termResult = RunPsql(psqlPath, terminateSql, 15000);
+                if (termResult.ExitCode != 0)
+                    System.Diagnostics.Debug.WriteLine("terminate sessions: " + termResult.Error);
 
                 this.Invoke(new Action(() =>
                 {
@@ -169,8 +179,9 @@ namespace _1.forms
                 }));
 
                 // Шаг 2: Удаление существующей БД
-                string dropCommand = $"DROP DATABASE IF EXISTS \"{dbName}\";";
-                ExecutePsqlCommand(dropCommand);
+                var dropResult = RunPsql(psqlPath, $"DROP DATABASE IF EXISTS \"{dbName}\";", 30000);
+                if (dropResult.ExitCode != 0)
+                    System.Diagnostics.Debug.WriteLine("drop db: " + dropResult.Error);
 
                 this.Invoke(new Action(() =>
                 {
@@ -179,8 +190,9 @@ namespace _1.forms
                 }));
 
                 // Шаг 3: Создание новой БД
-                string createCommand = $"CREATE DATABASE \"{dbName}\" ENCODING 'UTF8';";
-                ExecutePsqlCommand(createCommand);
+                var createResult = RunPsql(psqlPath, $"CREATE DATABASE \"{dbName}\" ENCODING 'UTF8';", 30000);
+                if (createResult.ExitCode != 0)
+                    throw new Exception($"Ошибка создания БД: {createResult.Error}");
 
                 this.Invoke(new Action(() =>
                 {
@@ -189,59 +201,12 @@ namespace _1.forms
                 }));
 
                 // Шаг 4: Непосредственное восстановление через pg_restore
-                ProcessStartInfo psi = new ProcessStartInfo();
-                psi.FileName = pgRestorePath;
-                psi.Arguments = $"-h localhost -p 5432 -U {user} -d {dbName} -v \"{backupFile}\"";
-                psi.UseShellExecute = false;
-                psi.CreateNoWindow = true;
-                psi.RedirectStandardError = true;
-                psi.RedirectStandardOutput = true;
-                psi.EnvironmentVariables["PGPASSWORD"] = password;
+                var restoreResult = RunProcess(pgRestorePath,
+                    $"-h localhost -p 5432 -U {user} -d {dbName} -v \"{backupFile}\"",
+                    password, 120000);
 
-                using (Process restore = new Process())
-                {
-                    restore.StartInfo = psi;
-
-                    StringBuilder outputBuilder = new StringBuilder();
-                    StringBuilder errorBuilder = new StringBuilder();
-
-                    restore.OutputDataReceived += (s, ev) =>
-                    {
-                        if (ev.Data != null)
-                        {
-                            outputBuilder.AppendLine(ev.Data);
-                            this.Invoke(new Action(() =>
-                            {
-                                if (progressBar1.Value < 90)
-                                    progressBar1.Value += 2;
-                                labelStatus.Text = "Восстановление данных...";
-                            }));
-                        }
-                    };
-
-                    restore.ErrorDataReceived += (s, ev) =>
-                    {
-                        if (ev.Data != null)
-                        {
-                            errorBuilder.AppendLine(ev.Data);
-                            System.Diagnostics.Debug.WriteLine($"RESTORE: {ev.Data}");
-                        }
-                    };
-
-                    restore.Start();
-                    restore.BeginOutputReadLine();
-                    restore.BeginErrorReadLine();
-                    restore.WaitForExit();
-
-                    restore.CancelOutputRead();
-                    restore.CancelErrorRead();
-
-                    if (restore.ExitCode != 0)
-                    {
-                        string errorMessage = errorBuilder.ToString();
-                        throw new Exception($"Ошибка восстановления файла. Код: {restore.ExitCode}\nОшибка: {errorMessage}");
-                    }
-                }
+                if (restoreResult.ExitCode != 0)
+                    throw new Exception($"Ошибка восстановления. Код: {restoreResult.ExitCode}\n{restoreResult.Error}");
 
                 this.Invoke(new Action(() =>
                 {
@@ -261,32 +226,73 @@ namespace _1.forms
             }
         }
 
-        // Выполнение SQL-команды через psql.exe (для администрирования БД).
-        private void ExecutePsqlCommand(string sqlCommand)
+        // Выполнение psql с одной SQL-командой через -c, читает stderr асинхронно
+        private ProcessResult RunPsql(string psqlPath, string sql, int timeoutMs)
         {
-            string psqlPath = Puti_dlya_rk.GetPsql();
+            string escaped = sql.Replace("\"", "\\\"");
+            string args = $"-h localhost -p 5432 -U {user} -d postgres -c \"{escaped}\"";
+            return RunProcess(psqlPath, args, password, timeoutMs);
+        }
 
+        // Безопасный запуск процесса: stderr читается асинхронно (нет deadlock),
+        // есть таймаут, пароль через PGPASSWORD.
+        private ProcessResult RunProcess(string exePath, string args, string pgPassword, int timeoutMs)
+        {
             ProcessStartInfo psi = new ProcessStartInfo();
-            psi.FileName = psqlPath;
-
-            string escapedCommand = sqlCommand.Replace("\"", "\\\"");
-            psi.Arguments = $"-h localhost -p 5432 -U {user} -d postgres -c \"{escapedCommand}\"";
-
+            psi.FileName = exePath;
+            psi.Arguments = args;
             psi.UseShellExecute = false;
             psi.CreateNoWindow = true;
             psi.RedirectStandardError = true;
-            psi.EnvironmentVariables["PGPASSWORD"] = password;
+            psi.RedirectStandardOutput = true;
+            psi.EnvironmentVariables["PGPASSWORD"] = pgPassword;
 
-            using (Process proc = Process.Start(psi))
+            using (Process proc = new Process())
             {
-                proc.WaitForExit();
+                proc.StartInfo = psi;
 
-                if (proc.ExitCode != 0)
+                StringBuilder stdOut = new StringBuilder();
+                StringBuilder stdErr = new StringBuilder();
+
+                proc.OutputDataReceived += (s, ev) =>
                 {
-                    string error = proc.StandardError.ReadToEnd();
-                    throw new Exception($"Ошибка выполнения SQL команды: {error}\nКоманда: {sqlCommand}");
+                    if (ev.Data != null) stdOut.AppendLine(ev.Data);
+                };
+                proc.ErrorDataReceived += (s, ev) =>
+                {
+                    if (ev.Data != null) stdErr.AppendLine(ev.Data);
+                };
+
+                proc.Start();
+                proc.BeginOutputReadLine();
+                proc.BeginErrorReadLine();
+
+                // Ждём с таймаутом — если процесс завис, убьём его
+                if (!proc.WaitForExit(timeoutMs))
+                {
+                    try { proc.Kill(); } catch { }
+                    proc.WaitForExit();
+                    return new ProcessResult { ExitCode = -1, Error = $"Процесс не завершился за {timeoutMs}мс и был принудительно остановлен." };
                 }
+
+                proc.CancelOutputRead();
+                proc.CancelErrorRead();
+
+                return new ProcessResult
+                {
+                    ExitCode = proc.ExitCode,
+                    Output = stdOut.ToString(),
+                    Error = stdErr.ToString()
+                };
             }
+        }
+
+        // Результат выполнения внешнего процесса
+        private struct ProcessResult
+        {
+            public int ExitCode;
+            public string Output;
+            public string Error;
         }
     }
 }
