@@ -2,11 +2,13 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace _1.forms
 {
     // Статический класс для поиска исполняемых файлов PostgreSQL.
-    // Сначала ищет через PATH (where.exe), затем сканирует Program Files.
+    // Порядок поиска: PATH → сканирование Program Files на всех дисках → ручной выбор через диалог.
     internal class Puti_dlya_rk
     {
         // Возвращает путь к pg_dump.exe.
@@ -15,10 +17,13 @@ namespace _1.forms
             string path = FindInPath("pg_dump");
             if (path != null) return path;
 
-            string found = ScanPostgresBin("pg_dump.exe");
-            if (found != null) return found;
+            path = ScanAllDrives("pg_dump.exe");
+            if (path != null) return path;
 
-            throw new Exception("pg_dump не найден. Установите PostgreSQL или укажите путь в PATH.");
+            path = BrowseForExe("pg_dump.exe", "Выберите pg_dump.exe");
+            if (path != null) return path;
+
+            throw new Exception("pg_dump не найден. Установите PostgreSQL или укажите путь вручную.");
         }
 
         // Возвращает путь к pg_restore.exe.
@@ -27,10 +32,13 @@ namespace _1.forms
             string path = FindInPath("pg_restore");
             if (path != null) return path;
 
-            string found = ScanPostgresBin("pg_restore.exe");
-            if (found != null) return found;
+            path = ScanAllDrives("pg_restore.exe");
+            if (path != null) return path;
 
-            throw new Exception("pg_restore не найден. Установите PostgreSQL или укажите путь в PATH.");
+            path = BrowseForExe("pg_restore.exe", "Выберите pg_restore.exe");
+            if (path != null) return path;
+
+            throw new Exception("pg_restore не найден. Установите PostgreSQL или укажите путь вручную.");
         }
 
         // Возвращает путь к psql.exe.
@@ -39,13 +47,16 @@ namespace _1.forms
             string path = FindInPath("psql");
             if (path != null) return path;
 
-            string found = ScanPostgresBin("psql.exe");
-            if (found != null) return found;
+            path = ScanAllDrives("psql.exe");
+            if (path != null) return path;
 
-            throw new Exception("psql не найден. Установите PostgreSQL или укажите путь в PATH.");
+            path = BrowseForExe("psql.exe", "Выберите psql.exe");
+            if (path != null) return path;
+
+            throw new Exception("psql не найден. Установите PostgreSQL или укажите путь вручную.");
         }
 
-        // Поиск через where.exe (проверяет PATH)
+        // Поиск через where.exe (проверяет PATH — сработает, если PostgreSQL прописан в переменных среды)
         private static string FindInPath(string exeName)
         {
             try
@@ -69,56 +80,101 @@ namespace _1.forms
             return null;
         }
 
-        // Сканирование Program Files на наличие PostgreSQL\версия\bin\файл
-        private static string ScanPostgresBin(string fileName)
+        // Поиск на всех дисках: Program Files\PostgreSQL\версия\bin\ и pgAdmin runtime
+        private static string ScanAllDrives(string fileName)
         {
-            string[] baseDirs =
+            try
             {
-                @"C:\Program Files\PostgreSQL",
-                @"C:\Program Files (x86)\PostgreSQL",
-                @"D:\Program Files\PostgreSQL",
-                @"E:\Program Files\PostgreSQL",
-                @"E:\ZAKAZAL NA GIDRE PISTOLET\postgre"
-            };
-
-            // Версии PostgreSQL, которые ищем (от 10 до 17)
-            for (int v = 17; v >= 10; v--)
-            {
-                foreach (var dir in baseDirs)
+                // Сначала стандартные Program Files на всех дисках
+                foreach (var drive in DriveInfo.GetDrives().Where(d => d.IsReady && d.DriveType == DriveType.Fixed))
                 {
-                    string fullPath = Path.Combine(dir, v.ToString(), "bin", fileName);
-                    if (File.Exists(fullPath))
+                    string root = drive.RootDirectory.FullName;
+                    string[] candidates =
                     {
-                        System.Diagnostics.Debug.WriteLine($"{fileName} найден: {fullPath}");
-                        return fullPath;
+                        Path.Combine(root, "Program Files", "PostgreSQL"),
+                        Path.Combine(root, "Program Files (x86)", "PostgreSQL")
+                    };
+
+                    foreach (var baseDir in candidates)
+                    {
+                        for (int v = 17; v >= 10; v--)
+                        {
+                            string fullPath = Path.Combine(baseDir, v.ToString(), "bin", fileName);
+                            if (File.Exists(fullPath))
+                            {
+                                System.Diagnostics.Debug.WriteLine($"{fileName} найден: {fullPath}");
+                                return fullPath;
+                            }
+                        }
+                    }
+
+                    // pgAdmin runtime на всех дисках
+                    string[] pgAdminDirs =
+                    {
+                        Path.Combine(root, "Program Files", "pgAdmin 4", "runtime"),
+                        Path.Combine(root, "Program Files", "pgAdmin 5", "runtime"),
+                        Path.Combine(root, "Program Files", "pgAdmin 6", "runtime"),
+                        Path.Combine(root, "Program Files", "pgAdmin 7", "runtime"),
+                        Path.Combine(root, "Program Files (x86)", "pgAdmin 4", "runtime"),
+                        Path.Combine(root, "Program Files (x86)", "pgAdmin 5", "runtime"),
+                        Path.Combine(root, "Program Files (x86)", "pgAdmin 6", "runtime"),
+                        Path.Combine(root, "Program Files (x86)", "pgAdmin 7", "runtime")
+                    };
+
+                    foreach (var dir in pgAdminDirs)
+                    {
+                        string fullPath = Path.Combine(dir, fileName);
+                        if (File.Exists(fullPath))
+                        {
+                            System.Diagnostics.Debug.WriteLine($"{fileName} найден в pgAdmin: {fullPath}");
+                            return fullPath;
+                        }
+                    }
+                }
+
+                // Тупиковый поиск по папкам postgre на всех дисках (как у тебя на E:)
+                foreach (var drive in DriveInfo.GetDrives().Where(d => d.IsReady && d.DriveType == DriveType.Fixed))
+                {
+                    string root = drive.RootDirectory.FullName;
+                    string postgreDir = Path.Combine(root, "postgre");
+                    if (Directory.Exists(postgreDir))
+                    {
+                        for (int v = 17; v >= 10; v--)
+                        {
+                            string fullPath = Path.Combine(postgreDir, v.ToString(), "bin", fileName);
+                            if (File.Exists(fullPath))
+                            {
+                                System.Diagnostics.Debug.WriteLine($"{fileName} найден: {fullPath}");
+                                return fullPath;
+                            }
+                        }
                     }
                 }
             }
+            catch { }
+            return null;
+        }
 
-            // Дополнительно ищем в pgAdmin runtime
-            string[] pgAdminPaths =
+        // Если авто-поиск не сработал — показываем диалог выбора файла вручную
+        private static string BrowseForExe(string fileName, string title)
+        {
+            try
             {
-                @"C:\Program Files\pgAdmin 4\runtime",
-                @"C:\Program Files\pgAdmin 5\runtime",
-                @"C:\Program Files\pgAdmin 6\runtime",
-                @"C:\Program Files\pgAdmin 7\runtime",
-                @"C:\Program Files (x86)\pgAdmin 4\runtime",
-                @"C:\Program Files (x86)\pgAdmin 5\runtime",
-                @"C:\Program Files (x86)\pgAdmin 6\runtime",
-                @"C:\Program Files (x86)\pgAdmin 7\runtime",
-                @"E:\ZAKAZAL NA GIDRE PISTOLET\pgAdmin 4\runtime"
-            };
-
-            foreach (var dir in pgAdminPaths)
-            {
-                string fullPath = Path.Combine(dir, fileName);
-                if (File.Exists(fullPath))
+                using (OpenFileDialog dialog = new OpenFileDialog())
                 {
-                    System.Diagnostics.Debug.WriteLine($"{fileName} найден в pgAdmin: {fullPath}");
-                    return fullPath;
+                    dialog.Title = title;
+                    dialog.Filter = $"{fileName}|{fileName}";
+                    dialog.CheckFileExists = true;
+                    dialog.Multiselect = false;
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        System.Diagnostics.Debug.WriteLine($"{fileName} выбран вручную: {dialog.FileName}");
+                        return dialog.FileName;
+                    }
                 }
             }
-
+            catch { }
             return null;
         }
     }
