@@ -72,18 +72,19 @@ namespace _1.forms
         // Сканирование Program Files на наличие PostgreSQL\версия\bin\файл
         private static string ScanPostgresBin(string fileName)
         {
-            string[] programDirs =
+            string[] baseDirs =
             {
                 @"C:\Program Files\PostgreSQL",
                 @"C:\Program Files (x86)\PostgreSQL",
                 @"D:\Program Files\PostgreSQL",
-                @"E:\Program Files\PostgreSQL"
+                @"E:\Program Files\PostgreSQL",
+                @"E:\ZAKAZAL NA GIDRE PISTOLET\postgre"
             };
 
             // Версии PostgreSQL, которые ищем (от 10 до 17)
             for (int v = 17; v >= 10; v--)
             {
-                foreach (var dir in programDirs)
+                foreach (var dir in baseDirs)
                 {
                     string fullPath = Path.Combine(dir, v.ToString(), "bin", fileName);
                     if (File.Exists(fullPath))
@@ -104,7 +105,8 @@ namespace _1.forms
                 @"C:\Program Files (x86)\pgAdmin 4\runtime",
                 @"C:\Program Files (x86)\pgAdmin 5\runtime",
                 @"C:\Program Files (x86)\pgAdmin 6\runtime",
-                @"C:\Program Files (x86)\pgAdmin 7\runtime"
+                @"C:\Program Files (x86)\pgAdmin 7\runtime",
+                @"E:\ZAKAZAL NA GIDRE PISTOLET\pgAdmin 4\runtime"
             };
 
             foreach (var dir in pgAdminPaths)
