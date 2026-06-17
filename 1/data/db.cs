@@ -1,6 +1,7 @@
 // Класс доступа к БД: подключение и работа с PostgreSQL
 using System;
 using System.Data;
+using System.IO;
 using System.Windows.Forms;
 using Npgsql;
 
@@ -18,8 +19,35 @@ namespace _1.data
     {
         // Строка подключения к тестовой БД: Host, Port, Database, Username, Password
         // Пароль хранится в открытом виде (учебный проект). В production — через переменные окружения или Vault.
-        private static string connectionString =
-            "Host=localhost;Port=5432;Database=cursed_zxc_V2;Username=postgres;Password=1234";
+        // Файл connection.txt (рядом с exe) имеет приоритет — если есть, читаем оттуда.
+        private static string connectionString = LoadConnectionString();
+
+        private static string LoadConnectionString()
+        {
+            string defaultCs = "Host=localhost;Port=5432;Database=cursed_zxc_V2;Username=postgres;Password=1234";
+            try
+            {
+                string exeDir = AppDomain.CurrentDomain.BaseDirectory;
+                string path = Path.Combine(exeDir, "connection.txt");
+                if (File.Exists(path))
+                {
+                    string text = File.ReadAllText(path).Trim();
+                    if (!string.IsNullOrEmpty(text))
+                    {
+                        System.Diagnostics.Debug.WriteLine($"Строка подключения прочитана из {path}");
+                        return text;
+                    }
+                }
+                // Если файла нет — создаём с настройками по умолчанию
+                File.WriteAllText(path, defaultCs);
+                System.Diagnostics.Debug.WriteLine($"Создан файл {path} со строкой подключения по умолчанию");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Ошибка загрузки connection.txt: {ex.Message}");
+            }
+            return defaultCs;
+        }
 
         // Постоянное открытое соединение для всей сессии (кэш).
         // Потокобезопасность обеспечивается через _lock (Monitor.Enter/Exit).
